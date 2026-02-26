@@ -17,16 +17,17 @@ interface Layout {
 }
 
 const SWIPE_THRESHOLD = 50; // minimum distance in px to trigger swipe
+const HOME_INDEX = 2;
 
 export default function Home() {
-  const [position, setPosition] = useState({ x: 2, y: 2 });
+  const [position, setPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
   const [layout, setLayout] = useState<Layout | null>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     const img = new Image();
     img.onload = () => updateLayout(img.naturalWidth, img.naturalHeight);
-    img.src = "/The-Known-World.jpg";
+    img.src = "/darkmatter.jpg";
 
     const handleResize = () => {
       if (img.complete && img.naturalWidth) {
@@ -78,10 +79,10 @@ export default function Home() {
   }, []);
 
   const goHome = useCallback(() => {
-    setPosition({ x: 2, y: 2 });
+    setPosition({ x: HOME_INDEX, y: HOME_INDEX });
   }, []);
 
-  const isHome = position.x === 2 && position.y === 2;
+  const isHome = position.x === HOME_INDEX && position.y === HOME_INDEX;
 
   // Touch handlers for swipe navigation
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -127,14 +128,27 @@ export default function Home() {
 
     const { containerSize, viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
 
-    // Normalized position: -1 (edge) to 0 (center) to +1 (edge)
-    // Position 0 → -1, Position 2 → 0, Position 4 → +1
-    const normX = (position.x - 2) / 2;
-    const normY = (position.y - 2) / 2;
+    // Step by one viewport when possible; otherwise overlap evenly.
+    // This guarantees edge cells never go beyond the photo bounds.
+    const centerIndex = (GRID_SIZE - 1) / 2;
+    const totalIntervals = GRID_SIZE - 1;
+    const availablePanX = maxPanX * 2;
+    const availablePanY = maxPanY * 2;
+    const desiredSpanX = totalIntervals * viewportWidth;
+    const desiredSpanY = totalIntervals * viewportHeight;
+    const stepX =
+      totalIntervals > 0
+        ? Math.min(viewportWidth, availablePanX / totalIntervals)
+        : 0;
+    const stepY =
+      totalIntervals > 0
+        ? Math.min(viewportHeight, availablePanY / totalIntervals)
+        : 0;
 
-    // Pan offset from center (clamped to max pan)
-    const panX = normX * maxPanX;
-    const panY = normY * maxPanY;
+    const rawPanX = (position.x - centerIndex) * stepX;
+    const rawPanY = (position.y - centerIndex) * stepY;
+    const panX = Math.max(-maxPanX, Math.min(maxPanX, rawPanX));
+    const panY = Math.max(-maxPanY, Math.min(maxPanY, rawPanY));
 
     // Base offset to center the container in viewport
     const baseX = (viewportWidth - containerSize) / 2;
@@ -163,7 +177,7 @@ export default function Home() {
           transform: layout
             ? `translate(${offset.x}px, ${offset.y}px)`
             : `translate(calc(50vw - 250vmax), calc(50vh - 250vmax))`,
-          backgroundImage: "url(/The-Known-World.jpg)",
+          backgroundImage: "url(/darkmatter.jpg)",
           backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -178,16 +192,36 @@ export default function Home() {
       </div>
 
       {/* Home button */}
-      {!isHome && (
-        <button
-          onClick={goHome}
-          className="fixed top-3 left-3 p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
-          style={glassStyle}
-          aria-label="Go home"
-        >
-          <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
-        </button>
-      )}
+      <button
+        onClick={goHome}
+        className="fixed top-3 left-3 p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
+        style={{
+          ...glassStyle,
+          animation: !isHome
+            ? `homeButtonFadeIn 800ms forwards 800ms`
+            : `homeButtonFadeOut 400ms forwards`,
+          WebkitAnimation: !isHome
+            ? `homeButtonFadeIn 800ms forwards 800ms`
+            : `homeButtonFadeOut 400ms forwards`,
+          opacity: isHome ? 0 : 0, // initial opacity always 0, animation handles fade-in/out
+        }}
+        aria-label="Go home"
+      >
+        <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+        <style>
+          {`
+            @keyframes homeButtonFadeIn {
+              from { opacity: 0; }
+              to   { opacity: 1; }
+            }
+            @keyframes homeButtonFadeOut {
+              from { opacity: 1; }
+              to   { opacity: 0; }
+            }
+          `}
+        </style>
+      </button>
+
 
       {/* Chevron navigation */}
       <ChevronNav
