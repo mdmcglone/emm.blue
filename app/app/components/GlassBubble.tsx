@@ -1,4 +1,4 @@
-import { ReactNode, CSSProperties } from "react";
+import { ReactNode, CSSProperties, useLayoutEffect, useRef, useState } from "react";
 
 export const glassStyle: CSSProperties = {
   background: "rgba(255, 255, 255, 0.1)",
@@ -27,6 +27,20 @@ export function GlassBubble({
   wrapperClassName,
   wrapperStyle,
 }: GlassBubbleProps) {
+  const [animationCycle, setAnimationCycle] = useState(0);
+  const hasMountedRef = useRef(false);
+
+  useLayoutEffect(() => {
+    if (!fadeIn) return;
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true;
+      return;
+    }
+    setAnimationCycle((prev) => prev + 1);
+  }, [fadeIn, children, className, wrapperClassName, fadeDurationMs, fadeDelayMs]);
+
+  const animationName = `glassBubbleFade-${animationCycle}`;
+
   const baseStyle: CSSProperties = {
     ...glassStyle,
     fontFamily: "Inter, system-ui, -apple-system, sans-serif",
@@ -35,8 +49,8 @@ export function GlassBubble({
 
   const animationStyle = fadeIn
     ? {
-        animation: `glassBubbleFade ${fadeDurationMs}ms forwards ${fadeDelayMs}ms`,
-        WebkitAnimation: `glassBubbleFade ${fadeDurationMs}ms forwards ${fadeDelayMs}ms`,
+        animation: `${animationName} ${fadeDurationMs}ms forwards ${fadeDelayMs}ms`,
+        WebkitAnimation: `${animationName} ${fadeDurationMs}ms forwards ${fadeDelayMs}ms`,
         // Ensure the bubble stays hidden during the delay period
         opacity: 0,
         // Target full opacity so text remains fully opaque when settled
@@ -55,7 +69,7 @@ export function GlassBubble({
       {fadeIn && (
         <style>
           {`
-            @keyframes glassBubbleFade {
+            @keyframes ${animationName} {
               from {
                 opacity: 0;
               }

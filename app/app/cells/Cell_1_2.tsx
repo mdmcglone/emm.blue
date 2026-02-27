@@ -25,7 +25,7 @@ export const Cell_1_2: CellConfig = {
             fadeDelayMs={950}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">Pre-Career</h1>
-            Before jhana, I have worked since my sophomore year of high school, and all through college, in the service industry, then in various online gigs, then as a freelance data science consultant.
+            Before jhana, I worked from my sophomore year of high school through college graduation, in the service industry, then in various online gigs, then as a freelance data science consultant.
           </GlassBubble>
 
           <GlassBubble
@@ -42,5 +42,10 @@ export const Cell_1_2: CellConfig = {
       </div>
     </>
   ),
-  chevronLabels: {right: "home"},
+  chevronLabels: {
+    right: "Home",
+    left: "jhana",
+    up: "CompSci",
+    down: "Pre-Career"
+  },
 };
