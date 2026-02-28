@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Export a fully static site so we can host from Cloud Storage + CDN
+  output: "export",
 };
 
 export default nextConfig;
