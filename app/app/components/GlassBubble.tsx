@@ -1,4 +1,5 @@
-import { ReactNode, CSSProperties, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode, CSSProperties, useLayoutEffect, useRef, useState, useEffect } from "react";
+import { useNavigation } from "./NavigationContext";
 
 export const glassStyle: CSSProperties = {
   background: "rgba(255, 255, 255, 0.1)",
@@ -16,6 +17,8 @@ interface GlassBubbleProps {
   fadeDelayMs?: number;
   wrapperClassName?: string;
   wrapperStyle?: CSSProperties;
+  enableFadeOut?: boolean;
+  fadeOutCounterMovement?: { x: number; y: number };
 }
 
 export function GlassBubble({
@@ -26,9 +29,14 @@ export function GlassBubble({
   fadeDelayMs = 800,
   wrapperClassName,
   wrapperStyle,
+  enableFadeOut = true,
+  fadeOutCounterMovement: _unused,
 }: GlassBubbleProps) {
   const [animationCycle, setAnimationCycle] = useState(0);
+  const [fadeOutCycle, setFadeOutCycle] = useState(0);
+  const [isFadingOut, setIsFadingOut] = useState(false);
   const hasMountedRef = useRef(false);
+  const { fadeOut, fadeOutCounterMovement } = useNavigation();
 
   useLayoutEffect(() => {
     if (!fadeIn) return;
@@ -37,9 +45,20 @@ export function GlassBubble({
       return;
     }
     setAnimationCycle((prev) => prev + 1);
+    // Reset fade-out state when new content mounts
+    setIsFadingOut(false);
   }, [fadeIn, children, className, wrapperClassName, fadeDurationMs, fadeDelayMs]);
 
+  // Trigger fade-out animation when navigation happens
+  useEffect(() => {
+    if (enableFadeOut && fadeOut && !isFadingOut) {
+      setIsFadingOut(true);
+      setFadeOutCycle((prev) => prev + 1);
+    }
+  }, [fadeOut, enableFadeOut, isFadingOut]);
+
   const animationName = `glassBubbleFade-${animationCycle}`;
+  const fadeOutAnimationName = `glassBubbleFadeOut-${fadeOutCycle}`;
 
   const baseStyle: CSSProperties = {
     ...glassStyle,
@@ -47,7 +66,7 @@ export function GlassBubble({
     borderRadius: 24, // squircle-ish shape to save space
   };
 
-  const animationStyle = fadeIn
+  const fadeInStyle = fadeIn && !isFadingOut
     ? {
         animation: `${animationName} ${fadeDurationMs}ms forwards ${fadeDelayMs}ms`,
         WebkitAnimation: `${animationName} ${fadeDurationMs}ms forwards ${fadeDelayMs}ms`,
@@ -58,15 +77,25 @@ export function GlassBubble({
       }
     : undefined;
 
+  const fadeOutStyle = isFadingOut
+    ? {
+        animation: `${fadeOutAnimationName} 600ms forwards, ${fadeOutAnimationName}-move 1000ms cubic-bezier(0, 0, 0.2, 1) forwards`,
+        WebkitAnimation: `${fadeOutAnimationName} 600ms forwards, ${fadeOutAnimationName}-move 1000ms cubic-bezier(0, 0, 0.2, 1) forwards`,
+        opacity: 1,
+      }
+    : undefined;
+
+  const animationStyle = fadeOutStyle || fadeInStyle;
+
   return (
     <div className={wrapperClassName} style={wrapperStyle}>
       <div
         className={className}
-        style={fadeIn ? { ...baseStyle, ...animationStyle } : baseStyle}
+        style={animationStyle ? { ...baseStyle, ...animationStyle } : baseStyle}
       >
         {children}
       </div>
-      {fadeIn && (
+      {fadeIn && !isFadingOut && (
         <style>
           {`
             @keyframes ${animationName} {
@@ -75,6 +104,28 @@ export function GlassBubble({
               }
               to {
                 opacity: var(--glass-bubble-target-opacity, 1);
+              }
+            }
+          `}
+        </style>
+      )}
+      {isFadingOut && (
+        <style>
+          {`
+            @keyframes ${fadeOutAnimationName} {
+              from {
+                opacity: 1;
+              }
+              to {
+                opacity: 0;
+              }
+            }
+            @keyframes ${fadeOutAnimationName}-move {
+              from {
+                transform: translate(0, 0);
+              }
+              to {
+                transform: translate(${fadeOutCounterMovement.x}px, ${fadeOutCounterMovement.y}px);
               }
             }
           `}

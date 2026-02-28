@@ -11,7 +11,7 @@ export const Cell_3_2: CellConfig = {
             className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={800}
+            fadeDelayMs={0}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-left w-full">My life writ small</h1>
 
@@ -23,7 +23,7 @@ export const Cell_3_2: CellConfig = {
             className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={900}
+            fadeDelayMs={100}
           >
             I was born and grew up in Medfield, Massachusetts in 1999. I went to college just down the road at Harvard. Then I went to build my startup just down the road in Bangalore, India.
           </GlassBubble>
@@ -33,7 +33,7 @@ export const Cell_3_2: CellConfig = {
             className="p-2 w-full max-w-[14rem] sm:max-w-[16rem] md:max-w-[18rem] lg:max-w-[20rem] aspect-[2/1] md:aspect-[2/1] lg:aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={950}
+            fadeDelayMs={150}
           >
             <img
               src="/photos/fam.jpg"
@@ -47,7 +47,7 @@ export const Cell_3_2: CellConfig = {
             className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1050}
+            fadeDelayMs={250}
           >
             I proposed to my fiancée, Vandhana, in Goa, the day after I quit my startup, in February 2026.
           </GlassBubble>
@@ -57,7 +57,7 @@ export const Cell_3_2: CellConfig = {
             className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1150}
+            fadeDelayMs={350}
           >
             I use they/she pronouns, but I have dressed better in the past.
           </GlassBubble>

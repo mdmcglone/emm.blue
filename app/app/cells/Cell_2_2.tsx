@@ -11,7 +11,7 @@ export const Cell_2_2: CellConfig = {
             className="p-3 text-xs max-w-[16rem] sm:max-w-[18rem] md:p-4 md:text-sm md:max-w-[21rem] lg:text-lg"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={800}
+            fadeDelayMs={0}
           >
             <h1 className="font-semibold text-sm md:text-base lg:text-xl flex justify-center items-center">Hi!</h1>
             <div className="text-[11px] md:text-sm lg:text-base">My name is Em McGlone, welcome to my site. If you'd like to get to know me better, personally or professionally, feel free to explore.</div>
@@ -22,7 +22,7 @@ export const Cell_2_2: CellConfig = {
             className="p-3 text-xs max-w-[16rem] sm:max-w-[18rem] md:p-4 md:text-sm md:max-w-[21rem] lg:text-lg"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={900}
+            fadeDelayMs={100}
           >
             <div className="text-[11px] md:text-sm lg:text-base">This site is loosely organized like a mood board - whatever you want to learn about, move in that direction, and I&apos;ll divulge more specifics as you go.</div>
           </GlassBubble>
@@ -32,7 +32,7 @@ export const Cell_2_2: CellConfig = {
             className="p-2 w-full max-w-[7.25rem] sm:max-w-[8.5rem] md:max-w-[10rem] lg:max-w-[12rem] aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1000}
+            fadeDelayMs={200}
           >
             <img
               src="/chair.jpeg"
@@ -46,7 +46,7 @@ export const Cell_2_2: CellConfig = {
             className="p-2 w-full max-w-[7.25rem] sm:max-w-[8.5rem] md:max-w-[10rem] lg:max-w-[12rem] aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1100}
+            fadeDelayMs={300}
           >
             <img
               src="/binocularts.jpeg"
@@ -62,6 +62,6 @@ export const Cell_2_2: CellConfig = {
     up: "Education",
     down: "Hobbies",
     left: "Work",
-    right: "Personal",
+    right: "Me",
   },
 };

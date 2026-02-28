@@ -11,7 +11,7 @@ export const Cell_2_1: CellConfig = {
               className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={800}
+              fadeDelayMs={0}
             >
                     <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">Education</h1>
               I graduated from my hometown&apos;s Medfield High in 2018. Back then, I loved building sets for the theater club.
@@ -21,7 +21,7 @@ export const Cell_2_1: CellConfig = {
               className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={950}
+              fadeDelayMs={150}
             >
               I enjoyed my time at Harvard from 2018 to 2022. I got my B.A. in physics, and dedicated significant parts of my studies to computer science, data, and mathematics. I also received a language citation, which is like a minor, in Italian.
             </GlassBubble>
@@ -30,7 +30,7 @@ export const Cell_2_1: CellConfig = {
               className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={1100}
+              fadeDelayMs={300}
             >
               During the COVID-19 pandemic, I took my college classes online from an apartment in Burlington, Vermont that I shared with several classmates. I tutored online for cash and learned to hate skiing in the one semester I took off.
             </GlassBubble>
@@ -40,7 +40,7 @@ export const Cell_2_1: CellConfig = {
             className="p-2 w-full max-w-[11.5rem] sm:max-w-[13rem] md:max-w-[18rem] lg:max-w-[22rem] aspect-[2/1] md:aspect-[3/4] mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={900}
+            fadeDelayMs={100}
           >
             <img
               src="/photos/0D5FA583-.jpg"

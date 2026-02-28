@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { GRID_SIZE, getCell } from "./cells";
 import { ChevronNav } from "./components/ChevronNav";
 import { glassStyle } from "./components/GlassBubble";
+import { NavigationProvider, useNavigation } from "./components/NavigationContext";
 
 interface Layout {
   containerSize: number;
@@ -19,10 +20,29 @@ interface Layout {
 const SWIPE_THRESHOLD = 50; // minimum distance in px to trigger swipe
 const HOME_INDEX = 2;
 
-export default function Home() {
-  const [position, setPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
+function HomeContent() {
+  const [displayPosition, setDisplayPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
+  const [targetPosition, setTargetPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
   const [layout, setLayout] = useState<Layout | null>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
+
+  // When navigation is triggered, reset fade-out after animation completes
+  useEffect(() => {
+    if (fadeOut) {
+      const timer = setTimeout(() => {
+        resetFadeOut();
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [fadeOut, resetFadeOut]);
+
+  // When fade-out completes, switch to the target position
+  useEffect(() => {
+    if (!fadeOut && (displayPosition.x !== targetPosition.x || displayPosition.y !== targetPosition.y)) {
+      setDisplayPosition(targetPosition);
+    }
+  }, [fadeOut, displayPosition, targetPosition]);
 
   useEffect(() => {
     const img = new Image();
@@ -64,25 +84,27 @@ export default function Home() {
     setLayout({ containerSize, mapWidth, mapHeight, viewportWidth: vw, viewportHeight: vh, maxPanX, maxPanY });
   };
 
-  const canGoUp = position.y > 0;
-  const canGoDown = position.y < GRID_SIZE - 1;
-  const canGoLeft = position.x > 0;
-  const canGoRight = position.x < GRID_SIZE - 1;
+  const canGoUp = displayPosition.y > 0;
+  const canGoDown = displayPosition.y < GRID_SIZE - 1;
+  const canGoLeft = displayPosition.x > 0;
+  const canGoRight = displayPosition.x < GRID_SIZE - 1;
 
-  const currentCell = getCell(position.x, position.y);
+  const currentCell = getCell(displayPosition.x, displayPosition.y);
 
   const move = useCallback((dx: number, dy: number) => {
-    setPosition((p) => ({
+    triggerFadeOut();
+    setTargetPosition((p) => ({
       x: Math.max(0, Math.min(GRID_SIZE - 1, p.x + dx)),
       y: Math.max(0, Math.min(GRID_SIZE - 1, p.y + dy)),
     }));
-  }, []);
+  }, [triggerFadeOut]);
 
   const goHome = useCallback(() => {
-    setPosition({ x: HOME_INDEX, y: HOME_INDEX });
-  }, []);
+    triggerFadeOut();
+    setTargetPosition({ x: HOME_INDEX, y: HOME_INDEX });
+  }, [triggerFadeOut]);
 
-  const isHome = position.x === HOME_INDEX && position.y === HOME_INDEX;
+  const isHome = displayPosition.x === HOME_INDEX && displayPosition.y === HOME_INDEX;
 
   // Touch handlers for swipe navigation
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -122,7 +144,7 @@ export default function Home() {
     touchStart.current = null;
   }, [canGoUp, canGoDown, canGoLeft, canGoRight, move]);
 
-  // Calculate pan offset for current grid position
+  // Calculate pan offset for current grid position (use targetPosition for immediate pan)
   const getOffset = (): { x: number; y: number } => {
     if (!layout) return { x: 0, y: 0 };
 
@@ -145,8 +167,8 @@ export default function Home() {
         ? Math.min(viewportHeight, availablePanY / totalIntervals)
         : 0;
 
-    const rawPanX = (position.x - centerIndex) * stepX;
-    const rawPanY = (position.y - centerIndex) * stepY;
+    const rawPanX = (targetPosition.x - centerIndex) * stepX;
+    const rawPanY = (targetPosition.y - centerIndex) * stepY;
     const panX = Math.max(-maxPanX, Math.min(maxPanX, rawPanX));
     const panY = Math.max(-maxPanY, Math.min(maxPanY, rawPanY));
 
@@ -162,6 +184,51 @@ export default function Home() {
 
   const offset = getOffset();
 
+  // Calculate counter-movement for bubbles to stay in place while screen pans
+  const getBubbleCounterMovement = (): { x: number; y: number } => {
+    if (!layout) return { x: 0, y: 0 };
+
+    const { containerSize, viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
+    const centerIndex = (GRID_SIZE - 1) / 2;
+    const totalIntervals = GRID_SIZE - 1;
+    const availablePanX = maxPanX * 2;
+    const availablePanY = maxPanY * 2;
+    const stepX =
+      totalIntervals > 0
+        ? Math.min(viewportWidth, availablePanX / totalIntervals)
+        : 0;
+    const stepY =
+      totalIntervals > 0
+        ? Math.min(viewportHeight, availablePanY / totalIntervals)
+        : 0;
+
+    // Calculate pan for both positions
+    const displayRawPanX = (displayPosition.x - centerIndex) * stepX;
+    const displayRawPanY = (displayPosition.y - centerIndex) * stepY;
+    const displayPanX = Math.max(-maxPanX, Math.min(maxPanX, displayRawPanX));
+    const displayPanY = Math.max(-maxPanY, Math.min(maxPanY, displayRawPanY));
+
+    const targetRawPanX = (targetPosition.x - centerIndex) * stepX;
+    const targetRawPanY = (targetPosition.y - centerIndex) * stepY;
+    const targetPanX = Math.max(-maxPanX, Math.min(maxPanX, targetRawPanX));
+    const targetPanY = Math.max(-maxPanY, Math.min(maxPanY, targetRawPanY));
+
+    // The screen pans by this amount; bubbles need to move opposite
+    return {
+      x: -(targetPanX - displayPanX),
+      y: -(targetPanY - displayPanY),
+    };
+  };
+
+  const bubbleCounterMovement = useMemo(() => getBubbleCounterMovement(), [layout, displayPosition, targetPosition]);
+
+  // Update context with counter movement when fading out
+  useEffect(() => {
+    if (fadeOut) {
+      setFadeOutCounterMovement(bubbleCounterMovement);
+    }
+  }, [fadeOut, bubbleCounterMovement, setFadeOutCounterMovement]);
+
   return (
     <div 
       className="fixed inset-0 overflow-hidden bg-black touch-none"
@@ -170,7 +237,7 @@ export default function Home() {
     >
       {/* Panning map background */}
       <div
-        className="absolute transition-transform duration-1000 ease-out"
+        className="absolute"
         style={{
           width: layout ? `${layout.containerSize}px` : "500vmax",
           height: layout ? `${layout.containerSize}px` : "500vmax",
@@ -181,6 +248,7 @@ export default function Home() {
           backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          transition: "transform 1000ms cubic-bezier(0, 0, 0.2, 1)",
         }}
       />
 
@@ -233,5 +301,13 @@ export default function Home() {
         onMove={move}
       />
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <NavigationProvider>
+      <HomeContent />
+    </NavigationProvider>
   );
 }

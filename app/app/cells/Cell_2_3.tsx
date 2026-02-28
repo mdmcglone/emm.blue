@@ -11,7 +11,7 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={800}
+            fadeDelayMs={0}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">Hobbies</h1>
             I love to hike. It is physically straining for me to be too far from nature.
@@ -22,7 +22,7 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={900}
+            fadeDelayMs={100}
           >
             I like to keep active when life does not get in the way. I am a pretty good rock climber.
           </GlassBubble>
@@ -32,7 +32,7 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1000}
+            fadeDelayMs={200}
           >
             I have about several coding projects going at any time. I especially like making silly conveniences for myself, like a YouTube wrapper that only shows the most viewed parts.
           </GlassBubble>
@@ -42,7 +42,7 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1100}
+            fadeDelayMs={300}
           >
             I appreciate video games both as a toy and an art. I am excessively competitive when friends are playing with me. I like coding them too, but it is not exactly within my skillset.
           </GlassBubble>
@@ -52,7 +52,7 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1200}
+            fadeDelayMs={400}
           >
             I am an obsessive Game of Thrones fan. The most frequently used phrase in my whole life is "In the books..."
           </GlassBubble>

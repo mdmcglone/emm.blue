@@ -14,7 +14,7 @@ export const Cell_1_3: CellConfig = {
             "
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={800}
+            fadeDelayMs={0}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center lg:hidden">
               Pre-Career
@@ -29,7 +29,7 @@ export const Cell_1_3: CellConfig = {
             "
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={950}
+            fadeDelayMs={150}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center hidden lg:block">
               Pre-Career
@@ -44,7 +44,7 @@ export const Cell_1_3: CellConfig = {
             "
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={1100}
+            fadeDelayMs={300}
           >
             In early 2022, I consulted for an Associate Professor at University of Utah, Dr. Shawna Sisler. I helped her with R code associated with a suicidology paper she was writing, and assisted her with some PCA / hyperparameter tuning methods. I spoke about our use of these methods at an American Association of Suicidology conference.
           </GlassBubble>
