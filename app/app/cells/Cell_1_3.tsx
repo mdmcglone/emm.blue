@@ -19,7 +19,7 @@ export const Cell_1_3: CellConfig = {
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center lg:hidden">
               Pre-Career
             </h1>
-            I started my first job in 2016, as a “party attendant” for kids' birthday parties, in a warehouse full of inflatable bouncy houses. Here I became good at cutting cakes and standing still. I took more shifts here than anyone besides the manager.
+            I started my first job in 2016, as a “party attendant” for kids' birthday parties, at Jump Trax, a warehouse full of inflatable bouncy houses. Here I became good at cutting cakes and standing still. I took more shifts here than anyone besides the manager.
           </GlassBubble>
 
           <GlassBubble

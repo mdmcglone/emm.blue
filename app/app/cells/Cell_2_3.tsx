@@ -17,22 +17,13 @@ export const Cell_2_3: CellConfig = {
             I love to hike. It is physically straining for me to be too far from nature.
           </GlassBubble>
 
-          <GlassBubble
-            wrapperClassName="col-start-1 row-start-3 justify-self-end w-full"
-            className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
-            fadeIn
-            fadeDurationMs={800}
-            fadeDelayMs={100}
-          >
-            I like to keep active when life does not get in the way. I am a pretty good rock climber.
-          </GlassBubble>
 
           <GlassBubble
             wrapperClassName="col-start-1 row-start-2 justify-self-end w-full"
             className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={200}
+            fadeDelayMs={150}
           >
             I have about several coding projects going at any time. I especially like making silly conveniences for myself, like a YouTube wrapper that only shows the most viewed parts.
           </GlassBubble>
@@ -42,7 +33,7 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={300}
+            fadeDelayMs={150}
           >
             I appreciate video games both as a toy and an art. I am excessively competitive when friends are playing with me. I like coding them too, but it is not exactly within my skillset.
           </GlassBubble>
@@ -52,9 +43,18 @@ export const Cell_2_3: CellConfig = {
             className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={400}
+            fadeDelayMs={300}
           >
             I am an obsessive Game of Thrones fan. The most frequently used phrase in my whole life is "In the books..."
+          </GlassBubble>
+          <GlassBubble
+            wrapperClassName="col-start-1 row-start-3 justify-self-end w-full"
+            className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
+            fadeIn
+            fadeDurationMs={800}
+            fadeDelayMs={300}
+          >
+            I like to keep active when life does not get in the way. I am a pretty good rock climber.
           </GlassBubble>
         </div>
       </div>

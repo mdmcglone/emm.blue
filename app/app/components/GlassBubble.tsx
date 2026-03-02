@@ -64,6 +64,7 @@ export function GlassBubble({
     ...glassStyle,
     fontFamily: "Inter, system-ui, -apple-system, sans-serif",
     borderRadius: 24, // squircle-ish shape to save space
+    overflow: "hidden", // Safari clip fix for images exceeding border radius
   };
 
   const fadeInStyle = fadeIn && !isFadingOut

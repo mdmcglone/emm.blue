@@ -25,6 +25,8 @@ function HomeContent() {
   const [targetPosition, setTargetPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
   const [layout, setLayout] = useState<Layout | null>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [loadingComplete, setLoadingComplete] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
 
   // When navigation is triggered, reset fade-out after animation completes
@@ -46,7 +48,10 @@ function HomeContent() {
 
   useEffect(() => {
     const img = new Image();
-    img.onload = () => updateLayout(img.naturalWidth, img.naturalHeight);
+    img.onload = () => {
+      updateLayout(img.naturalWidth, img.naturalHeight);
+      setImageLoaded(true);
+    };
     img.src = "/darkmatter.jpg";
 
     const handleResize = () => {
@@ -58,6 +63,25 @@ function HomeContent() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // Handle loading screen: wait for both 3 seconds and image load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (imageLoaded) {
+        setLoadingComplete(true);
+      } else {
+        // If image hasn't loaded after 3 sec, wait for it
+        const checkImage = setInterval(() => {
+          if (imageLoaded) {
+            setLoadingComplete(true);
+            clearInterval(checkImage);
+          }
+        }, 100);
+        return () => clearInterval(checkImage);
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [imageLoaded]);
 
   const updateLayout = (imgW: number, imgH: number) => {
     const vw = window.innerWidth;
