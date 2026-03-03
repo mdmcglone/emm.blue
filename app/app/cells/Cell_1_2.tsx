@@ -45,7 +45,7 @@ export const Cell_1_2: CellConfig = {
   chevronLabels: {
     right: "Home",
     left: "jhana",
-    up: "CompSci",
+    up: "Coding",
     down: "Pre-Career"
   },
 };

@@ -34,7 +34,7 @@ export const Cell_1_3: CellConfig = {
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center hidden lg:block">
               Pre-Career
             </h1>
-            Throughout college and COVID, I tutored high school students online. Primarily, I taught SAT Prep, but I quite enjoyed the few classes where I taught AP Physics and Python.
+            Throughout college and COVID, I tutored high school students online. Primarily, I taught SAT Prep, but I quite enjoyed the few classes where I taught AP Physics and Python. During breaks, I digitized and organized thousands of files for an accounting firm.
           </GlassBubble>
 
           <GlassBubble

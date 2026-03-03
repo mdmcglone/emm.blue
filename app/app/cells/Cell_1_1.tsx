@@ -5,7 +5,7 @@ export const Cell_1_1: CellConfig = {
   content: (
     <>
       <div className="w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
-        <div className="flex flex-col md:grid w-full md:grid-cols-3 gap-4 md:gap-6 items-center justify-items-center md:h-screen">
+        <div className="flex flex-col md:grid w-full md:grid-cols-3 gap-4 md:gap-6 items-center justify-items-center md:h-screen md:content-center">
           {/* Row 1, Col 1: Bubble 1 */}
           <div className="w-full md:h-full flex items-center justify-center">
             <GlassBubble
@@ -45,6 +45,7 @@ export const Cell_1_1: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={200}
             >
+            <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 w-full">Software Engineering</h1>
               My real education, though, came when I started jhana. The first year of my startup was a trial-by-fire – by day, I built production systems for the first time, while by night, I was self-educating and self-improving.
             </GlassBubble>
           </div>

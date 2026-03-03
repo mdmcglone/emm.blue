@@ -9,6 +9,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "emm.blue",
+  icons: {
+    icon: "/mFavicon-small.png",
+  },
 };
 
 export default function RootLayout({

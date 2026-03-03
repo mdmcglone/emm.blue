@@ -57,6 +57,13 @@ export function GlassBubble({
     }
   }, [fadeOut, enableFadeOut, isFadingOut]);
 
+  // If navigation fade-out is reset/cancelled before remount, restore visibility.
+  useEffect(() => {
+    if (!fadeOut && isFadingOut) {
+      setIsFadingOut(false);
+    }
+  }, [fadeOut, isFadingOut]);
+
   const animationName = `glassBubbleFade-${animationCycle}`;
   const fadeOutAnimationName = `glassBubbleFadeOut-${fadeOutCycle}`;
 

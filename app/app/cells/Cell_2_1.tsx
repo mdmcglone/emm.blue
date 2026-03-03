@@ -56,6 +56,6 @@ export const Cell_2_1: CellConfig = {
     down:"Home",
     up:"Physics",
     right:"Italian",
-    left:"CompSci"
+    left:"Coding"
   },
 };

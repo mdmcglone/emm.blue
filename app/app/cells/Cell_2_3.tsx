@@ -54,7 +54,7 @@ export const Cell_2_3: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={300}
           >
-            I like to keep active when life does not get in the way. I am a pretty good rock climber.
+            I like to keep active when life doesn't get in the way. I am a pretty good rock climber.
           </GlassBubble>
         </div>
       </div>
