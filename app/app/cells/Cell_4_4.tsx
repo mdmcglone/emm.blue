@@ -211,13 +211,11 @@ function AsteroidsGame() {
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number>(0);
   const [hasTouched, setHasTouched] = useState(false);
-  const [joystickOffset, setJoystickOffset] = useState(0);
   const [fadeOutCycle, setFadeOutCycle] = useState(0);
-  const joystickPointerIdRef = useRef<number | null>(null);
+  const leftPointerIdRef = useRef<number | null>(null);
+  const rightPointerIdRef = useRef<number | null>(null);
   const thrustPointerIdRef = useRef<number | null>(null);
   const firePointerIdRef = useRef<number | null>(null);
-  const JOYSTICK_RADIUS = 34;
-  const DEAD_ZONE = 8;
   const [hud, setHud] = useState(hudRef.current);
   const { fadeOut, fadeOutCounterMovement } = useNavigation();
 
@@ -626,54 +624,39 @@ function AsteroidsGame() {
       }
     : undefined;
 
-  const clearRotateKeys = useCallback(() => {
-    setKey("KeyA", false);
-    setKey("KeyD", false);
-  }, []);
-
-  const applyJoystick = useCallback(
-    (dx: number) => {
-      const clampedX = Math.max(-JOYSTICK_RADIUS, Math.min(JOYSTICK_RADIUS, dx));
-      setJoystickOffset(clampedX);
-      setKey("KeyA", clampedX < -DEAD_ZONE);
-      setKey("KeyD", clampedX > DEAD_ZONE);
-    },
-    [DEAD_ZONE, JOYSTICK_RADIUS],
-  );
-
-  const handleJoystickPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (event.pointerType !== "touch") return;
+  const handleRotateLeftPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
-    joystickPointerIdRef.current = event.pointerId;
-    event.currentTarget.setPointerCapture(event.pointerId);
-    applyJoystick(0);
+    leftPointerIdRef.current = event.pointerId;
+    setKey("KeyA", true);
   };
 
-  const handleJoystickPointerMove = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (event.pointerId !== joystickPointerIdRef.current) return;
+  const handleRotateLeftPointerUp = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (event.pointerId !== leftPointerIdRef.current) return;
     event.preventDefault();
     event.stopPropagation();
-    const rect = event.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    applyJoystick(event.clientX - centerX);
+    leftPointerIdRef.current = null;
+    setKey("KeyA", false);
   };
 
-  const handleJoystickPointerUp = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (event.pointerId !== joystickPointerIdRef.current) return;
+  const handleRotateRightPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    joystickPointerIdRef.current = null;
-    clearRotateKeys();
-    setJoystickOffset(0);
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    }
+    setHasTouched(true);
+    rightPointerIdRef.current = event.pointerId;
+    setKey("KeyD", true);
+  };
+
+  const handleRotateRightPointerUp = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (event.pointerId !== rightPointerIdRef.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    rightPointerIdRef.current = null;
+    setKey("KeyD", false);
   };
 
   const handleThrustPointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (event.pointerType !== "touch") return;
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
@@ -690,10 +673,13 @@ function AsteroidsGame() {
   };
 
   const handleFirePointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
-    if (event.pointerType !== "touch") return;
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
+    if (hudRef.current.gameOver) {
+      resetGame();
+      return;
+    }
     firePointerIdRef.current = event.pointerId;
     setKey("Space", true);
   };
@@ -710,33 +696,41 @@ function AsteroidsGame() {
     <div
       className="relative w-full h-full"
       style={fadeOutStyle}
-      onPointerDownCapture={(event) => {
-        if (event.pointerType === "touch") {
-          setHasTouched(true);
-          event.stopPropagation();
-        }
+      onTouchStartCapture={(event) => {
+        setHasTouched(true);
+        event.stopPropagation();
       }}
-      onTouchStartCapture={(event) => event.stopPropagation()}
-      onTouchEndCapture={(event) => event.stopPropagation()}
       onTouchMoveCapture={(event) => event.stopPropagation()}
+      onTouchEndCapture={(event) => event.stopPropagation()}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-      <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
-        <div className="inline-flex items-center gap-5 md:gap-8">
+      <div className="absolute bottom-2 md:bottom-3 left-1/2 z-10 -translate-x-1/2 w-full px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+        <div className="inline-flex flex-wrap justify-center items-center gap-x-5 gap-y-1 md:gap-x-8">
           <span>Score: {hud.score}</span>
           <span>Lives: {hud.lives}</span>
           <span>Wave: {hud.level}</span>
-          {hud.gameOver && <span>Game Over (Press R to restart)</span>}
+          {hud.gameOver && <span>Game Over (Press {hasTouched ? "Fire" : "R"} to restart)</span>}
         </div>
       </div>
 
       {hasTouched && (
         <>
-          <div className="absolute left-4 bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
+          <div className="absolute left-4 bottom-20 md:bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
+            <button
+              type="button"
+              aria-label="Rotate left"
+              className="w-[76px] h-[76px] rounded-full border border-white/40 bg-white/15 text-white text-xs font-semibold touch-none select-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
+              onPointerDown={handleRotateLeftPointerDown}
+              onPointerUp={handleRotateLeftPointerUp}
+              onPointerCancel={handleRotateLeftPointerUp}
+              onPointerLeave={handleRotateLeftPointerUp}
+            >
+              Left
+            </button>
             <button
               type="button"
               aria-label="Thrust"
-              className="w-[76px] h-[76px] rounded-full border border-white/40 bg-white/15 text-white text-xs font-semibold touch-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
+              className="w-[76px] h-[76px] rounded-full border border-white/40 bg-white/15 text-white text-xs font-semibold touch-none select-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
               onPointerDown={handleThrustPointerDown}
               onPointerUp={handleThrustPointerUp}
               onPointerCancel={handleThrustPointerUp}
@@ -744,39 +738,30 @@ function AsteroidsGame() {
             >
               Thrust
             </button>
-
-            <button
-              type="button"
-              aria-label="Left-right joystick"
-              className="relative w-[116px] h-[68px] rounded-full border border-white/40 bg-white/10 touch-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
-              onPointerDown={handleJoystickPointerDown}
-              onPointerMove={handleJoystickPointerMove}
-              onPointerUp={handleJoystickPointerUp}
-              onPointerCancel={handleJoystickPointerUp}
-              onPointerLeave={handleJoystickPointerUp}
-            >
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[10px] text-white/80">L</span>
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] text-white/80">R</span>
-              <span
-                className="absolute left-1/2 top-1/2 block w-10 h-10 rounded-full bg-white/75 -translate-x-1/2 -translate-y-1/2"
-                style={{
-                  transform: `translate(calc(-50% + ${joystickOffset}px), -50%)`,
-                }}
-              />
-            </button>
           </div>
 
-          <div className="absolute right-4 bottom-14 z-30 [font-family:Inter,system-ui,-apple-system,sans-serif]">
+          <div className="absolute right-4 bottom-20 md:bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
             <button
               type="button"
               aria-label="Fire"
-              className="w-[90px] h-[90px] rounded-full border border-white/40 bg-white/15 text-white text-sm font-semibold touch-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
+              className="w-[90px] h-[90px] rounded-full border border-white/40 bg-white/15 text-white text-sm font-semibold touch-none select-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
               onPointerDown={handleFirePointerDown}
               onPointerUp={handleFirePointerUp}
               onPointerCancel={handleFirePointerUp}
               onPointerLeave={handleFirePointerUp}
             >
               Fire
+            </button>
+            <button
+              type="button"
+              aria-label="Rotate right"
+              className="w-[76px] h-[76px] rounded-full border border-white/40 bg-white/15 text-white text-xs font-semibold touch-none select-none [font-family:Inter,system-ui,-apple-system,sans-serif]"
+              onPointerDown={handleRotateRightPointerDown}
+              onPointerUp={handleRotateRightPointerUp}
+              onPointerCancel={handleRotateRightPointerUp}
+              onPointerLeave={handleRotateRightPointerUp}
+            >
+              Right
             </button>
           </div>
         </>
