@@ -8,7 +8,7 @@ export const Cell_3_1: CellConfig = {
         <div className="grid w-full grid-cols-1 gap-4 sm:gap-5 md:grid-cols-3 md:grid-rows-3 md:gap-6">
           <GlassBubble
             wrapperClassName="w-full justify-self-center md:col-start-3 md:row-start-1 md:justify-self-end"
-            className="p-4 w-full max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
+            className="p-4 w-full max-w-[26rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={0}
@@ -21,7 +21,7 @@ export const Cell_3_1: CellConfig = {
 
           <GlassBubble
             wrapperClassName="w-full justify-self-center md:col-start-2 md:row-start-2"
-            className="p-4 w-full max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
+            className="p-4 w-full max-w-[26rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={150}
@@ -33,7 +33,7 @@ export const Cell_3_1: CellConfig = {
 
           <GlassBubble
             wrapperClassName="w-full justify-self-center md:col-start-1 md:row-start-3 md:justify-self-start"
-            className="p-4 w-full max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
+            className="p-4 w-full max-w-[26rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={300}

@@ -801,7 +801,5 @@ export const Cell_4_4: CellConfig = {
     </>
   ),
   chevronLabels: {
-    up: "Exercise",
-    left: "Projects",
   },
 };

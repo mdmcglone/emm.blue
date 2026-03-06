@@ -9,7 +9,7 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 1 - Left, touches center with right edge */}
           <div className="md:absolute md:left-1/2 md:-translate-x-full md:top-[25%] md:-translate-y-1/2 md:mr-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={0}
@@ -22,7 +22,7 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 2 - Right, touches center with left edge */}
           <div className="md:absolute md:left-1/2 md:top-[37%] md:-translate-y-1/2 md:ml-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={100}
@@ -34,7 +34,7 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 3 - Left, touches center with right edge */}
           <div className="md:absolute md:left-1/2 md:-translate-x-full md:top-[55%] md:-translate-y-1/2 md:mr-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={200}
@@ -46,7 +46,7 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 4 - Right, touches center with left edge */}
           <div className="md:absolute md:left-1/2 md:top-[67%] md:-translate-y-1/2 md:ml-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={300}

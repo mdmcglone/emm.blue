@@ -39,7 +39,7 @@ export const Cell_2_3: CellConfig = {
           </GlassBubble>
 
           <GlassBubble
-            wrapperClassName="col-start-2 row-start-3 justify-self-start w-full"
+            wrapperClassName="col-start-2 row-start-3 justify-self-start w-full md:translate-x-8 lg:translate-x-12"
             className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
@@ -48,7 +48,7 @@ export const Cell_2_3: CellConfig = {
             I am an obsessive Game of Thrones fan. The most frequently used phrase in my whole life is "In the books..."
           </GlassBubble>
           <GlassBubble
-            wrapperClassName="col-start-1 row-start-3 justify-self-end w-full"
+            wrapperClassName="col-start-1 row-start-3 justify-self-end w-full md:-translate-x-8 lg:-translate-x-12"
             className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
@@ -64,6 +64,6 @@ export const Cell_2_3: CellConfig = {
     up:"Home",
     left:"Pre-Career",
     right:"Exercise",
-    down:"Projects",    
+    down:"About",    
   },
 };
