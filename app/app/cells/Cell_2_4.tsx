@@ -14,17 +14,16 @@ export const Cell_2_4: CellConfig = {
             fadeDelayMs={0}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">About</h1>
-            The background photo is from NASA&apos;s JWST, depicting some 800,000 galaxies, with invisible dark matter
-            projected over the image in blue.{" "}
+            The background photo is from{" "}
             <a
               href="https://www.jpl.nasa.gov/images/pia26702-webb-data-reveals-dark-matter/"
               target="_blank"
               rel="noreferrer"
-              className="underline decoration-white/60 underline-offset-2"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
             >
-              Source
+              NASA's JWST
             </a>
-            .
+            , depicting some 800,000 galaxies, with invisible dark matter projected over the image in blue.
           </GlassBubble>
 
           <GlassBubble

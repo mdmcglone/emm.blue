@@ -24,7 +24,7 @@ export const Cell_2_1: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={150}
             >
-              I enjoyed my time at Harvard from 2018 to 2022. I got my B.A. in physics, and dedicated significant parts of my studies to computer science, data, and mathematics. I also received a language citation, which is like a minor, in Italian.
+              I enjoyed my time at Harvard from 2018 to 2022. I got my B.A. in physics, and dedicated significant parts of my studies to computer science, data, and mathematics. I also received a language citation in Italian.
             </GlassBubble>
 
             <GlassBubble

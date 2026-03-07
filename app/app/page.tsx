@@ -6,6 +6,8 @@ import { GRID_SIZE, getCell } from "./cells";
 import { ChevronNav } from "./components/ChevronNav";
 import { glassStyle } from "./components/GlassBubble";
 import { NavigationProvider, useNavigation } from "./components/NavigationContext";
+import { MapGridNav } from "./components/MapGridNav";
+import { SocialsModal } from "./components/SocialsModal";
 
 interface Layout {
   containerSize: number;
@@ -17,12 +19,35 @@ interface Layout {
   maxPanY: number;
 }
 
+interface PanMetrics {
+  centerIndex: number;
+  safeMaxPanX: number;
+  safeMaxPanY: number;
+  stepX: number;
+  stepY: number;
+}
+
 const SWIPE_THRESHOLD = 50; // minimum distance in px to trigger swipe
 const HOME_INDEX = 2;
 const BACKGROUND_TINY_WEBP = "/darkmatter-tiny.webp";
 const BACKGROUND_MD_WEBP = "/darkmatter-md.webp";
 const BACKGROUND_LG_WEBP = "/darkmatter-lg.webp";
 const BACKGROUND_JPG = "/darkmatter.jpg";
+
+function getPanMetrics(layout: Layout): PanMetrics {
+  const { viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
+  const totalIntervals = GRID_SIZE - 1;
+  const centerIndex = totalIntervals / 2;
+  // Keep a small overlap buffer so edge cells never expose black at viewport extremes.
+  const edgeGuardPx = Math.min(48, Math.max(16, Math.round(Math.min(viewportWidth, viewportHeight) * 0.04)));
+  const safeMaxPanX = Math.max(0, maxPanX - edgeGuardPx);
+  const safeMaxPanY = Math.max(0, maxPanY - edgeGuardPx);
+  const availablePanX = safeMaxPanX * 2;
+  const availablePanY = safeMaxPanY * 2;
+  const stepX = totalIntervals > 0 ? Math.min(viewportWidth, availablePanX / totalIntervals) : 0;
+  const stepY = totalIntervals > 0 ? Math.min(viewportHeight, availablePanY / totalIntervals) : 0;
+  return { centerIndex, safeMaxPanX, safeMaxPanY, stepX, stepY };
+}
 
 function HomeContent() {
   const [displayPosition, setDisplayPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
@@ -34,6 +59,8 @@ function HomeContent() {
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [backgroundMdReady, setBackgroundMdReady] = useState(false);
   const [backgroundLgReady, setBackgroundLgReady] = useState(false);
+  const [isMapOpen, setIsMapOpen] = useState(false);
+  const [isSocialsOpen, setIsSocialsOpen] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
 
   // When navigation is triggered, reset fade-out after animation completes
@@ -173,6 +200,8 @@ function HomeContent() {
   const currentCell = getCell(displayPosition.x, displayPosition.y);
 
   const move = useCallback((dx: number, dy: number) => {
+    setIsMapOpen(false);
+    setIsSocialsOpen(false);
     triggerFadeOut();
     setTargetPosition((p) => ({
       x: Math.max(0, Math.min(GRID_SIZE - 1, p.x + dx)),
@@ -181,9 +210,19 @@ function HomeContent() {
   }, [triggerFadeOut]);
 
   const goHome = useCallback(() => {
+    setIsMapOpen(false);
+    setIsSocialsOpen(false);
     triggerFadeOut();
     setTargetPosition({ x: HOME_INDEX, y: HOME_INDEX });
   }, [triggerFadeOut]);
+
+  const jumpToCell = useCallback((position: { x: number; y: number }) => {
+    setIsMapOpen(false);
+    setIsSocialsOpen(false);
+    if (displayPosition.x === position.x && displayPosition.y === position.y) return;
+    triggerFadeOut();
+    setTargetPosition(position);
+  }, [displayPosition.x, displayPosition.y, triggerFadeOut]);
 
   const isHome = displayPosition.x === HOME_INDEX && displayPosition.y === HOME_INDEX;
 
@@ -229,29 +268,13 @@ function HomeContent() {
   const getOffset = (): { x: number; y: number } => {
     if (!layout) return { x: 0, y: 0 };
 
-    const { containerSize, viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
-
-    // Step by one viewport when possible; otherwise overlap evenly.
-    // This guarantees edge cells never go beyond the photo bounds.
-    const centerIndex = (GRID_SIZE - 1) / 2;
-    const totalIntervals = GRID_SIZE - 1;
-    const availablePanX = maxPanX * 2;
-    const availablePanY = maxPanY * 2;
-    const desiredSpanX = totalIntervals * viewportWidth;
-    const desiredSpanY = totalIntervals * viewportHeight;
-    const stepX =
-      totalIntervals > 0
-        ? Math.min(viewportWidth, availablePanX / totalIntervals)
-        : 0;
-    const stepY =
-      totalIntervals > 0
-        ? Math.min(viewportHeight, availablePanY / totalIntervals)
-        : 0;
+    const { containerSize, viewportWidth, viewportHeight } = layout;
+    const { centerIndex, safeMaxPanX, safeMaxPanY, stepX, stepY } = getPanMetrics(layout);
 
     const rawPanX = (targetPosition.x - centerIndex) * stepX;
     const rawPanY = (targetPosition.y - centerIndex) * stepY;
-    const panX = Math.max(-maxPanX, Math.min(maxPanX, rawPanX));
-    const panY = Math.max(-maxPanY, Math.min(maxPanY, rawPanY));
+    const panX = Math.max(-safeMaxPanX, Math.min(safeMaxPanX, rawPanX));
+    const panY = Math.max(-safeMaxPanY, Math.min(safeMaxPanY, rawPanY));
 
     // Base offset to center the container in viewport
     const baseX = (viewportWidth - containerSize) / 2;
@@ -269,30 +292,18 @@ function HomeContent() {
   const getBubbleCounterMovement = (): { x: number; y: number } => {
     if (!layout) return { x: 0, y: 0 };
 
-    const { containerSize, viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
-    const centerIndex = (GRID_SIZE - 1) / 2;
-    const totalIntervals = GRID_SIZE - 1;
-    const availablePanX = maxPanX * 2;
-    const availablePanY = maxPanY * 2;
-    const stepX =
-      totalIntervals > 0
-        ? Math.min(viewportWidth, availablePanX / totalIntervals)
-        : 0;
-    const stepY =
-      totalIntervals > 0
-        ? Math.min(viewportHeight, availablePanY / totalIntervals)
-        : 0;
+    const { centerIndex, safeMaxPanX, safeMaxPanY, stepX, stepY } = getPanMetrics(layout);
 
     // Calculate pan for both positions
     const displayRawPanX = (displayPosition.x - centerIndex) * stepX;
     const displayRawPanY = (displayPosition.y - centerIndex) * stepY;
-    const displayPanX = Math.max(-maxPanX, Math.min(maxPanX, displayRawPanX));
-    const displayPanY = Math.max(-maxPanY, Math.min(maxPanY, displayRawPanY));
+    const displayPanX = Math.max(-safeMaxPanX, Math.min(safeMaxPanX, displayRawPanX));
+    const displayPanY = Math.max(-safeMaxPanY, Math.min(safeMaxPanY, displayRawPanY));
 
     const targetRawPanX = (targetPosition.x - centerIndex) * stepX;
     const targetRawPanY = (targetPosition.y - centerIndex) * stepY;
-    const targetPanX = Math.max(-maxPanX, Math.min(maxPanX, targetRawPanX));
-    const targetPanY = Math.max(-maxPanY, Math.min(maxPanY, targetRawPanY));
+    const targetPanX = Math.max(-safeMaxPanX, Math.min(safeMaxPanX, targetRawPanX));
+    const targetPanY = Math.max(-safeMaxPanY, Math.min(safeMaxPanY, targetRawPanY));
 
     // The screen pans by this amount; bubbles need to move opposite
     return {
@@ -344,36 +355,60 @@ function HomeContent() {
         </div>
       </div>
 
-      {/* Home button */}
-      <button
-        onClick={goHome}
-        className="fixed top-3 left-3 p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
-        style={{
-          ...glassStyle,
-          animation: !isHome
-            ? `homeButtonFadeIn 800ms forwards 800ms`
-            : `homeButtonFadeOut 400ms forwards`,
-          WebkitAnimation: !isHome
-            ? `homeButtonFadeIn 800ms forwards 800ms`
-            : `homeButtonFadeOut 400ms forwards`,
-          opacity: isHome ? 0 : 0, // initial opacity always 0, animation handles fade-in/out
-        }}
-        aria-label="Go home"
-      >
-        <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
-        <style>
-          {`
-            @keyframes homeButtonFadeIn {
-              from { opacity: 0; }
-              to   { opacity: 1; }
-            }
-            @keyframes homeButtonFadeOut {
-              from { opacity: 1; }
-              to   { opacity: 0; }
-            }
-          `}
-        </style>
-      </button>
+      <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
+        <MapGridNav
+          isOpen={isMapOpen}
+          currentPosition={displayPosition}
+          onToggle={() => {
+            setIsSocialsOpen(false);
+            setIsMapOpen((prev) => !prev);
+          }}
+          onClose={() => setIsMapOpen(false)}
+          onSelectCell={jumpToCell}
+        />
+
+        {/* Home button */}
+        <button
+          onClick={goHome}
+          className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
+          style={{
+            ...glassStyle,
+            animation: !isHome
+              ? `homeButtonFadeIn 800ms forwards 800ms`
+              : `homeButtonFadeOut 400ms forwards`,
+            WebkitAnimation: !isHome
+              ? `homeButtonFadeIn 800ms forwards 800ms`
+              : `homeButtonFadeOut 400ms forwards`,
+            opacity: isHome ? 0 : 0, // initial opacity always 0, animation handles fade-in/out
+          }}
+          aria-label="Go home"
+        >
+          <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+          <style>
+            {`
+              @keyframes homeButtonFadeIn {
+                from { opacity: 0; }
+                to   { opacity: 1; }
+              }
+              @keyframes homeButtonFadeOut {
+                from { opacity: 1; }
+                to   { opacity: 0; }
+              }
+            `}
+          </style>
+        </button>
+      </div>
+
+      <div className="fixed top-3 right-3 z-50">
+        <SocialsModal
+          isOpen={isSocialsOpen}
+          onToggle={() => {
+            setIsMapOpen(false);
+            setIsSocialsOpen((prev) => !prev);
+          }}
+          onClose={() => setIsSocialsOpen(false)}
+        />
+      </div>
 
 
       {/* Chevron navigation */}

@@ -54,7 +54,6 @@ export const Cell_1_3: CellConfig = {
   ),
   chevronLabels: {
     up: "Work",
-    down: "About",
     left: "jhana",
     right: "Hobbies",
   },

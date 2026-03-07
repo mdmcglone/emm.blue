@@ -27,7 +27,16 @@ export const Cell_2_0: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={100}
             >
-              My most advanced coursework included quantum mechanics, special relativity, and electromagnetism. I worked in a lab at Harvard as well, where we demonstrated general relativity by replicating the Mössbauer effect.
+              My most advanced coursework included quantum mechanics, special relativity, and electromagnetism. I worked in a lab at Harvard as well, where we demonstrated general relativity by replicating the{" "}
+              <a
+                href="https://github.com/mdmcglone/mossbauer_spectroscopy/blob/master/mossbauer_spectroscopy_paper.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+              >
+                Mössbauer Effect
+              </a>
+              .
             </GlassBubble>
           </div>
 
@@ -39,10 +48,18 @@ export const Cell_2_0: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={200}
             >
-              I participated in an exchange program with UNIST, a university in South Korea. This was an intensive research internship focusing on renewable energy, where we studied, built, tested, and optimized solar cells and seawater batteries.
+              I participated in an{" "}
+              <a
+                href="https://www.asiaresearchnews.com/content/2019-unist-harvard-seas-summer-exchange-program-ended-great-success"
+                target="_blank"
+                rel="noreferrer"
+                className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+              >
+                exchange program with UNIST
+              </a>
+              , a university in South Korea. This was an intensive research internship focusing on renewable energy, where we studied, built, tested, and optimized solar cells and seawater batteries.
             </GlassBubble>
           </div>
-
           {/* Bubble 4 - Right, touches center with left edge */}
           <div className="md:absolute md:left-1/2 md:top-[67%] md:-translate-y-1/2 md:ml-[clamp(1rem,3vw,2rem)]">
             <GlassBubble

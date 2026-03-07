@@ -704,7 +704,7 @@ function AsteroidsGame() {
       onTouchEndCapture={(event) => event.stopPropagation()}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-      <div className="absolute bottom-2 md:bottom-3 left-1/2 z-10 -translate-x-1/2 w-full px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+      <div className="absolute top-14 md:top-auto md:bottom-3 left-1/2 z-10 -translate-x-1/2 w-full px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
         <div className="inline-flex flex-wrap justify-center items-center gap-x-5 gap-y-1 md:gap-x-8">
           <span>Score: {hud.score}</span>
           <span>Lives: {hud.lives}</span>
@@ -715,7 +715,7 @@ function AsteroidsGame() {
 
       {hasTouched && (
         <>
-          <div className="absolute left-4 bottom-20 md:bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
+          <div className="absolute left-4 bottom-4 md:bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
             <button
               type="button"
               aria-label="Rotate left"
@@ -740,7 +740,7 @@ function AsteroidsGame() {
             </button>
           </div>
 
-          <div className="absolute right-4 bottom-20 md:bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
+          <div className="absolute right-4 bottom-4 md:bottom-14 z-30 flex items-end gap-3 [font-family:Inter,system-ui,-apple-system,sans-serif]">
             <button
               type="button"
               aria-label="Fire"

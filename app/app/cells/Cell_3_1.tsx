@@ -15,8 +15,16 @@ export const Cell_3_1: CellConfig = {
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">Italiano</h1>
             Ho studiato la lingua italiana per quattro anni all&apos;universita. All&apos;inizio dovevo solo studiare la
-            lingua per un requisito di laurea, ma ho imparato presto ad amarla. Ho guadagnato una "Citazione" in
-            italiano, che e un tipo di laurea breve.
+            lingua per un requisito di laurea, ma ho imparato presto ad amarla. Ho guadagnato una "
+            <a
+              href="https://oue.fas.harvard.edu/academics/special-learning-opportunities/language-citation/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              Citazione di Lingua
+            </a>
+            " in italiano, che e un tipo di laurea breve.
           </GlassBubble>
 
           <GlassBubble
@@ -28,7 +36,7 @@ export const Cell_3_1: CellConfig = {
           >
             Purtroppo, dal 2022, non ho avuto la fortuna di praticare il mio italiano, specialmente in una situazione
             di immersione linguistica. Spero di poter visitare, o forse lavorare, in Italia presto. Parlavo quasi
-            fluentemente quattro anni fa; penso di riuscire a ricordarla in poco tempo.
+            fluentemente quattro anni fa; credo di riuscire a ricordarla in poco tempo.
           </GlassBubble>
 
           <GlassBubble
@@ -48,7 +56,7 @@ export const Cell_3_1: CellConfig = {
   ),
   chevronLabels: {
     left: "Education",
-    down: "Home",
+    down: "Me",
     right: "Travel"
   },
 };
