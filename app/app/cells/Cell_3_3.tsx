@@ -27,8 +27,12 @@ export const Cell_3_3: CellConfig = {
             fadeDelayMs={120}
           >
             <img
-              src="/photos/outdoorclimbing.jpg"
+              src="/photos/outdoorclimbing.webp"
               alt="Outdoor climbing"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/outdoorclimbing.jpg";
+              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
             />
           </GlassBubble>

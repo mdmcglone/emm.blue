@@ -34,7 +34,7 @@ export const Cell_2_4: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={100}
           >
-            This site is rendered via static export and CSR on Vercel.
+            This site is rendered via static export and CSR on Vercel. It's coded from scratch (no template) in React / Next.js using Typescript.
           </GlassBubble>
 
           <GlassBubble

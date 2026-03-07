@@ -19,6 +19,8 @@ interface Layout {
 
 const SWIPE_THRESHOLD = 50; // minimum distance in px to trigger swipe
 const HOME_INDEX = 2;
+const BACKGROUND_WEBP = "/darkmatter.webp";
+const BACKGROUND_JPG = "/darkmatter.jpg";
 
 function HomeContent() {
   const [displayPosition, setDisplayPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
@@ -52,7 +54,11 @@ function HomeContent() {
       updateLayout(img.naturalWidth, img.naturalHeight);
       setImageLoaded(true);
     };
-    img.src = "/darkmatter.jpg";
+    img.onerror = () => {
+      img.onerror = null;
+      img.src = BACKGROUND_JPG;
+    };
+    img.src = BACKGROUND_WEBP;
 
     const handleResize = () => {
       if (img.complete && img.naturalWidth) {
@@ -268,7 +274,7 @@ function HomeContent() {
           transform: layout
             ? `translate(${offset.x}px, ${offset.y}px)`
             : `translate(calc(50vw - 250vmax), calc(50vh - 250vmax))`,
-          backgroundImage: "url(/darkmatter.jpg)",
+          backgroundImage: `image-set(url(${BACKGROUND_WEBP}) type("image/webp"), url(${BACKGROUND_JPG}) type("image/jpeg"))`,
           backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

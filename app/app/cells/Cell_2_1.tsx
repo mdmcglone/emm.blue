@@ -43,8 +43,12 @@ export const Cell_2_1: CellConfig = {
             fadeDelayMs={100}
           >
             <img
-              src="/photos/0D5FA583-.jpg"
+              src="/photos/0D5FA583-.webp"
               alt="Graduation photo"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/0D5FA583-.jpg";
+              }}
               className="w-full h-full object-cover object-[55%_15%] md:object-center rounded-[20px]"
             />
           </GlassBubble>

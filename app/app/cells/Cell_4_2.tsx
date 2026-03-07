@@ -15,8 +15,12 @@ export const Cell_4_2: CellConfig = {
             fadeDelayMs={0}
           >
             <img
-              src="/photos/dad.jpeg"
+              src="/photos/dad.webp"
               alt="Dad"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/dad.jpeg";
+              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
             />
           </GlassBubble>
@@ -28,8 +32,12 @@ export const Cell_4_2: CellConfig = {
             fadeDelayMs={50}
           >
             <img
-              src="/photos/mom.jpg"
+              src="/photos/mom.webp"
               alt="Mom"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/mom.jpg";
+              }}
               className="w-full h-full object-cover rounded-[20px] object-[50%_25%] sm:object-[50%_25%] md:object-center lg:object-center"
             />
           </GlassBubble>
@@ -82,8 +90,12 @@ export const Cell_4_2: CellConfig = {
             fadeDelayMs={200}
           >
             <img
-              src="/photos/vandhana.jpeg"
+              src="/photos/vandhana.webp"
               alt="Vandhana"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/vandhana.jpeg";
+              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
             />
           </GlassBubble>
@@ -95,8 +107,12 @@ export const Cell_4_2: CellConfig = {
             fadeDelayMs={250}
           >
             <img
-              src="/photos/abi.jpeg"
+              src="/photos/abi.webp"
               alt="Abi"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/abi.jpeg";
+              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
             />
           </GlassBubble>

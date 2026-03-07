@@ -35,8 +35,12 @@ export const Cell_2_2: CellConfig = {
             fadeDelayMs={200}
           >
             <img
-              src="/chair.jpeg"
+              src="/photos/chair.webp"
               alt="Relaxing in a chair with coffee"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/chair.jpeg";
+              }}
               className="w-full h-full object-cover rounded-[20px]"
             />
           </GlassBubble>
@@ -49,8 +53,12 @@ export const Cell_2_2: CellConfig = {
             fadeDelayMs={300}
           >
             <img
-              src="/binocularts.jpeg"
+              src="/photos/binocularts.webp"
               alt="Looking through binoculars"
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = "/photos/binocularts.jpeg";
+              }}
               className="w-full h-full object-cover rounded-[20px]"
             />
           </GlassBubble>
