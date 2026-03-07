@@ -1,5 +1,6 @@
 import { CellConfig } from "./types";
 import { GlassBubble } from "../components/GlassBubble";
+import { ProgressiveImage } from "../components/ProgressiveImage";
 
 export const Cell_3_3: CellConfig = {
   content: (
@@ -26,14 +27,12 @@ export const Cell_3_3: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={120}
           >
-            <img
-              src="/photos/outdoorclimbing.webp"
+            <ProgressiveImage
+              basePath="/photos/outdoorclimbing"
+              fallbackSrc="/photos/outdoorclimbing.jpg"
               alt="Outdoor climbing"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/outdoorclimbing.jpg";
-              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
+              loading="eager"
             />
           </GlassBubble>
 

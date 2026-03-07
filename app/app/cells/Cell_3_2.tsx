@@ -1,5 +1,6 @@
 import { CellConfig } from "./types";
 import { GlassBubble } from "../components/GlassBubble";
+import { ProgressiveImage } from "../components/ProgressiveImage";
 
 export const Cell_3_2: CellConfig = {
   content: (
@@ -35,14 +36,12 @@ export const Cell_3_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={150}
           >
-            <img
-              src="/photos/fam.webp"
+            <ProgressiveImage
+              basePath="/photos/fam"
+              fallbackSrc="/photos/fam.jpg"
               alt="Family"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/fam.jpg";
-              }}
               className="w-full h-full object-cover object-[50%_15%] lg:object-center rounded-[20px]"
+              loading="eager"
             />
           </GlassBubble>
 

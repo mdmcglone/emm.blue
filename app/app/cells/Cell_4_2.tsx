@@ -1,5 +1,6 @@
 import { CellConfig } from "./types";
 import { GlassBubble } from "../components/GlassBubble";
+import { ProgressiveImage } from "../components/ProgressiveImage";
 
 export const Cell_4_2: CellConfig = {
   content: (
@@ -14,14 +15,12 @@ export const Cell_4_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={0}
           >
-            <img
-              src="/photos/dad.webp"
+            <ProgressiveImage
+              basePath="/photos/dad"
+              fallbackSrc="/photos/dad.jpeg"
               alt="Dad"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/dad.jpeg";
-              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
+              loading="eager"
             />
           </GlassBubble>
           <GlassBubble
@@ -31,14 +30,12 @@ export const Cell_4_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={50}
           >
-            <img
-              src="/photos/mom.webp"
+            <ProgressiveImage
+              basePath="/photos/mom"
+              fallbackSrc="/photos/mom.jpg"
               alt="Mom"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/mom.jpg";
-              }}
               className="w-full h-full object-cover rounded-[20px] object-[50%_25%] sm:object-[50%_25%] md:object-center lg:object-center"
+              loading="eager"
             />
           </GlassBubble>
 
@@ -89,14 +86,12 @@ export const Cell_4_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={200}
           >
-            <img
-              src="/photos/vandhana.webp"
+            <ProgressiveImage
+              basePath="/photos/vandhana"
+              fallbackSrc="/photos/vandhana.jpeg"
               alt="Vandhana"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/vandhana.jpeg";
-              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
+              loading="lazy"
             />
           </GlassBubble>
           <GlassBubble
@@ -106,14 +101,12 @@ export const Cell_4_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={250}
           >
-            <img
-              src="/photos/abi.webp"
+            <ProgressiveImage
+              basePath="/photos/abi"
+              fallbackSrc="/photos/abi.jpeg"
               alt="Abi"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/abi.jpeg";
-              }}
               className="w-full h-full object-cover object-center rounded-[20px]"
+              loading="lazy"
             />
           </GlassBubble>
         </div>

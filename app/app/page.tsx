@@ -19,7 +19,9 @@ interface Layout {
 
 const SWIPE_THRESHOLD = 50; // minimum distance in px to trigger swipe
 const HOME_INDEX = 2;
-const BACKGROUND_WEBP = "/darkmatter.webp";
+const BACKGROUND_TINY_WEBP = "/darkmatter-tiny.webp";
+const BACKGROUND_MD_WEBP = "/darkmatter-md.webp";
+const BACKGROUND_LG_WEBP = "/darkmatter-lg.webp";
 const BACKGROUND_JPG = "/darkmatter.jpg";
 
 function HomeContent() {
@@ -29,6 +31,7 @@ function HomeContent() {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
+  const [backgroundReady, setBackgroundReady] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
 
   // When navigation is triggered, reset fade-out after animation completes
@@ -50,15 +53,21 @@ function HomeContent() {
 
   useEffect(() => {
     const img = new Image();
+    const chooseBackgroundSrc = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const effectiveWidth = window.innerWidth * dpr;
+      return effectiveWidth >= 1600 ? BACKGROUND_LG_WEBP : BACKGROUND_MD_WEBP;
+    };
     img.onload = () => {
       updateLayout(img.naturalWidth, img.naturalHeight);
       setImageLoaded(true);
+      setBackgroundReady(true);
     };
     img.onerror = () => {
       img.onerror = null;
       img.src = BACKGROUND_JPG;
     };
-    img.src = BACKGROUND_WEBP;
+    img.src = chooseBackgroundSrc();
 
     const handleResize = () => {
       if (img.complete && img.naturalWidth) {
@@ -274,7 +283,9 @@ function HomeContent() {
           transform: layout
             ? `translate(${offset.x}px, ${offset.y}px)`
             : `translate(calc(50vw - 250vmax), calc(50vh - 250vmax))`,
-          backgroundImage: `image-set(url(${BACKGROUND_WEBP}) type("image/webp"), url(${BACKGROUND_JPG}) type("image/jpeg"))`,
+          backgroundImage: backgroundReady
+            ? `image-set(url(${BACKGROUND_MD_WEBP}) type("image/webp") 1x, url(${BACKGROUND_LG_WEBP}) type("image/webp") 2x, url(${BACKGROUND_JPG}) type("image/jpeg") 1x)`
+            : `url(${BACKGROUND_TINY_WEBP})`,
           backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

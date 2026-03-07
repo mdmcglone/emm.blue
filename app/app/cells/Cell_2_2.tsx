@@ -1,5 +1,6 @@
 import { CellConfig } from "./types";
 import { GlassBubble } from "../components/GlassBubble";
+import { ProgressiveImage } from "../components/ProgressiveImage";
 
 export const Cell_2_2: CellConfig = {
   content: (
@@ -34,14 +35,12 @@ export const Cell_2_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={200}
           >
-            <img
-              src="/photos/chair.webp"
+            <ProgressiveImage
+              basePath="/photos/chair"
+              fallbackSrc="/photos/chair.jpeg"
               alt="Relaxing in a chair with coffee"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/chair.jpeg";
-              }}
               className="w-full h-full object-cover rounded-[20px]"
+              loading="eager"
             />
           </GlassBubble>
 
@@ -52,14 +51,12 @@ export const Cell_2_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={300}
           >
-            <img
-              src="/photos/binocularts.webp"
+            <ProgressiveImage
+              basePath="/photos/binocularts"
+              fallbackSrc="/photos/binocularts.jpeg"
               alt="Looking through binoculars"
-              onError={(event) => {
-                event.currentTarget.onerror = null;
-                event.currentTarget.src = "/photos/binocularts.jpeg";
-              }}
               className="w-full h-full object-cover rounded-[20px]"
+              loading="eager"
             />
           </GlassBubble>
         </div>
