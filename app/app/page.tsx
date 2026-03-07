@@ -29,9 +29,11 @@ function HomeContent() {
   const [targetPosition, setTargetPosition] = useState({ x: HOME_INDEX, y: HOME_INDEX });
   const [layout, setLayout] = useState<Layout | null>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const backgroundDimensionsRef = useRef<{ width: number; height: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
-  const [backgroundReady, setBackgroundReady] = useState(false);
+  const [backgroundMdReady, setBackgroundMdReady] = useState(false);
+  const [backgroundLgReady, setBackgroundLgReady] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
 
   // When navigation is triggered, reset fade-out after animation completes
@@ -52,31 +54,71 @@ function HomeContent() {
   }, [fadeOut, displayPosition, targetPosition]);
 
   useEffect(() => {
-    const img = new Image();
-    const chooseBackgroundSrc = () => {
-      const dpr = window.devicePixelRatio || 1;
-      const effectiveWidth = window.innerWidth * dpr;
-      return effectiveWidth >= 1600 ? BACKGROUND_LG_WEBP : BACKGROUND_MD_WEBP;
-    };
-    img.onload = () => {
+    let cancelled = false;
+
+    const preload = (src: string): Promise<HTMLImageElement> =>
+      new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = src;
+      });
+
+    const setLayoutFromImage = (img: HTMLImageElement) => {
+      backgroundDimensionsRef.current = { width: img.naturalWidth, height: img.naturalHeight };
       updateLayout(img.naturalWidth, img.naturalHeight);
-      setImageLoaded(true);
-      setBackgroundReady(true);
     };
-    img.onerror = () => {
-      img.onerror = null;
-      img.src = BACKGROUND_JPG;
+
+    const runBackgroundProgressiveLoad = async () => {
+      // Ensure tiny is requested and resolved before kicking off md/lg preloads.
+      try {
+        await preload(BACKGROUND_TINY_WEBP);
+        if (cancelled) return;
+      } catch {
+        // If tiny fails, continue with md/lg pipeline.
+      }
+
+      try {
+        const mdImg = await preload(BACKGROUND_MD_WEBP);
+        if (cancelled) return;
+        setLayoutFromImage(mdImg);
+        setImageLoaded(true);
+        setBackgroundMdReady(true);
+
+        try {
+          const lgImg = await preload(BACKGROUND_LG_WEBP);
+          if (cancelled) return;
+          setLayoutFromImage(lgImg);
+          setBackgroundLgReady(true);
+        } catch {
+          const jpgImg = await preload(BACKGROUND_JPG);
+          if (cancelled) return;
+          setLayoutFromImage(jpgImg);
+          setBackgroundLgReady(true);
+        }
+      } catch {
+        const jpgImg = await preload(BACKGROUND_JPG);
+        if (cancelled) return;
+        setLayoutFromImage(jpgImg);
+        setImageLoaded(true);
+        setBackgroundMdReady(true);
+        setBackgroundLgReady(true);
+      }
     };
-    img.src = chooseBackgroundSrc();
+
+    runBackgroundProgressiveLoad();
 
     const handleResize = () => {
-      if (img.complete && img.naturalWidth) {
-        updateLayout(img.naturalWidth, img.naturalHeight);
+      if (backgroundDimensionsRef.current) {
+        updateLayout(backgroundDimensionsRef.current.width, backgroundDimensionsRef.current.height);
       }
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   // Handle loading screen: wait for both 3 seconds and image load
@@ -283,9 +325,11 @@ function HomeContent() {
           transform: layout
             ? `translate(${offset.x}px, ${offset.y}px)`
             : `translate(calc(50vw - 250vmax), calc(50vh - 250vmax))`,
-          backgroundImage: backgroundReady
-            ? `image-set(url(${BACKGROUND_MD_WEBP}) type("image/webp") 1x, url(${BACKGROUND_LG_WEBP}) type("image/webp") 2x, url(${BACKGROUND_JPG}) type("image/jpeg") 1x)`
-            : `url(${BACKGROUND_TINY_WEBP})`,
+          backgroundImage: backgroundLgReady
+            ? `url(${BACKGROUND_LG_WEBP})`
+            : backgroundMdReady
+              ? `url(${BACKGROUND_MD_WEBP})`
+              : `url(${BACKGROUND_TINY_WEBP})`,
           backgroundSize: "contain",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

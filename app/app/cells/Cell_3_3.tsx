@@ -21,12 +21,13 @@ export const Cell_3_3: CellConfig = {
           </GlassBubble>
 
           <GlassBubble
-            wrapperClassName="md:col-start-2 md:row-start-2 justify-self-center"
-            className="p-2 w-[min(100%,17rem)] mx-auto aspect-[2/1] md:aspect-square"
+            wrapperClassName="w-full md:col-start-2 md:row-start-2 justify-self-center"
+            className="p-2 w-full max-w-[17rem] mx-auto aspect-[2/1] md:aspect-square"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={120}
           >
+            
             <ProgressiveImage
               basePath="/photos/outdoorclimbing"
               fallbackSrc="/photos/outdoorclimbing.jpg"
@@ -34,6 +35,8 @@ export const Cell_3_3: CellConfig = {
               className="w-full h-full object-cover object-center rounded-[20px]"
               loading="eager"
             />
+
+
           </GlassBubble>
 
           <GlassBubble

@@ -55,7 +55,7 @@ export const Cell_4_1: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={340}
           >
-            For family and friends, I&apos;ve been all around the US northeast, Florida, and Chicago.
+            For family and friends, I&apos;ve been to all the US northeast states, and Florida, and Chicago.
           </GlassBubble>
         </div>
       </div>

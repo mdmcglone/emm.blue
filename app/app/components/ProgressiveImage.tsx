@@ -1,6 +1,6 @@
 "use client";
 
-import { ImgHTMLAttributes, useEffect, useRef, useState } from "react";
+import { ImgHTMLAttributes, useEffect, useLayoutEffect, useRef, useState } from "react";
 
 interface ProgressiveImageProps
   extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> {
@@ -19,34 +19,107 @@ export function ProgressiveImage({
   fallbackSrc,
   loading = "lazy",
   decoding = "async",
+  className,
+  style,
   ...imgProps
 }: ProgressiveImageProps) {
-  const imgRef = useRef<HTMLImageElement | null>(null);
+  const containerRef = useRef<HTMLSpanElement | null>(null);
+  const tinyImgRef = useRef<HTMLImageElement | null>(null);
   const hasStartedRef = useRef(false);
-  const [src, setSrc] = useState(`${basePath}-tiny.webp`);
+  const fadeTimeoutRef = useRef<number | null>(null);
+  const loadRunRef = useRef(0);
+  const tinySrc = `${basePath}-tiny.webp`;
+  const [highSrc, setHighSrc] = useState<string | null>(null);
+  const [isHighReady, setIsHighReady] = useState(false);
+  const [showTiny, setShowTiny] = useState(true);
+  const [tinyOpacity, setTinyOpacity] = useState(1);
+  const [isTinyLoaded, setIsTinyLoaded] = useState(false);
 
-  useEffect(() => {
-    setSrc(`${basePath}-tiny.webp`);
+  useLayoutEffect(() => {
+    if (fadeTimeoutRef.current) {
+      window.clearTimeout(fadeTimeoutRef.current);
+      fadeTimeoutRef.current = null;
+    }
+    setHighSrc(null);
+    setIsHighReady(false);
+    setShowTiny(true);
+    setTinyOpacity(1);
+    setIsTinyLoaded(false);
     hasStartedRef.current = false;
+    loadRunRef.current += 1;
   }, [basePath]);
 
   useEffect(() => {
+    if (isTinyLoaded) return;
+    const tinyImg = tinyImgRef.current;
+    if (!tinyImg) return;
+    if (tinyImg.complete) {
+      setIsTinyLoaded(true);
+    }
+  }, [isTinyLoaded, tinySrc]);
+
+  useEffect(() => {
+    const preloadAndDecode = (src: string): Promise<boolean> =>
+      new Promise<boolean>((resolve) => {
+        const img = new Image();
+        let settled = false;
+        const settle = (ok: boolean) => {
+          if (settled) return;
+          settled = true;
+          img.onload = null;
+          img.onerror = null;
+          resolve(ok);
+        };
+        const decodeAndSettle = () => {
+          img.decode().then(() => settle(true)).catch(() => settle(true));
+        };
+
+        img.onload = () => decodeAndSettle();
+        img.onerror = () => settle(false);
+        img.src = src;
+
+        if (img.complete) {
+          if (img.naturalWidth > 0) decodeAndSettle();
+          else settle(false);
+        }
+      });
+
     const startLoad = () => {
       if (hasStartedRef.current) return;
       hasStartedRef.current = true;
+      const currentRun = loadRunRef.current;
+      setIsHighReady(false);
       const target = chooseTargetSrc(basePath);
-      const img = new Image();
-      img.onload = () => setSrc(target);
-      img.onerror = () => setSrc(fallbackSrc);
-      img.src = target;
+
+      (async () => {
+        const targetReady = await preloadAndDecode(target);
+        if (loadRunRef.current !== currentRun) return;
+        if (targetReady) {
+          setHighSrc(target);
+          setIsHighReady(true);
+          return;
+        }
+        const fallbackReady = await preloadAndDecode(fallbackSrc);
+        if (loadRunRef.current !== currentRun) return;
+        if (fallbackReady) {
+          setHighSrc(fallbackSrc);
+          setIsHighReady(true);
+          return;
+        }
+        setHighSrc(fallbackSrc);
+        setIsHighReady(false);
+      })();
     };
+
+    // Always let tiny placeholder resolve first, so high-res images never win the race to first paint.
+    if (!isTinyLoaded) return;
 
     if (loading === "eager") {
       startLoad();
       return;
     }
 
-    const node = imgRef.current;
+    const node = containerRef.current;
     if (!node) return;
 
     if (!("IntersectionObserver" in window)) {
@@ -65,20 +138,82 @@ export function ProgressiveImage({
     );
     observer.observe(node);
     return () => observer.disconnect();
-  }, [basePath, fallbackSrc, loading]);
+  }, [basePath, fallbackSrc, isTinyLoaded, loading]);
+
+  useEffect(() => {
+    if (!isHighReady || !showTiny) return;
+    const rafId = window.requestAnimationFrame(() => setTinyOpacity(0));
+    fadeTimeoutRef.current = window.setTimeout(() => {
+      setShowTiny(false);
+      fadeTimeoutRef.current = null;
+    }, 260);
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      if (fadeTimeoutRef.current) {
+        window.clearTimeout(fadeTimeoutRef.current);
+        fadeTimeoutRef.current = null;
+      }
+    };
+  }, [isHighReady, showTiny]);
 
   return (
-    <img
-      ref={imgRef}
-      src={src}
-      loading={loading}
-      decoding={decoding}
-      onError={(event) => {
-        event.currentTarget.onerror = null;
-        event.currentTarget.src = fallbackSrc;
-      }}
-      {...imgProps}
-    />
+    <span
+      ref={containerRef}
+      style={{ position: "relative", display: "block", width: "100%", height: "100%" }}
+    >
+      {highSrc ? (
+        <img
+          src={highSrc}
+          loading={loading}
+          decoding={decoding}
+          className={className}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "block",
+            width: "100%",
+            height: "100%",
+            opacity: 1,
+            zIndex: 1,
+            ...style,
+          }}
+          onError={(event) => {
+            if (highSrc !== fallbackSrc) {
+              setIsHighReady(false);
+              setHighSrc(fallbackSrc);
+              return;
+            }
+            event.currentTarget.onerror = null;
+          }}
+          {...imgProps}
+        />
+      ) : null}
+      {showTiny ? (
+        <img
+          ref={tinyImgRef}
+          src={tinySrc}
+          loading={loading}
+          decoding={decoding}
+          className={className}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "block",
+            width: "100%",
+            height: "100%",
+            opacity: tinyOpacity,
+            transition: "opacity 260ms ease",
+            zIndex: 2,
+            pointerEvents: "none",
+            ...style,
+          }}
+          alt=""
+          aria-hidden="true"
+          onLoad={() => setIsTinyLoaded(true)}
+          onError={() => setIsTinyLoaded(true)}
+        />
+      ) : null}
+    </span>
   );
 }
 
