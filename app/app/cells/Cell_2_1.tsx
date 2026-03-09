@@ -5,9 +5,9 @@ import { ProgressiveImage } from "../components/ProgressiveImage";
 export const Cell_2_1: CellConfig = {
   content: (
     <>
-      <div className="w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
-        <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6 items-start">
-          <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 w-full max-w-[75%] mx-auto">
+      <div className="w-[90vw] md:w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
+        <div className="grid w-full min-h-[calc(100dvh-11rem)] md:min-h-0 content-center grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6 items-center md:items-start">
+          <div className="flex flex-col gap-3 sm:gap-4 md:gap-5 w-[90vw] md:w-full md:max-w-[75%] mx-auto">
             <GlassBubble
               className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn

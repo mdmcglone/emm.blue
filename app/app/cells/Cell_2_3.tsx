@@ -4,11 +4,11 @@ import { GlassBubble } from "../components/GlassBubble";
 export const Cell_2_3: CellConfig = {
   content: (
     <>
-      <div className="w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
-        <div className="grid w-full grid-cols-2 gap-3 sm:gap-4 md:gap-5">
+      <div className="w-[90vw] md:w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
+        <div className="grid w-full min-h-[calc(100dvh-11rem)] md:min-h-0 content-center grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-5">
           <GlassBubble
-            wrapperClassName="col-span-2 row-start-1 justify-self-center"
-            className="p-4 w-full max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
+            wrapperClassName="w-full justify-self-center md:col-span-2 md:row-start-1"
+            className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={0}
@@ -19,8 +19,8 @@ export const Cell_2_3: CellConfig = {
 
 
           <GlassBubble
-            wrapperClassName="col-start-1 row-start-2 justify-self-end w-full"
-            className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
+            wrapperClassName="w-full justify-self-center md:col-start-1 md:row-start-2 md:justify-self-end"
+            className="p-4 w-[90vw] md:w-full md:max-w-[26rem] md:ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={150}
@@ -29,8 +29,8 @@ export const Cell_2_3: CellConfig = {
           </GlassBubble>
 
           <GlassBubble
-            wrapperClassName="col-start-2 row-start-2 justify-self-start w-full"
-            className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
+            wrapperClassName="w-full justify-self-center md:col-start-2 md:row-start-2 md:justify-self-start"
+            className="p-4 w-[90vw] md:w-full md:max-w-[26rem] md:mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={150}
@@ -39,8 +39,8 @@ export const Cell_2_3: CellConfig = {
           </GlassBubble>
 
           <GlassBubble
-            wrapperClassName="col-start-2 row-start-3 justify-self-start w-full md:translate-x-8 lg:translate-x-12"
-            className="p-4 w-full max-w-[26rem] mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
+            wrapperClassName="w-full justify-self-center md:col-start-2 md:row-start-3 md:justify-self-start md:translate-x-8 lg:translate-x-12"
+            className="p-4 w-[90vw] md:w-full md:max-w-[26rem] md:mr-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={300}
@@ -48,8 +48,8 @@ export const Cell_2_3: CellConfig = {
             I am an obsessive Game of Thrones fan. The most frequently used phrase in my whole life is "In the books..."
           </GlassBubble>
           <GlassBubble
-            wrapperClassName="col-start-1 row-start-3 justify-self-end w-full md:-translate-x-8 lg:-translate-x-12"
-            className="p-4 w-full max-w-[26rem] ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
+            wrapperClassName="w-full justify-self-center md:col-start-1 md:row-start-3 md:justify-self-end md:-translate-x-8 lg:-translate-x-12"
+            className="p-4 w-[90vw] md:w-full md:max-w-[26rem] md:ml-auto text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={300}

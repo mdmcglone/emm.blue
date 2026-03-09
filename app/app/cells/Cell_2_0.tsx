@@ -5,16 +5,17 @@ export const Cell_2_0: CellConfig = {
   content: (
     <>
       <div className="w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
-        <div className="flex flex-col md:relative w-full md:h-screen justify-center md:justify-center gap-4 md:gap-0">
+        <div className="flex flex-col md:relative w-full min-h-[calc(100dvh-11rem)] md:min-h-0 md:h-screen justify-center md:justify-center gap-4 md:gap-0">
           {/* Bubble 1 - Left, touches center with right edge */}
           <div className="md:absolute md:left-1/2 md:-translate-x-full md:top-[25%] md:-translate-y-1/2 md:mr-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={0}
             >
-                                  <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-left w-full">Physics</h1>
+              <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-left w-full">Physics</h1>
               My bachelor's degree is in physics. I was considering many courses of study in STEM fields, but I chose physics because it captured my interest the most, while also seeming a practical choice.
             </GlassBubble>
           </div>
@@ -22,7 +23,8 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 2 - Right, touches center with left edge */}
           <div className="md:absolute md:left-1/2 md:top-[37%] md:-translate-y-1/2 md:ml-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={100}
@@ -43,7 +45,8 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 3 - Left, touches center with right edge */}
           <div className="md:absolute md:left-1/2 md:-translate-x-full md:top-[55%] md:-translate-y-1/2 md:mr-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={200}
@@ -63,7 +66,8 @@ export const Cell_2_0: CellConfig = {
           {/* Bubble 4 - Right, touches center with left edge */}
           <div className="md:absolute md:left-1/2 md:top-[67%] md:-translate-y-1/2 md:ml-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
-              className="p-4 w-full max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={300}

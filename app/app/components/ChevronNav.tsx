@@ -109,7 +109,7 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
       {canGoLeft && (
         <button
           onClick={() => handleMove(-1, 0)}
-          className="fixed left-0 top-1/2 -translate-y-1/2 py-3 pr-3 pl-2 lg:py-3 lg:pr-3 lg:pl-2 rounded-r-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
+          className="fixed left-0 bottom-3 md:left-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 py-3 pr-3 pl-2 lg:py-3 lg:pr-3 lg:pl-2 rounded-r-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
           style={glassStyle}
           aria-label={labels.left || "Go left"}
         >
@@ -128,7 +128,7 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
       {canGoRight && (
         <button
           onClick={() => handleMove(1, 0)}
-          className="fixed right-0 top-1/2 -translate-y-1/2 py-3 pl-3 pr-2 lg:py-3 lg:pl-3 lg:pr-2 rounded-l-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
+          className="fixed right-0 bottom-3 md:right-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 py-3 pl-3 pr-2 lg:py-3 lg:pl-3 lg:pr-2 rounded-l-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
           style={glassStyle}
           aria-label={labels.right || "Go right"}
         >

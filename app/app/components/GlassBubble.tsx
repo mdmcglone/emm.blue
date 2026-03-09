@@ -15,6 +15,7 @@ interface GlassBubbleProps {
   fadeIn?: boolean;
   fadeDurationMs?: number;
   fadeDelayMs?: number;
+  smallFont?: boolean;
   wrapperClassName?: string;
   wrapperStyle?: CSSProperties;
   enableFadeOut?: boolean;
@@ -27,6 +28,7 @@ export function GlassBubble({
   fadeIn = false,
   fadeDurationMs = 800,
   fadeDelayMs = 800,
+  smallFont = false,
   wrapperClassName,
   wrapperStyle,
   enableFadeOut = true,
@@ -70,6 +72,7 @@ export function GlassBubble({
   const baseStyle: CSSProperties = {
     ...glassStyle,
     fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+    ...(smallFont ? { fontSize: "clamp(0.67em, 2.8vw, 1em)" } : {}),
     borderRadius: 24, // squircle-ish shape to save space
     overflow: "hidden", // Safari clip fix for images exceeding border radius
   };

@@ -5,8 +5,8 @@ import { ProgressiveImage } from "../components/ProgressiveImage";
 export const Cell_4_2: CellConfig = {
   content: (
     <>
-      <div className="w-screen max-w-none px-[clamp(2.5rem,8vw,5rem)] py-[clamp(3rem,8vh,5rem)]">
-        <div className="grid w-full grid-cols-2 gap-x-3 sm:gap-x-3 md:gap-x-4 lg:gap-x-4 xl:gap-x-5 gap-y-2 sm:gap-y-3 md:gap-y-3 lg:gap-y-3 items-center justify-items-center lg:grid-cols-4 lg:grid-rows-4">
+      <div className="w-[90vw] md:w-screen max-w-none px-[clamp(2.5rem,8vw,5rem)] py-[clamp(3rem,8vh,5rem)]">
+        <div className="grid w-full min-h-[calc(100dvh-11rem)] md:min-h-0 content-center grid-cols-1 gap-x-3 sm:gap-x-3 md:gap-x-4 lg:gap-x-4 xl:gap-x-5 gap-y-2 sm:gap-y-3 md:gap-y-3 lg:gap-y-3 items-center justify-items-center lg:grid-cols-4 lg:grid-rows-4">
           {/* Top photos */}
           <GlassBubble
             wrapperClassName="w-full lg:col-start-1 lg:row-start-1"
@@ -42,7 +42,7 @@ export const Cell_4_2: CellConfig = {
           {/* Middle blurbs */}
           <GlassBubble
             wrapperClassName="w-full lg:col-start-2 lg:row-start-2 lg:justify-self-center"
-            className="p-3 w-full max-w-[18rem] sm:max-w-[19rem] md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
+            className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={100}
@@ -51,7 +51,7 @@ export const Cell_4_2: CellConfig = {
           </GlassBubble>
           <GlassBubble
             wrapperClassName="w-full lg:col-start-3 lg:row-start-2 lg:justify-self-center"
-            className="p-3 w-full max-w-[18rem] sm:max-w-[19rem] md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
+            className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={150}
@@ -61,7 +61,7 @@ export const Cell_4_2: CellConfig = {
 
           <GlassBubble
             wrapperClassName="w-full lg:col-start-2 lg:row-start-3 lg:justify-self-center"
-            className="p-3 w-full max-w-[18rem] sm:max-w-[19rem] md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
+            className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={300}
@@ -70,7 +70,7 @@ export const Cell_4_2: CellConfig = {
           </GlassBubble>
           <GlassBubble
             wrapperClassName="w-full lg:col-start-3 lg:row-start-3 lg:justify-self-center"
-            className="p-3 w-full max-w-[18rem] sm:max-w-[19rem] md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
+            className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={350}

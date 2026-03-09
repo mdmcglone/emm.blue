@@ -4,12 +4,12 @@ import { GlassBubble } from "../components/GlassBubble";
 export const Cell_1_3: CellConfig = {
   content: (
     <>
-      <div className="w-screen max-w-none px-[clamp(3rem,9vw,6rem)] py-[clamp(4rem,10vh,6rem)]">
+      <div className="w-[90vw] md:w-screen max-w-none px-[clamp(3rem,9vw,6rem)] py-[clamp(4rem,10vh,6rem)]">
         {/* On md+ treat as row, keep centered but allow bubble content no forced min-height */}
-        <div className="flex flex-col items-center gap-4 sm:gap-5 md:flex-row md:items-center md:justify-center md:gap-7 lg:gap-10">
+        <div className="flex flex-col items-center justify-center min-h-[calc(100dvh-11rem)] md:min-h-0 gap-4 sm:gap-5 md:flex-row md:items-center md:justify-center md:gap-7 lg:gap-10">
           <GlassBubble
             className="
-              p-4 w-full max-w-[28rem] text-xs sm:text-sm md:text-sm lg:text-base text-center
+              p-4 w-[90vw] md:w-full text-xs sm:text-sm md:text-sm lg:text-base text-center
               md:max-w-[15rem] lg:max-w-[19rem]
             "
             fadeIn
@@ -24,7 +24,7 @@ export const Cell_1_3: CellConfig = {
 
           <GlassBubble
             className="
-              p-4 w-full max-w-[28rem] text-xs sm:text-sm md:text-sm lg:text-base text-center
+              p-4 w-[90vw] md:w-full text-xs sm:text-sm md:text-sm lg:text-base text-center
               md:max-w-[15rem] lg:max-w-[19rem]
             "
             fadeIn
@@ -39,7 +39,7 @@ export const Cell_1_3: CellConfig = {
 
           <GlassBubble
             className="
-              p-4 w-full max-w-[28rem] text-xs sm:text-sm md:text-sm lg:text-base text-center
+              p-4 w-[90vw] md:w-full text-xs sm:text-sm md:text-sm lg:text-base text-center
               md:max-w-[15rem] lg:max-w-[19rem]
             "
             fadeIn

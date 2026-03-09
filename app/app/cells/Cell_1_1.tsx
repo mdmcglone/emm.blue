@@ -5,16 +5,17 @@ export const Cell_1_1: CellConfig = {
   content: (
     <>
       <div className="w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
-        <div className="flex flex-col md:grid w-full md:grid-cols-3 gap-4 md:gap-6 items-center justify-items-center md:h-screen md:content-center">
+        <div className="flex flex-col md:grid w-full min-h-[calc(100dvh-11rem)] md:min-h-0 md:grid-cols-3 gap-4 md:gap-6 items-center justify-items-center md:h-screen md:content-center">
           {/* Row 1, Col 1: Bubble 1 */}
           <div className="w-full md:h-full flex items-center justify-center">
             <GlassBubble
-              className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={0}
             >
-              <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 w-full">Computer Science</h1>
+              <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 w-full">Computer Science</h1>
               I first touched code in middle school as part of the "Hour of Code" movement, and took a few classes in high school, but my proper education started at Harvard.
             </GlassBubble>
           </div>
@@ -22,7 +23,8 @@ export const Cell_1_1: CellConfig = {
           {/* Row 1, Col 2: Bubble 2 */}
           <div className="w-full md:h-full flex items-center justify-center">
             <GlassBubble
-              className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={100}
@@ -40,12 +42,13 @@ export const Cell_1_1: CellConfig = {
           {/* Row 2, Col 2: Bubble 3 */}
           <div className="w-full md:h-full flex items-center justify-center">
             <GlassBubble
-              className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={200}
             >
-            <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 w-full">Software Engineering</h1>
+            <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 w-full">Software Engineering</h1>
               My real education, though, came when I started jhana. The first year of my startup was a trial-by-fire – by day, I built production systems for the first time, while by night, I was self-educating and self-improving.
             </GlassBubble>
           </div>
@@ -53,7 +56,8 @@ export const Cell_1_1: CellConfig = {
           {/* Row 2, Col 3: Bubble 4 */}
           <div className="w-full md:h-full flex items-center justify-center">
             <GlassBubble
-              className="p-4 w-full max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-[90vw] md:w-full md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
+              smallFont
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={300}
