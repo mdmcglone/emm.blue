@@ -4,8 +4,8 @@ import { GlassBubble } from "../components/GlassBubble";
 export const Cell_2_0: CellConfig = {
   content: (
     <>
-      <div className="w-screen max-w-none px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
-        <div className="flex flex-col md:relative w-full min-h-[calc(100dvh-11rem)] md:min-h-0 md:h-screen justify-center md:justify-center gap-4 md:gap-0">
+      <div className="w-screen max-w-none px-0 md:px-[clamp(3.5rem,10vw,7rem)] py-[clamp(4rem,10vh,6rem)]">
+        <div className="flex flex-col md:relative w-full min-h-[calc(100vh-11rem)] md:min-h-0 md:h-screen justify-center md:justify-center gap-4 md:gap-0">
           {/* Bubble 1 - Left, touches center with right edge */}
           <div className="md:absolute md:left-1/2 md:-translate-x-full md:top-[25%] md:-translate-y-1/2 md:mr-[clamp(1rem,3vw,2rem)]">
             <GlassBubble
