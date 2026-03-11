@@ -41,7 +41,8 @@ export const Cell_4_2: CellConfig = {
 
           {/* Top photos - desktop */}
           <GlassBubble
-            wrapperClassName="hidden lg:block lg:col-start-1 lg:row-start-1 w-full"
+            wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-1 lg:row-start-2"
+            wrapperStyle={{ transform: "translateY(clamp(-8rem, -20vh + 8rem, 0))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
@@ -56,7 +57,8 @@ export const Cell_4_2: CellConfig = {
             />
           </GlassBubble>
           <GlassBubble
-            wrapperClassName="hidden lg:block lg:col-start-4 lg:row-start-1 w-full"
+            wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-4 lg:row-start-2"
+            wrapperStyle={{ transform: "translateY(clamp(-8rem, -20vh + 8rem, 0))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
@@ -148,7 +150,8 @@ export const Cell_4_2: CellConfig = {
 
           {/* Bottom photos - desktop */}
           <GlassBubble
-            wrapperClassName="hidden lg:block lg:col-start-1 lg:row-start-4 w-full"
+            wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-1 lg:row-start-3"
+            wrapperStyle={{ transform: "translateY(clamp(0, 20vh - 8rem, 8rem))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
@@ -163,7 +166,8 @@ export const Cell_4_2: CellConfig = {
             />
           </GlassBubble>
           <GlassBubble
-            wrapperClassName="hidden lg:block lg:col-start-4 lg:row-start-4 w-full"
+            wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-4 lg:row-start-3"
+            wrapperStyle={{ transform: "translateY(clamp(0, 20vh - 8rem, 8rem))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}

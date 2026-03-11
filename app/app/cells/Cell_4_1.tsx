@@ -67,7 +67,7 @@ export const Cell_4_1: CellConfig = {
     </>
   ),
   chevronLabels: {
-    left: "Italian",
+    left: "Italiano",
     down: "Family",
   },
 };

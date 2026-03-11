@@ -81,5 +81,6 @@ export const Cell_2_0: CellConfig = {
   ),
   chevronLabels: {
     down:"Education",
+    left:"Other Edu",
   },
 };

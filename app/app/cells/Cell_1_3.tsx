@@ -62,5 +62,6 @@ export const Cell_1_3: CellConfig = {
     up: "Work",
     left: "jhana",
     right: "Hobbies",
+    down: "Projects"
   },
 };
