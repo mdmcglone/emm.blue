@@ -31,21 +31,21 @@ export const Cell_3_4: CellConfig = {
           </GlassBubble>
 
           <GlassBubble
-            className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
+            className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base text-center"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={200}
           >
-            <h2 className="font-semibold text-sm md:text-base lg:text-lg mb-2">Stats</h2>
+            <h2 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">Stats</h2>
             <div className="space-y-1 text-xs sm:text-sm md:text-sm lg:text-base">
               <div><strong>Favorite Story</strong> - Undertale / Outer Wilds</div>
-              <div><b>Favorite Gameplay</b> - Hollow Knight</div>
-              <div><b>Most Played Series</b> - Pokémon</div>
-              <div><b>Most Played Game</b> - Europa Universalis IV</div>
-              <div><b>Most Played Multiplayer Game</b> - Overwatch</div>
-              <div><b>Preferred Battle Royale</b> - Apex Legends</div>
-              <div><b>Best Party Game</b> - Super Smash Bros</div>
-              <div><b>Current Game</b>: Pokopia</div>
+              <div><strong>Favorite Gameplay</strong> - Hollow Knight</div>
+              <div><strong>Most Played Series</strong> - Pokémon</div>
+              <div><strong>Most Played Game</strong> - Europa Universalis IV</div>
+              <div><strong>Most Played Multiplayer Game</strong> - Overwatch</div>
+              <div><strong>Preferred Battle Royale</strong> - Apex Legends</div>
+              <div><strong>Best Party Game</strong> - Super Smash Bros</div>
+              <div><strong>Current Game</strong>: Pokopia</div>
             </div>
           </GlassBubble>
         </div>
@@ -87,21 +87,21 @@ export const Cell_3_4: CellConfig = {
           {/* 3 - bottom center */}
           <div className="w-full max-w-[24rem]">
             <GlassBubble
-              className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
+              className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base text-center"
               fadeIn
               fadeDurationMs={800}
               fadeDelayMs={200}
             >
-              <h2 className="font-semibold text-sm md:text-base lg:text-lg mb-2">Stats</h2>
+              <h2 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">Stats</h2>
               <div className="space-y-1 text-xs sm:text-sm md:text-sm lg:text-base">
-                <div>Favorite Story - Undertale / Outer Wilds</div>
-                <div>Favorite Gameplay - Hollow Knight</div>
-                <div>Most Played Series - Pokémon</div>
-                <div>Most Played Game - Europa Universalis IV</div>
-                <div>Most Played Multiplayer Game - Overwatch</div>
-                <div>Preferred Battle Royale - Apex Legends</div>
-                <div>Best Party Game - Super Smash Bros</div>
-                <div>Current Game: Pokopia</div>
+                <div><strong>Favorite Story</strong> - Undertale / Outer Wilds</div>
+                <div><strong>Favorite Gameplay</strong> - Hollow Knight</div>
+                <div><strong>Most Played Series</strong> - Pokémon</div>
+                <div><strong>Most Played Game</strong> - Europa Universalis IV</div>
+                <div><strong>Most Played Multiplayer Game</strong> - Overwatch</div>
+                <div><strong>Preferred Battle Royale</strong> - Apex Legends</div>
+                <div><strong>Best Party Game</strong> - Super Smash Bros</div>
+                <div><strong>Current Game</strong>: Pokopia</div>
               </div>
             </GlassBubble>
           </div>

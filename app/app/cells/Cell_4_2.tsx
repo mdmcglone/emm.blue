@@ -7,8 +7,8 @@ export const Cell_4_2: CellConfig = {
     <>
       <div className="w-screen max-w-none px-0 md:px-[clamp(2.5rem,8vw,5rem)] py-[clamp(3rem,8vh,5rem)]">
         <div className="grid w-full min-h-[calc(100vh-11rem)] md:min-h-0 content-center grid-cols-1 gap-x-3 sm:gap-x-3 md:gap-x-4 lg:gap-x-4 xl:gap-x-5 gap-y-2 sm:gap-y-3 md:gap-y-3 lg:gap-y-3 items-center justify-items-center lg:grid-cols-4 lg:grid-rows-4">
-          {/* Top photos - mobile side by side */}
-          <div className="w-full flex items-center justify-center gap-3 sm:gap-4 lg:hidden">
+          {/* Top photos - mobile corners */}
+          <div className="w-full flex items-center justify-between px-4 lg:hidden">
             <GlassBubble
               className="p-2 flex-shrink-0 w-[9rem] sm:w-[10rem] aspect-[2/1] sm:aspect-[2/1]"
               fadeIn
@@ -42,7 +42,7 @@ export const Cell_4_2: CellConfig = {
           {/* Top photos - desktop */}
           <GlassBubble
             wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-1 lg:row-start-2"
-            wrapperStyle={{ transform: "translateY(clamp(-8rem, -20vh + 8rem, 0))" }}
+            wrapperStyle={{ transform: "translateY(clamp(-20vh, -8rem, -2rem))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
@@ -58,7 +58,7 @@ export const Cell_4_2: CellConfig = {
           </GlassBubble>
           <GlassBubble
             wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-4 lg:row-start-2"
-            wrapperStyle={{ transform: "translateY(clamp(-8rem, -20vh + 8rem, 0))" }}
+            wrapperStyle={{ transform: "translateY(clamp(-20vh, -8rem, -2rem))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
@@ -116,8 +116,8 @@ export const Cell_4_2: CellConfig = {
             </GlassBubble>
           </div>
 
-          {/* Bottom photos - mobile side by side */}
-          <div className="w-full flex items-center justify-center gap-3 sm:gap-4 lg:hidden">
+          {/* Bottom photos - mobile corners */}
+          <div className="w-full flex items-center justify-between px-4 lg:hidden">
             <GlassBubble
               className="p-2 flex-shrink-0 w-[9rem] sm:w-[10rem] aspect-[2/1] sm:aspect-[2/1]"
               fadeIn
@@ -151,7 +151,7 @@ export const Cell_4_2: CellConfig = {
           {/* Bottom photos - desktop */}
           <GlassBubble
             wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-1 lg:row-start-3"
-            wrapperStyle={{ transform: "translateY(clamp(0, 20vh - 8rem, 8rem))" }}
+            wrapperStyle={{ transform: "translateY(clamp(2rem, 20vh, 8rem))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
@@ -167,7 +167,7 @@ export const Cell_4_2: CellConfig = {
           </GlassBubble>
           <GlassBubble
             wrapperClassName="hidden lg:flex w-full items-center justify-center lg:col-start-4 lg:row-start-3"
-            wrapperStyle={{ transform: "translateY(clamp(0, 20vh - 8rem, 8rem))" }}
+            wrapperStyle={{ transform: "translateY(clamp(2rem, 20vh, 8rem))" }}
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}

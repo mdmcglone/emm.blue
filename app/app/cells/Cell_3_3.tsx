@@ -7,7 +7,7 @@ export const Cell_3_3: CellConfig = {
     <>
       <div className="w-screen max-w-none px-0 md:px-[clamp(3.5rem,10vw,7rem)] py-[clamp(2.25rem,6vh,4rem)]">
         <div className="grid w-full min-h-[calc(100vh-11rem)] md:min-h-0 content-center grid-cols-1 md:grid-cols-3 gap-x-3 sm:gap-x-4 md:gap-x-5 gap-y-2 sm:gap-y-3 md:gap-y-3 items-center justify-items-center">
-          <div className="w-full flex items-center justify-center md:col-start-2 md:row-start-1">
+          <div className="w-full flex items-center justify-center md:col-start-3 md:row-start-1">
             <GlassBubble
               className="p-3 sm:p-4 w-[90vw] md:w-full md:max-w-[38rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
