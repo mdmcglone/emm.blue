@@ -1,6 +1,6 @@
 import { glassStyle } from "./GlassBubble";
 import { ChevronLabels } from "../cells/types";
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, ReactNode } from "react";
 import { useNavigation } from "./NavigationContext";
 
 interface ChevronNavProps {
@@ -11,6 +11,7 @@ interface ChevronNavProps {
   labels?: ChevronLabels;
   onMove: (dx: number, dy: number) => void;
   enableFadeOut?: boolean;
+  statsContent?: ReactNode;
 }
 
 const ChevronIcon = ({ direction, className = "" }: { direction: "up" | "down" | "left" | "right"; className?: string }) => {
@@ -34,7 +35,7 @@ const ChevronIcon = ({ direction, className = "" }: { direction: "up" | "down" |
   );
 };
 
-export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels = {}, onMove, enableFadeOut = true }: ChevronNavProps) {
+export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels = {}, onMove, enableFadeOut = true, statsContent }: ChevronNavProps) {
   const { triggerFadeOut } = useNavigation();
 
   const handleMove = useCallback((dx: number, dy: number) => {
@@ -69,22 +70,29 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
   return (
     <>
       {canGoUp && (
-        <button
-          onClick={() => handleMove(0, -1)}
-          className="fixed top-0 left-1/2 -translate-x-1/2 pt-2 pb-3 px-3 lg:pt-2 lg:pb-3 lg:px-3 rounded-b-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center"
-          style={glassStyle}
-          aria-label={labels.up || "Go up"}
-        >
-          <ChevronIcon direction="up" />
-          {labels.up && (
-            <span
-              className="text-xs md:text-sm font-medium"
-              style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
-            >
-              {labels.up}
-            </span>
+        <>
+          <button
+            onClick={() => handleMove(0, -1)}
+            className="fixed top-0 left-1/2 -translate-x-1/2 pt-2 pb-3 px-3 lg:pt-2 lg:pb-3 lg:px-3 rounded-b-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center"
+            style={glassStyle}
+            aria-label={labels.up || "Go up"}
+          >
+            <ChevronIcon direction="up" />
+            {labels.up && (
+              <span
+                className="text-xs md:text-sm font-medium"
+                style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
+              >
+                {labels.up}
+              </span>
+            )}
+          </button>
+          {statsContent && (
+            <div className="fixed top-16 left-0 right-0 w-full px-3 text-center text-white text-sm font-medium md:hidden [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+              {statsContent}
+            </div>
           )}
-        </button>
+        </>
       )}
 
       {canGoDown && (

@@ -8,6 +8,7 @@ import { glassStyle } from "./components/GlassBubble";
 import { NavigationProvider, useNavigation } from "./components/NavigationContext";
 import { MapGridNav } from "./components/MapGridNav";
 import { SocialsModal } from "./components/SocialsModal";
+import { GameStatsProvider, useGameStats } from "./components/GameStatsContext";
 
 interface Layout {
   containerSize: number;
@@ -63,6 +64,7 @@ function HomeContent() {
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
+  const { statsContent } = useGameStats();
 
   // When navigation is triggered, reset fade-out after animation completes
   useEffect(() => {
@@ -429,6 +431,7 @@ function HomeContent() {
         canGoRight={canGoRight}
         labels={currentCell.chevronLabels}
         onMove={move}
+        statsContent={statsContent}
       />
     </div>
   );
@@ -437,7 +440,9 @@ function HomeContent() {
 export default function Home() {
   return (
     <NavigationProvider>
-      <HomeContent />
+      <GameStatsProvider>
+        <HomeContent />
+      </GameStatsProvider>
     </NavigationProvider>
   );
 }

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { CellConfig } from "./types";
 import { useNavigation } from "../components/NavigationContext";
+import { useGameStats } from "../components/GameStatsContext";
 
 type Ship = {
   x: number;
@@ -218,6 +219,7 @@ function AsteroidsGame() {
   const firePointerIdRef = useRef<number | null>(null);
   const [hud, setHud] = useState(hudRef.current);
   const { fadeOut, fadeOutCounterMovement } = useNavigation();
+  const { setStatsContent } = useGameStats();
 
   const syncHud = useCallback((state: GameState) => {
     const next = {
@@ -237,6 +239,19 @@ function AsteroidsGame() {
       setHud(next);
     }
   }, []);
+
+  // Update stats content in context whenever HUD changes
+  useEffect(() => {
+    setStatsContent(
+      <div className="inline-flex flex-wrap justify-center items-center gap-x-5 gap-y-1 md:gap-x-8">
+        <span>Score: {hud.score}</span>
+        <span>Lives: {hud.lives}</span>
+        <span>Wave: {hud.level}</span>
+        {hud.gameOver && <span>Game Over (Press {hasTouched ? "Fire" : "R"} to restart)</span>}
+      </div>
+    );
+    return () => setStatsContent(null);
+  }, [hud, hasTouched, setStatsContent]);
 
   const resetGame = useCallback(() => {
     const fresh = createInitialState(boundsRef.current);
@@ -704,7 +719,8 @@ function AsteroidsGame() {
       onTouchEndCapture={(event) => event.stopPropagation()}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-      <div className="absolute top-16 md:top-auto md:bottom-3 left-3 md:left-1/2 z-10 md:-translate-x-1/2 px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+      {/* Desktop stats - hidden on mobile, shown at bottom */}
+      <div className="hidden md:block absolute bottom-3 left-1/2 z-10 -translate-x-1/2 w-full px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
         <div className="inline-flex flex-wrap justify-center items-center gap-x-5 gap-y-1 md:gap-x-8">
           <span>Score: {hud.score}</span>
           <span>Lives: {hud.lives}</span>
