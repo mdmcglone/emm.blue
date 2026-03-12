@@ -704,7 +704,7 @@ function AsteroidsGame() {
       onTouchEndCapture={(event) => event.stopPropagation()}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
-      <div className="absolute top-12 md:top-auto md:bottom-3 left-1/2 z-10 -translate-x-1/2 w-full px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+      <div className="absolute top-16 md:top-auto md:bottom-3 left-3 md:left-1/2 z-10 md:-translate-x-1/2 px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
         <div className="inline-flex flex-wrap justify-center items-center gap-x-5 gap-y-1 md:gap-x-8">
           <span>Score: {hud.score}</span>
           <span>Lives: {hud.lives}</span>

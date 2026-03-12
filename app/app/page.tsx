@@ -61,6 +61,7 @@ function HomeContent() {
   const [backgroundLgReady, setBackgroundLgReady] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
 
   // When navigation is triggered, reset fade-out after animation completes
@@ -142,9 +143,18 @@ function HomeContent() {
     };
 
     window.addEventListener("resize", handleResize);
+    
+    // Check if mobile on mount and resize
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
     return () => {
       cancelled = true;
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
@@ -194,7 +204,7 @@ function HomeContent() {
 
   const canGoUp = displayPosition.y > 0;
   const canGoDown = displayPosition.y < GRID_SIZE - 1;
-  const canGoLeft = displayPosition.x > 0;
+  const canGoLeft = displayPosition.x > 0 && !(isMobile && displayPosition.x === 4 && displayPosition.y === 4);
   const canGoRight = displayPosition.x < GRID_SIZE - 1;
 
   const currentCell = getCell(displayPosition.x, displayPosition.y);
