@@ -12,7 +12,7 @@ export const Cell_2_2: CellConfig = {
               className="p-3 w-[90vw] md:w-full text-xs md:p-4 md:text-sm md:max-w-[21rem] lg:text-lg"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={0}
             >
               <h1 className="font-semibold text-sm md:text-base lg:text-xl flex justify-center items-center">Hi!</h1>
               <div className="text-[11px] md:text-sm lg:text-base">My name is Em McGlone, welcome to my site. If you'd like to get to know me better, personally or professionally, feel free to explore.</div>
@@ -24,7 +24,7 @@ export const Cell_2_2: CellConfig = {
               className="p-3 w-[90vw] md:w-full text-xs md:p-4 md:text-sm md:max-w-[21rem] lg:text-lg"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={400}
             >
               <div className="text-[11px] md:text-sm lg:text-base">This site is loosely organized like a mood board - whatever you want to learn about, move in that direction, and I&apos;ll divulge more specifics as you go.</div>
             </GlassBubble>

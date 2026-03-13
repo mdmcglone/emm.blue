@@ -8,6 +8,8 @@ interface NavigationContextType {
   resetFadeOut: () => void;
   fadeOutCounterMovement: { x: number; y: number };
   setFadeOutCounterMovement: (movement: { x: number; y: number }) => void;
+  backgroundTinyReady: boolean;
+  setBackgroundTinyReady: (ready: boolean) => void;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
@@ -15,6 +17,7 @@ const NavigationContext = createContext<NavigationContextType | undefined>(undef
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const [fadeOut, setFadeOut] = useState(false);
   const [fadeOutCounterMovement, setFadeOutCounterMovement] = useState({ x: 0, y: 0 });
+  const [backgroundTinyReady, setBackgroundTinyReady] = useState(false);
 
   const triggerFadeOut = useCallback(() => {
     setFadeOut(true);
@@ -25,7 +28,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <NavigationContext.Provider value={{ fadeOut, triggerFadeOut, resetFadeOut, fadeOutCounterMovement, setFadeOutCounterMovement }}>
+    <NavigationContext.Provider value={{ fadeOut, triggerFadeOut, resetFadeOut, fadeOutCounterMovement, setFadeOutCounterMovement, backgroundTinyReady, setBackgroundTinyReady }}>
       {children}
     </NavigationContext.Provider>
   );

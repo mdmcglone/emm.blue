@@ -65,8 +65,11 @@ export function MapGridNav({ isOpen, currentPosition, onToggle, onClose, onSelec
     <>
       <button
         onClick={onToggle}
-        className="p-2 lg:p-3 rounded-full opacity-80 hover:opacity-100 transition-opacity"
-        style={{ ...glassStyle, fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
+        className="p-2 lg:p-3 rounded-full opacity-80 hover:opacity-100 transition-opacity min-w-[2.5rem] min-h-[2.5rem] lg:min-w-[3rem] lg:min-h-[3rem]"
+        style={{ 
+          ...glassStyle, 
+          fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+        }}
         aria-label="Open map"
       >
         <Icon icon="mdi:map-outline" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />

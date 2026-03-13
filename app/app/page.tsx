@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { GRID_SIZE, getCell } from "./cells";
 import { CellConfig } from "./cells/types";
 import { ChevronNav } from "./components/ChevronNav";
+import { MapGridNav } from "./components/MapGridNav";
+import { SocialsModal } from "./components/SocialsModal";
 import { glassStyle } from "./components/GlassBubble";
 import { NavigationProvider, useNavigation } from "./components/NavigationContext";
 import { GameStatsProvider, useGameStats } from "./components/GameStatsContext";
-
-// Lazy load modals that are only shown conditionally
-const MapGridNav = lazy(() => import("./components/MapGridNav").then((m) => ({ default: m.MapGridNav })));
-const SocialsModal = lazy(() => import("./components/SocialsModal").then((m) => ({ default: m.SocialsModal })));
 
 interface Layout {
   containerSize: number;
@@ -68,7 +66,7 @@ function HomeContent() {
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
-  const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
+  const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement, setBackgroundTinyReady: setContextBackgroundTinyReady } = useNavigation();
   const { statsContent } = useGameStats();
 
   // When navigation is triggered, reset fade-out after animation completes
@@ -110,9 +108,11 @@ function HomeContent() {
         await preload(BACKGROUND_TINY_WEBP);
         if (cancelled) return;
         setBackgroundTinyReady(true); // Mark tiny as ready so content can show
+        setContextBackgroundTinyReady(true); // Also update context for GlassBubble
       } catch {
         // If tiny fails, continue with md/lg pipeline but mark as ready anyway
         setBackgroundTinyReady(true);
+        setContextBackgroundTinyReady(true);
       }
 
       try {
@@ -420,62 +420,52 @@ function HomeContent() {
       {backgroundTinyReady && (
         <>
           <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
-            <Suspense fallback={null}>
-              <MapGridNav
-                isOpen={isMapOpen}
-                currentPosition={displayPosition}
-                onToggle={() => {
-                  setIsSocialsOpen(false);
-                  setIsMapOpen((prev) => !prev);
-                }}
-                onClose={() => setIsMapOpen(false)}
-                onSelectCell={jumpToCell}
-              />
-            </Suspense>
-
-            {/* Home button */}
-            <button
-              onClick={goHome}
-              className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
-              style={{
-                ...glassStyle,
-                animation: !isHome
-                  ? `homeButtonFadeIn 800ms forwards 800ms`
-                  : `homeButtonFadeOut 400ms forwards`,
-                WebkitAnimation: !isHome
-                  ? `homeButtonFadeIn 800ms forwards 800ms`
-                  : `homeButtonFadeOut 400ms forwards`,
-                opacity: isHome ? 0 : 0, // initial opacity always 0, animation handles fade-in/out
+            <MapGridNav
+              isOpen={isMapOpen}
+              currentPosition={displayPosition}
+              onToggle={() => {
+                setIsSocialsOpen(false);
+                setIsMapOpen((prev) => !prev);
               }}
-              aria-label="Go home"
-            >
-              <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
-              <style>
-                {`
-                  @keyframes homeButtonFadeIn {
-                    from { opacity: 0; }
-                    to   { opacity: 1; }
-                  }
-                  @keyframes homeButtonFadeOut {
-                    from { opacity: 1; }
-                    to   { opacity: 0; }
-                  }
-                `}
-              </style>
-            </button>
+              onClose={() => setIsMapOpen(false)}
+              onSelectCell={jumpToCell}
+            />
+
+            {/* Home button - only render when not on home cell */}
+            {!isHome && (
+              <button
+                onClick={goHome}
+                className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity min-w-[2.5rem] min-h-[2.5rem] lg:min-w-[3rem] lg:min-h-[3rem]"
+                style={{
+                  ...glassStyle,
+                  animation: `homeButtonFadeIn 800ms forwards 800ms`,
+                  WebkitAnimation: `homeButtonFadeIn 800ms forwards 800ms`,
+                  opacity: 0,
+                }}
+                aria-label="Go home"
+              >
+                <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+                <style>
+                  {`
+                    @keyframes homeButtonFadeIn {
+                      from { opacity: 0; }
+                      to   { opacity: 1; }
+                    }
+                  `}
+                </style>
+              </button>
+            )}
           </div>
 
           <div className="fixed top-3 right-3 z-50">
-            <Suspense fallback={null}>
-              <SocialsModal
-                isOpen={isSocialsOpen}
-                onToggle={() => {
-                  setIsMapOpen(false);
-                  setIsSocialsOpen((prev) => !prev);
-                }}
-                onClose={() => setIsSocialsOpen(false)}
-              />
-            </Suspense>
+            <SocialsModal
+              isOpen={isSocialsOpen}
+              onToggle={() => {
+                setIsMapOpen(false);
+                setIsSocialsOpen((prev) => !prev);
+              }}
+              onClose={() => setIsSocialsOpen(false)}
+            />
           </div>
 
           {/* Chevron navigation */}
