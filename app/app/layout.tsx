@@ -5,10 +5,99 @@ import "./globals.css";
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap", // Optimize font loading
+  preload: true, // Preload font for faster rendering
 });
 
 export const metadata: Metadata = {
-  title: "emm.blue",
+  title: "Em McGlone - AI Software Engineer & Former CTO | emm.blue",
+  description: "Em McGlone - AI software engineer and former CTO of jhana.ai (legal tech startup). Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+  keywords: [
+    "Em McGlone",
+    "AI engineer",
+    "machine learning engineer",
+    "ML engineer",
+    "AI software engineer",
+    "artificial intelligence",
+    "machine learning",
+    "deep learning",
+    "NLP engineer",
+    "LLM engineer",
+    "AI/ML engineer",
+    "software engineer",
+    "CTO",
+    "full stack developer",
+    "React",
+    "TypeScript",
+    "Next.js",
+    "Python",
+    "Django",
+    "jhana",
+    "jhana.ai",
+    "legal tech",
+    "legal AI",
+    "AI startup",
+    "startup",
+    "software engineering jobs",
+    "AI jobs Europe",
+    "ML jobs Europe",
+    "Europe software engineer",
+    "technical lead",
+    "engineering manager",
+    "portfolio",
+    "web developer",
+    "frontend developer",
+    "backend developer",
+    "data science",
+    "neural networks",
+    "computer vision",
+    "natural language processing",
+  ],
+  authors: [{ name: "Em McGlone", url: "https://emm.blue" }],
+  creator: "Em McGlone",
+  publisher: "Em McGlone",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://emm.blue",
+    siteName: "emm.blue",
+    title: "Em McGlone - AI Software Engineer & Former CTO",
+    description: "AI software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+    images: [
+      {
+        url: "/darkmatter-md.webp",
+        width: 1200,
+        height: 630,
+        alt: "Em McGlone Portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Em McGlone - AI Software Engineer & Former CTO",
+    description: "AI software engineer and former CTO of jhana.ai. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+    images: ["/darkmatter-md.webp"],
+  },
+  alternates: {
+    canonical: "https://emm.blue",
+  },
+  other: {
+    "contact:email": "emdmcglone@gmail.com",
+    "profile:first_name": "Em",
+    "profile:last_name": "McGlone",
+    "profile:username": "emdmcglone",
+  },
   icons: {
     icon: "/mFavicon-small.png",
   },
@@ -21,6 +110,82 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preconnect to external domains to reduce connection time */}
+        <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://api.iconify.design" />
+        {/* Preconnect to Google Fonts (if not already optimized by Next.js) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Preload LCP image for immediate discovery */}
+        <link
+          rel="preload"
+          href="/darkmatter-tiny.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/darkmatter-md.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/darkmatter-lg.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Em McGlone",
+              url: "https://emm.blue",
+              email: "emdmcglone@gmail.com",
+              jobTitle: "AI Software Engineer",
+              alumniOf: {
+                "@type": "Organization",
+                name: "jhana.ai",
+              },
+              knowsAbout: [
+                "Artificial Intelligence",
+                "Machine Learning",
+                "Deep Learning",
+                "Natural Language Processing",
+                "Large Language Models",
+                "LLM",
+                "AI/ML Engineering",
+                "Legal AI",
+                "Legal Technology",
+                "Software Engineering",
+                "Full Stack Development",
+                "React",
+                "TypeScript",
+                "Next.js",
+                "Python",
+                "Django",
+                "Data Science",
+                "Neural Networks",
+                "Computer Science",
+                "Physics",
+                "Startup Leadership",
+              ],
+              sameAs: [
+                "https://www.linkedin.com/in/em-mcglone/",
+                "https://github.com/mdmcglone",
+              ],
+              description:
+                "AI software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+            }),
+          }}
+        />
+      </head>
       <body className={geistMono.variable}>{children}</body>
     </html>
   );

@@ -6,12 +6,20 @@ interface ProgressiveImageProps
   extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> {
   basePath: string;
   fallbackSrc: string;
+  sizes?: string; // e.g., "(max-width: 768px) 100vw, 400px"
 }
 
-function chooseTargetSrc(basePath: string): string {
-  const dpr = window.devicePixelRatio || 1;
-  const effectiveWidth = window.innerWidth * dpr;
-  return effectiveWidth >= 1400 ? `${basePath}-lg.webp` : `${basePath}-md.webp`;
+// Build srcset with all available image sizes
+function buildSrcSet(basePath: string, fallbackSrc: string): string {
+  // Estimated widths based on typical image sizes
+  // Adjust these if your actual image dimensions differ
+  const srcset = [
+    `${basePath}-tiny.webp 200w`,
+    `${basePath}-md.webp 720w`,
+    `${basePath}-lg.webp 1400w`,
+    `${fallbackSrc} 1400w`, // Fallback as last option
+  ];
+  return srcset.join(", ");
 }
 
 export function ProgressiveImage({
@@ -21,6 +29,7 @@ export function ProgressiveImage({
   decoding = "async",
   className,
   style,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px",
   ...imgProps
 }: ProgressiveImageProps) {
   const containerRef = useRef<HTMLSpanElement | null>(null);
@@ -29,6 +38,7 @@ export function ProgressiveImage({
   const fadeTimeoutRef = useRef<number | null>(null);
   const loadRunRef = useRef(0);
   const tinySrc = `${basePath}-tiny.webp`;
+  const srcSet = buildSrcSet(basePath, fallbackSrc);
   const [highSrc, setHighSrc] = useState<string | null>(null);
   const [isHighReady, setIsHighReady] = useState(false);
   const [showTiny, setShowTiny] = useState(true);
@@ -89,13 +99,15 @@ export function ProgressiveImage({
       hasStartedRef.current = true;
       const currentRun = loadRunRef.current;
       setIsHighReady(false);
-      const target = chooseTargetSrc(basePath);
+      // With srcset, browser will choose the appropriate image
+      // We'll use the md version as the initial src for browser selection
+      const initialSrc = `${basePath}-md.webp`;
 
       (async () => {
-        const targetReady = await preloadAndDecode(target);
+        const targetReady = await preloadAndDecode(initialSrc);
         if (loadRunRef.current !== currentRun) return;
         if (targetReady) {
-          setHighSrc(target);
+          setHighSrc(initialSrc);
           setIsHighReady(true);
           return;
         }
@@ -164,6 +176,8 @@ export function ProgressiveImage({
       {highSrc ? (
         <img
           src={highSrc}
+          srcSet={srcSet}
+          sizes={sizes}
           loading={loading}
           decoding={decoding}
           className={className}
