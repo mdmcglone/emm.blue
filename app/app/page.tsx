@@ -61,6 +61,7 @@ function HomeContent() {
   const backgroundDimensionsRef = useRef<{ width: number; height: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [loadingComplete, setLoadingComplete] = useState(false);
+  const [backgroundTinyReady, setBackgroundTinyReady] = useState(false);
   const [backgroundMdReady, setBackgroundMdReady] = useState(false);
   const [backgroundLgReady, setBackgroundLgReady] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
@@ -108,8 +109,10 @@ function HomeContent() {
       try {
         await preload(BACKGROUND_TINY_WEBP);
         if (cancelled) return;
+        setBackgroundTinyReady(true); // Mark tiny as ready so content can show
       } catch {
-        // If tiny fails, continue with md/lg pipeline.
+        // If tiny fails, continue with md/lg pipeline but mark as ready anyway
+        setBackgroundTinyReady(true);
       }
 
       try {
@@ -404,7 +407,8 @@ function HomeContent() {
       />
 
       {/* Current cell content - fixed to viewport center */}
-      {currentCell && (
+      {/* Only show content after background tiny is ready to prevent black background flash */}
+      {currentCell && backgroundTinyReady && (
         <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
           <div className="pointer-events-auto">
             {currentCell.content}
@@ -412,76 +416,80 @@ function HomeContent() {
         </div>
       )}
 
-      <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
-        <Suspense fallback={null}>
-          <MapGridNav
-            isOpen={isMapOpen}
-            currentPosition={displayPosition}
-            onToggle={() => {
-              setIsSocialsOpen(false);
-              setIsMapOpen((prev) => !prev);
-            }}
-            onClose={() => setIsMapOpen(false)}
-            onSelectCell={jumpToCell}
+      {/* Only show nav buttons after background is ready */}
+      {backgroundTinyReady && (
+        <>
+          <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
+            <Suspense fallback={null}>
+              <MapGridNav
+                isOpen={isMapOpen}
+                currentPosition={displayPosition}
+                onToggle={() => {
+                  setIsSocialsOpen(false);
+                  setIsMapOpen((prev) => !prev);
+                }}
+                onClose={() => setIsMapOpen(false)}
+                onSelectCell={jumpToCell}
+              />
+            </Suspense>
+
+            {/* Home button */}
+            <button
+              onClick={goHome}
+              className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
+              style={{
+                ...glassStyle,
+                animation: !isHome
+                  ? `homeButtonFadeIn 800ms forwards 800ms`
+                  : `homeButtonFadeOut 400ms forwards`,
+                WebkitAnimation: !isHome
+                  ? `homeButtonFadeIn 800ms forwards 800ms`
+                  : `homeButtonFadeOut 400ms forwards`,
+                opacity: isHome ? 0 : 0, // initial opacity always 0, animation handles fade-in/out
+              }}
+              aria-label="Go home"
+            >
+              <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+              <style>
+                {`
+                  @keyframes homeButtonFadeIn {
+                    from { opacity: 0; }
+                    to   { opacity: 1; }
+                  }
+                  @keyframes homeButtonFadeOut {
+                    from { opacity: 1; }
+                    to   { opacity: 0; }
+                  }
+                `}
+              </style>
+            </button>
+          </div>
+
+          <div className="fixed top-3 right-3 z-50">
+            <Suspense fallback={null}>
+              <SocialsModal
+                isOpen={isSocialsOpen}
+                onToggle={() => {
+                  setIsMapOpen(false);
+                  setIsSocialsOpen((prev) => !prev);
+                }}
+                onClose={() => setIsSocialsOpen(false)}
+              />
+            </Suspense>
+          </div>
+
+          {/* Chevron navigation */}
+          <ChevronNav
+            canGoUp={canGoUp}
+            canGoDown={canGoDown}
+            canGoLeft={canGoLeft}
+            canGoRight={canGoRight}
+            labels={currentCell?.chevronLabels}
+            onMove={move}
+            statsContent={statsContent}
           />
-        </Suspense>
-
-        {/* Home button */}
-        <button
-          onClick={goHome}
-          className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity"
-          style={{
-            ...glassStyle,
-            animation: !isHome
-              ? `homeButtonFadeIn 800ms forwards 800ms`
-              : `homeButtonFadeOut 400ms forwards`,
-            WebkitAnimation: !isHome
-              ? `homeButtonFadeIn 800ms forwards 800ms`
-              : `homeButtonFadeOut 400ms forwards`,
-            opacity: isHome ? 0 : 0, // initial opacity always 0, animation handles fade-in/out
-          }}
-          aria-label="Go home"
-        >
-          <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
-          <style>
-            {`
-              @keyframes homeButtonFadeIn {
-                from { opacity: 0; }
-                to   { opacity: 1; }
-              }
-              @keyframes homeButtonFadeOut {
-                from { opacity: 1; }
-                to   { opacity: 0; }
-              }
-            `}
-          </style>
-        </button>
-      </div>
-
-      <div className="fixed top-3 right-3 z-50">
-        <Suspense fallback={null}>
-          <SocialsModal
-            isOpen={isSocialsOpen}
-            onToggle={() => {
-              setIsMapOpen(false);
-              setIsSocialsOpen((prev) => !prev);
-            }}
-            onClose={() => setIsSocialsOpen(false)}
-          />
-        </Suspense>
-      </div>
-
-
-      {/* Chevron navigation */}
-      <ChevronNav
-        canGoUp={canGoUp}
-        canGoDown={canGoDown}
-        canGoLeft={canGoLeft}
-        canGoRight={canGoRight}
-        labels={currentCell?.chevronLabels}
-        onMove={move}
-        statsContent={statsContent}
-      />
+        </>
+      )}
     </div>
   );
 }

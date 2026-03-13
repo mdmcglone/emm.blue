@@ -36,12 +36,13 @@ export function ProgressiveImage({
 }: ProgressiveImageProps) {
   const containerRef = useRef<HTMLSpanElement | null>(null);
   const tinyImgRef = useRef<HTMLImageElement | null>(null);
+  const highImgRef = useRef<HTMLImageElement | null>(null);
   const hasStartedRef = useRef(false);
   const fadeTimeoutRef = useRef<number | null>(null);
   const loadRunRef = useRef(0);
   const tinySrc = `${basePath}-tiny.webp`;
   const srcSet = buildSrcSet(basePath, fallbackSrc);
-  const [highSrc, setHighSrc] = useState<string | null>(null);
+  const [shouldLoadHigh, setShouldLoadHigh] = useState(false);
   const [isHighReady, setIsHighReady] = useState(false);
   const [showTiny, setShowTiny] = useState(true);
   const [tinyOpacity, setTinyOpacity] = useState(1);
@@ -52,7 +53,7 @@ export function ProgressiveImage({
       window.clearTimeout(fadeTimeoutRef.current);
       fadeTimeoutRef.current = null;
     }
-    setHighSrc(null);
+    setShouldLoadHigh(false);
     setIsHighReady(false);
     setShowTiny(true);
     setTinyOpacity(1);
@@ -99,29 +100,8 @@ export function ProgressiveImage({
     const startLoad = () => {
       if (hasStartedRef.current) return;
       hasStartedRef.current = true;
-      const currentRun = loadRunRef.current;
-      setIsHighReady(false);
-      // With srcset, browser will choose the appropriate image based on sizes
-      // We set src to the smallest option as a fallback, browser will use srcSet for actual selection
-      // This ensures browser chooses from srcSet rather than downloading a specific size
-      const fallbackSrcForSrc = `${basePath}-tiny.webp`;
-
-      (async () => {
-        // Preload tiny as fallback, but let browser choose from srcSet
-        const fallbackReady = await preloadAndDecode(fallbackSrcForSrc);
-        if (loadRunRef.current !== currentRun) return;
-        if (fallbackReady) {
-          // Set to tiny as src fallback, browser will use srcSet for actual image
-          setHighSrc(fallbackSrcForSrc);
-          setIsHighReady(true);
-          return;
-        }
-        // If tiny fails, try the actual fallback
-        const actualFallbackReady = await preloadAndDecode(fallbackSrc);
-        if (loadRunRef.current !== currentRun) return;
-        setHighSrc(actualFallbackReady ? fallbackSrc : fallbackSrcForSrc);
-        setIsHighReady(actualFallbackReady);
-      })();
+      // Start loading high-res image - browser will choose from srcSet
+      setShouldLoadHigh(true);
     };
 
     // Always let tiny placeholder resolve first, so high-res images never win the race to first paint.
@@ -174,11 +154,12 @@ export function ProgressiveImage({
       ref={containerRef}
       style={{ position: "relative", display: "block", width: "100%", height: "100%" }}
     >
-      {highSrc ? (
+      {shouldLoadHigh ? (
         <img
-          src={highSrc}
+          ref={highImgRef}
           srcSet={srcSet}
           sizes={sizes}
+          src={fallbackSrc}
           loading={loading}
           decoding={decoding}
           fetchPriority={fetchPriority}
@@ -189,14 +170,19 @@ export function ProgressiveImage({
             display: "block",
             width: "100%",
             height: "100%",
-            opacity: 1,
+            opacity: isHighReady ? 1 : 0,
+            transition: isHighReady ? "opacity 260ms ease" : "none",
             zIndex: 1,
             ...style,
           }}
+          onLoad={() => {
+            setIsHighReady(true);
+          }}
           onError={(event) => {
-            if (highSrc !== fallbackSrc) {
-              setIsHighReady(false);
-              setHighSrc(fallbackSrc);
+            // If srcset fails, fallback to jpeg
+            if (event.currentTarget.srcset) {
+              event.currentTarget.srcset = "";
+              event.currentTarget.src = fallbackSrc;
               return;
             }
             event.currentTarget.onerror = null;
