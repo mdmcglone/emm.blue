@@ -114,64 +114,26 @@ export default function RootLayout({
         {/* Preconnect to external domains to reduce connection time */}
         <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.iconify.design" />
-        {/* Preconnect to Google Fonts (if not already optimized by Next.js) */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* Preload LCP image for immediate discovery */}
+        {/* Preload LCP image (background) - tiny version only, browser will choose larger sizes via srcset */}
         <link
           rel="preload"
           href="/darkmatter-tiny.webp"
           as="image"
           fetchPriority="high"
         />
-        <link
-          rel="preload"
-          href="/darkmatter-md.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/darkmatter-lg.webp"
-          as="image"
-          fetchPriority="high"
-        />
         
-        {/* Preload Cell_2_2 images for LCP optimization */}
-        <link
-          rel="preload"
-          href="/photos/chair-tiny.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/chair-md.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/chair-lg.webp"
-          as="image"
-          fetchPriority="high"
-        />
+        {/* Preload LCP content image (binocularts and chair) - tiny version only for initial load */}
         <link
           rel="preload"
           href="/photos/binocularts-tiny.webp"
           as="image"
           fetchPriority="high"
         />
+
         <link
           rel="preload"
-          href="/photos/binocularts-md.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/binocularts-lg.webp"
+          href="/photos/chair-tiny.webp"
           as="image"
           fetchPriority="high"
         />

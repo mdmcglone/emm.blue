@@ -30,7 +30,7 @@ export function ProgressiveImage({
   decoding = "async",
   className,
   style,
-  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px",
+  sizes = "(max-width: 768px) 200px, (max-width: 1200px) 200px, 200px",
   fetchPriority,
   ...imgProps
 }: ProgressiveImageProps) {
@@ -101,27 +101,26 @@ export function ProgressiveImage({
       hasStartedRef.current = true;
       const currentRun = loadRunRef.current;
       setIsHighReady(false);
-      // With srcset, browser will choose the appropriate image
-      // We'll use the md version as the initial src for browser selection
-      const initialSrc = `${basePath}-md.webp`;
+      // With srcset, browser will choose the appropriate image based on sizes
+      // We set src to the smallest option as a fallback, browser will use srcSet for actual selection
+      // This ensures browser chooses from srcSet rather than downloading a specific size
+      const fallbackSrcForSrc = `${basePath}-tiny.webp`;
 
       (async () => {
-        const targetReady = await preloadAndDecode(initialSrc);
-        if (loadRunRef.current !== currentRun) return;
-        if (targetReady) {
-          setHighSrc(initialSrc);
-          setIsHighReady(true);
-          return;
-        }
-        const fallbackReady = await preloadAndDecode(fallbackSrc);
+        // Preload tiny as fallback, but let browser choose from srcSet
+        const fallbackReady = await preloadAndDecode(fallbackSrcForSrc);
         if (loadRunRef.current !== currentRun) return;
         if (fallbackReady) {
-          setHighSrc(fallbackSrc);
+          // Set to tiny as src fallback, browser will use srcSet for actual image
+          setHighSrc(fallbackSrcForSrc);
           setIsHighReady(true);
           return;
         }
-        setHighSrc(fallbackSrc);
-        setIsHighReady(false);
+        // If tiny fails, try the actual fallback
+        const actualFallbackReady = await preloadAndDecode(fallbackSrc);
+        if (loadRunRef.current !== currentRun) return;
+        setHighSrc(actualFallbackReady ? fallbackSrc : fallbackSrcForSrc);
+        setIsHighReady(actualFallbackReady);
       })();
     };
 

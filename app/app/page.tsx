@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from "react";
 import { Icon } from "@iconify/react";
 import { GRID_SIZE, getCell } from "./cells";
 import { CellConfig } from "./cells/types";
 import { ChevronNav } from "./components/ChevronNav";
 import { glassStyle } from "./components/GlassBubble";
 import { NavigationProvider, useNavigation } from "./components/NavigationContext";
-import { MapGridNav } from "./components/MapGridNav";
-import { SocialsModal } from "./components/SocialsModal";
 import { GameStatsProvider, useGameStats } from "./components/GameStatsContext";
+
+// Lazy load modals that are only shown conditionally
+const MapGridNav = lazy(() => import("./components/MapGridNav").then((m) => ({ default: m.MapGridNav })));
+const SocialsModal = lazy(() => import("./components/SocialsModal").then((m) => ({ default: m.SocialsModal })));
 
 interface Layout {
   containerSize: number;
@@ -206,23 +208,46 @@ function HomeContent() {
     setLayout({ containerSize, mapWidth, mapHeight, viewportWidth: vw, viewportHeight: vh, maxPanX, maxPanY });
   };
 
+  // Preload neighboring cells
+  const preloadNeighbors = useCallback((x: number, y: number) => {
+    const neighbors = [
+      { x: x, y: y - 1 }, // Up
+      { x: x, y: y + 1 }, // Down
+      { x: x - 1, y: y }, // Left
+      { x: x + 1, y: y }, // Right
+    ];
+
+    neighbors.forEach(({ x: nx, y: ny }) => {
+      if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
+        // Preload in background, don't await
+        getCell(nx, ny).catch(() => {
+          // Ignore errors, cell will load when needed
+        });
+      }
+    });
+  }, []);
+
   // Load cell asynchronously when displayPosition changes
   useEffect(() => {
     const loadCell = async () => {
       const cell = await getCell(displayPosition.x, displayPosition.y);
       setCurrentCell(cell);
+      // Preload neighbors after current cell loads
+      preloadNeighbors(displayPosition.x, displayPosition.y);
     };
     loadCell();
-  }, [displayPosition.x, displayPosition.y]);
+  }, [displayPosition.x, displayPosition.y, preloadNeighbors]);
 
   // Load initial cell
   useEffect(() => {
     const loadInitialCell = async () => {
       const cell = await getCell(HOME_INDEX, HOME_INDEX);
       setCurrentCell(cell);
+      // Preload neighbors after initial cell loads
+      preloadNeighbors(HOME_INDEX, HOME_INDEX);
     };
     loadInitialCell();
-  }, []);
+  }, [preloadNeighbors]);
 
   const canGoUp = displayPosition.y > 0;
   const canGoDown = displayPosition.y < GRID_SIZE - 1;
@@ -388,16 +413,18 @@ function HomeContent() {
       )}
 
       <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
-        <MapGridNav
-          isOpen={isMapOpen}
-          currentPosition={displayPosition}
-          onToggle={() => {
-            setIsSocialsOpen(false);
-            setIsMapOpen((prev) => !prev);
-          }}
-          onClose={() => setIsMapOpen(false)}
-          onSelectCell={jumpToCell}
-        />
+        <Suspense fallback={null}>
+          <MapGridNav
+            isOpen={isMapOpen}
+            currentPosition={displayPosition}
+            onToggle={() => {
+              setIsSocialsOpen(false);
+              setIsMapOpen((prev) => !prev);
+            }}
+            onClose={() => setIsMapOpen(false)}
+            onSelectCell={jumpToCell}
+          />
+        </Suspense>
 
         {/* Home button */}
         <button
@@ -432,14 +459,16 @@ function HomeContent() {
       </div>
 
       <div className="fixed top-3 right-3 z-50">
-        <SocialsModal
-          isOpen={isSocialsOpen}
-          onToggle={() => {
-            setIsMapOpen(false);
-            setIsSocialsOpen((prev) => !prev);
-          }}
-          onClose={() => setIsSocialsOpen(false)}
-        />
+        <Suspense fallback={null}>
+          <SocialsModal
+            isOpen={isSocialsOpen}
+            onToggle={() => {
+              setIsMapOpen(false);
+              setIsSocialsOpen((prev) => !prev);
+            }}
+            onClose={() => setIsSocialsOpen(false)}
+          />
+        </Suspense>
       </div>
 
 
