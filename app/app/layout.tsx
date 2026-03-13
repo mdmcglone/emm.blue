@@ -138,6 +138,44 @@ export default function RootLayout({
           fetchPriority="high"
         />
         
+        {/* Preload Cell_2_2 images for LCP optimization */}
+        <link
+          rel="preload"
+          href="/photos/chair-tiny.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/chair-md.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/chair-lg.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/binocularts-tiny.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/binocularts-md.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/binocularts-lg.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        
         {/* Structured Data for SEO */}
         <script
           type="application/ld+json"

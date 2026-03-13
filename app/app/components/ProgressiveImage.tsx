@@ -7,6 +7,7 @@ interface ProgressiveImageProps
   basePath: string;
   fallbackSrc: string;
   sizes?: string; // e.g., "(max-width: 768px) 100vw, 400px"
+  fetchPriority?: "high" | "low" | "auto";
 }
 
 // Build srcset with all available image sizes
@@ -30,6 +31,7 @@ export function ProgressiveImage({
   className,
   style,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 400px",
+  fetchPriority,
   ...imgProps
 }: ProgressiveImageProps) {
   const containerRef = useRef<HTMLSpanElement | null>(null);
@@ -180,6 +182,7 @@ export function ProgressiveImage({
           sizes={sizes}
           loading={loading}
           decoding={decoding}
+          fetchPriority={fetchPriority}
           className={className}
           style={{
             position: "absolute",
@@ -208,6 +211,7 @@ export function ProgressiveImage({
           src={tinySrc}
           loading={loading}
           decoding={decoding}
+          fetchPriority={fetchPriority}
           className={className}
           style={{
             position: "absolute",

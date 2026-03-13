@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
-import { GRID_SIZE, cellGrid } from "../cells";
+import { GRID_SIZE, getCell } from "../cells";
 import { glassStyle } from "./GlassBubble";
 
 type Position = { x: number; y: number };
@@ -22,20 +22,25 @@ const DIRECTION_DELTAS: Record<"up" | "down" | "left" | "right", { dx: number; d
   right: { dx: 1, dy: 0 },
 };
 
-function deriveCellTitles(): string[][] {
+async function deriveCellTitles(): Promise<string[][]> {
   const titles = Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => ""));
 
   for (let y = 0; y < GRID_SIZE; y += 1) {
     for (let x = 0; x < GRID_SIZE; x += 1) {
-      const labels = cellGrid[y][x]?.chevronLabels;
-      if (!labels) continue;
-      for (const direction of Object.keys(DIRECTION_DELTAS) as Array<keyof typeof DIRECTION_DELTAS>) {
-        const label = labels[direction];
-        if (!label) continue;
-        const nextX = x + DIRECTION_DELTAS[direction].dx;
-        const nextY = y + DIRECTION_DELTAS[direction].dy;
-        if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) continue;
-        if (!titles[nextY][nextX]) titles[nextY][nextX] = label;
+      try {
+        const cell = await getCell(x, y);
+        const labels = cell?.chevronLabels;
+        if (!labels) continue;
+        for (const direction of Object.keys(DIRECTION_DELTAS) as Array<keyof typeof DIRECTION_DELTAS>) {
+          const label = labels[direction];
+          if (!label) continue;
+          const nextX = x + DIRECTION_DELTAS[direction].dx;
+          const nextY = y + DIRECTION_DELTAS[direction].dy;
+          if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) continue;
+          if (!titles[nextY][nextX]) titles[nextY][nextX] = label;
+        }
+      } catch {
+        // Skip if cell fails to load
       }
     }
   }
@@ -46,7 +51,15 @@ function deriveCellTitles(): string[][] {
 
 export function MapGridNav({ isOpen, currentPosition, onToggle, onClose, onSelectCell }: MapGridNavProps) {
   const [hoveredCellKey, setHoveredCellKey] = useState<string | null>(null);
-  const titles = useMemo(() => deriveCellTitles(), []);
+  const [titles, setTitles] = useState<string[][]>(() => 
+    Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => ""))
+  );
+
+  useEffect(() => {
+    if (isOpen) {
+      deriveCellTitles().then(setTitles);
+    }
+  }, [isOpen]);
 
   return (
     <>

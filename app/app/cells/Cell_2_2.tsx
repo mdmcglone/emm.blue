@@ -43,6 +43,7 @@ export const Cell_2_2: CellConfig = {
                 alt="Relaxing in a chair with coffee"
                 className="w-full h-full object-cover rounded-[20px]"
                 loading="eager"
+                fetchPriority="high"
               />
             </GlassBubble>
 
@@ -58,6 +59,7 @@ export const Cell_2_2: CellConfig = {
                 alt="Looking through binoculars"
                 className="w-full h-full object-cover rounded-[20px]"
                 loading="eager"
+                fetchPriority="high"
               />
             </GlassBubble>
           </div>
@@ -75,6 +77,7 @@ export const Cell_2_2: CellConfig = {
               alt="Relaxing in a chair with coffee"
               className="w-full h-full object-cover rounded-[20px]"
               loading="eager"
+              fetchPriority="high"
             />
           </GlassBubble>
 
@@ -91,6 +94,7 @@ export const Cell_2_2: CellConfig = {
               alt="Looking through binoculars"
               className="w-full h-full object-cover rounded-[20px]"
               loading="eager"
+              fetchPriority="high"
             />
           </GlassBubble>
         </div>

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { GRID_SIZE, getCell } from "./cells";
+import { CellConfig } from "./cells/types";
 import { ChevronNav } from "./components/ChevronNav";
 import { glassStyle } from "./components/GlassBubble";
 import { NavigationProvider, useNavigation } from "./components/NavigationContext";
@@ -63,6 +64,7 @@ function HomeContent() {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement } = useNavigation();
   const { statsContent } = useGameStats();
 
@@ -204,12 +206,28 @@ function HomeContent() {
     setLayout({ containerSize, mapWidth, mapHeight, viewportWidth: vw, viewportHeight: vh, maxPanX, maxPanY });
   };
 
+  // Load cell asynchronously when displayPosition changes
+  useEffect(() => {
+    const loadCell = async () => {
+      const cell = await getCell(displayPosition.x, displayPosition.y);
+      setCurrentCell(cell);
+    };
+    loadCell();
+  }, [displayPosition.x, displayPosition.y]);
+
+  // Load initial cell
+  useEffect(() => {
+    const loadInitialCell = async () => {
+      const cell = await getCell(HOME_INDEX, HOME_INDEX);
+      setCurrentCell(cell);
+    };
+    loadInitialCell();
+  }, []);
+
   const canGoUp = displayPosition.y > 0;
   const canGoDown = displayPosition.y < GRID_SIZE - 1;
   const canGoLeft = displayPosition.x > 0 && !(isMobile && displayPosition.x === 4 && displayPosition.y === 4);
   const canGoRight = displayPosition.x < GRID_SIZE - 1;
-
-  const currentCell = getCell(displayPosition.x, displayPosition.y);
 
   const move = useCallback((dx: number, dy: number) => {
     setIsMapOpen(false);
@@ -361,11 +379,13 @@ function HomeContent() {
       />
 
       {/* Current cell content - fixed to viewport center */}
-      <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
-        <div className="pointer-events-auto">
-          {currentCell.content}
+      {currentCell && (
+        <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
+          <div className="pointer-events-auto">
+            {currentCell.content}
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
         <MapGridNav
@@ -429,7 +449,7 @@ function HomeContent() {
         canGoDown={canGoDown}
         canGoLeft={canGoLeft}
         canGoRight={canGoRight}
-        labels={currentCell.chevronLabels}
+        labels={currentCell?.chevronLabels}
         onMove={move}
         statsContent={statsContent}
       />
