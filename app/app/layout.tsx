@@ -115,18 +115,48 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.iconify.design" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.iconify.design" />
         
-        {/* Preload LCP image (background) - tiny version only, browser will choose larger sizes via srcset */}
+        {/* Preload LCP image (background) - tiny, medium, and large versions for progressive enhancement */}
         <link
           rel="preload"
           href="/darkmatter-tiny.webp"
           as="image"
           fetchPriority="high"
         />
+        <link
+          rel="preload"
+          href="/darkmatter-md.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/darkmatter-lg.webp"
+          as="image"
+          fetchPriority="high"
+        />
         
-        {/* Preload LCP content image (binocularts and chair) - tiny version only for initial load */}
+        {/* Preload LCP content images (binocularts and chair) - all sizes for progressive enhancement */}
         <link
           rel="preload"
           href="/photos/binocularts-tiny.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/binocularts-md.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/binocularts-lg.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/binocularts.jpeg"
           as="image"
           fetchPriority="high"
         />
@@ -134,6 +164,24 @@ export default function RootLayout({
         <link
           rel="preload"
           href="/photos/chair-tiny.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/chair-md.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/chair-lg.webp"
+          as="image"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          href="/photos/chair.jpeg"
           as="image"
           fetchPriority="high"
         />
@@ -179,6 +227,11 @@ export default function RootLayout({
               sameAs: [
                 "https://www.linkedin.com/in/em-mcglone/",
                 "https://github.com/mdmcglone",
+              ],
+              image: [
+                "https://emm.blue/darkmatter-md.webp",
+                "https://emm.blue/photos/chair-md.webp",
+                "https://emm.blue/photos/binocularts-md.webp",
               ],
               description:
                 "AI software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",

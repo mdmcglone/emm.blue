@@ -78,4 +78,5 @@ export const Cell_3_2: CellConfig = {
     up: "Italiano",
     right: "Family"
   },
+  imagePaths: ["/photos/fam"],
 };

@@ -66,4 +66,5 @@ export const Cell_2_1: CellConfig = {
     right:"Italiano",
     left:"Coding"
   },
+  imagePaths: ["/photos/0D5FA583-"],
 };

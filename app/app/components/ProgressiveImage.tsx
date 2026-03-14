@@ -1,6 +1,7 @@
 "use client";
 
 import { ImgHTMLAttributes, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { isImagePrefetched, isImageCached, isImageLoaded, getPreloadedImage } from "../utils/imageCache";
 
 interface ProgressiveImageProps
   extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet"> {
@@ -41,12 +42,14 @@ export function ProgressiveImage({
   const fadeTimeoutRef = useRef<number | null>(null);
   const loadRunRef = useRef(0);
   const tinySrc = `${basePath}-tiny.webp`;
+  const mdSrc = `${basePath}-md.webp`;
   const srcSet = buildSrcSet(basePath, fallbackSrc);
   const [shouldLoadHigh, setShouldLoadHigh] = useState(false);
   const [isHighReady, setIsHighReady] = useState(false);
   const [showTiny, setShowTiny] = useState(true);
   const [tinyOpacity, setTinyOpacity] = useState(1);
   const [isTinyLoaded, setIsTinyLoaded] = useState(false);
+  const [skipTinyPlaceholder, setSkipTinyPlaceholder] = useState(false);
 
   useLayoutEffect(() => {
     if (fadeTimeoutRef.current) {
@@ -58,9 +61,45 @@ export function ProgressiveImage({
     setShowTiny(true);
     setTinyOpacity(1);
     setIsTinyLoaded(false);
+    setSkipTinyPlaceholder(false);
     hasStartedRef.current = false;
     loadRunRef.current += 1;
-  }, [basePath]);
+    
+    // Check if images are already loaded into memory or cached
+    const checkCache = async () => {
+      const tinyLoaded = isImageLoaded(tinySrc);
+      const mdLoaded = isImageLoaded(mdSrc);
+      const tinyPrefetched = isImagePrefetched(tinySrc);
+      const mdPrefetched = isImagePrefetched(mdSrc);
+      
+      // If images are already loaded into memory, skip tiny placeholder
+      if (mdLoaded || (tinyLoaded && mdPrefetched)) {
+        setSkipTinyPlaceholder(true);
+        setShowTiny(false);
+        setIsTinyLoaded(true);
+        setShouldLoadHigh(true);
+        // If md is already loaded, mark as ready immediately
+        if (mdLoaded) {
+          setIsHighReady(true);
+        }
+        return;
+      }
+      
+      // Fallback: check if cached (but not yet loaded into memory)
+      const tinyCached = await isImageCached(tinySrc);
+      const mdCached = await isImageCached(mdSrc);
+      
+      // If md version is cached/prefetched, skip tiny placeholder and load high-res directly
+      if (mdPrefetched || mdCached || (tinyPrefetched && tinyCached)) {
+        setSkipTinyPlaceholder(true);
+        setShowTiny(false);
+        setIsTinyLoaded(true);
+        setShouldLoadHigh(true);
+      }
+    };
+    
+    checkCache();
+  }, [basePath, tinySrc, mdSrc]);
 
   useEffect(() => {
     if (isTinyLoaded) return;
@@ -104,8 +143,8 @@ export function ProgressiveImage({
       setShouldLoadHigh(true);
     };
 
-    // Always let tiny placeholder resolve first, so high-res images never win the race to first paint.
-    if (!isTinyLoaded) return;
+    // Skip tiny placeholder if images are already cached
+    if (!isTinyLoaded && !skipTinyPlaceholder) return;
 
     if (loading === "eager") {
       startLoad();
@@ -132,6 +171,31 @@ export function ProgressiveImage({
     observer.observe(node);
     return () => observer.disconnect();
   }, [basePath, fallbackSrc, isTinyLoaded, loading]);
+
+  // Check if high-res image is already loaded when component mounts
+  useEffect(() => {
+    if (!shouldLoadHigh) return;
+    
+    // If md image is already loaded into memory, mark as ready immediately
+    const preloadedMd = getPreloadedImage(mdSrc);
+    if (preloadedMd && preloadedMd.complete && preloadedMd.naturalWidth > 0) {
+      setIsHighReady(true);
+      return;
+    }
+    
+    // Also check the high-res img element once it's mounted
+    const checkHighImg = () => {
+      const highImg = highImgRef.current;
+      if (highImg && highImg.complete && highImg.naturalWidth > 0) {
+        setIsHighReady(true);
+      }
+    };
+    
+    // Check immediately and after a short delay
+    checkHighImg();
+    const timeout = setTimeout(checkHighImg, 10);
+    return () => clearTimeout(timeout);
+  }, [shouldLoadHigh, mdSrc]);
 
   useEffect(() => {
     if (!isHighReady || !showTiny) return;

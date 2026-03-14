@@ -107,4 +107,5 @@ export const Cell_2_2: CellConfig = {
     left: "Work",
     right: "Me",
   },
+  imagePaths: ["/photos/chair", "/photos/binocularts"],
 };

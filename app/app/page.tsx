@@ -36,6 +36,8 @@ const BACKGROUND_MD_WEBP = "/darkmatter-md.webp";
 const BACKGROUND_LG_WEBP = "/darkmatter-lg.webp";
 const BACKGROUND_JPG = "/darkmatter.jpg";
 
+import { prefetchCellImages } from "./utils/imageCache";
+
 function getPanMetrics(layout: Layout): PanMetrics {
   const { viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
   const totalIntervals = GRID_SIZE - 1;
@@ -211,7 +213,7 @@ function HomeContent() {
     setLayout({ containerSize, mapWidth, mapHeight, viewportWidth: vw, viewportHeight: vh, maxPanX, maxPanY });
   };
 
-  // Preload neighboring cells
+  // Preload neighboring cells and prefetch their images
   const preloadNeighbors = useCallback((x: number, y: number) => {
     const neighbors = [
       { x: x, y: y - 1 }, // Up
@@ -222,10 +224,17 @@ function HomeContent() {
 
     neighbors.forEach(({ x: nx, y: ny }) => {
       if (nx >= 0 && nx < GRID_SIZE && ny >= 0 && ny < GRID_SIZE) {
-        // Preload in background, don't await
-        getCell(nx, ny).catch(() => {
-          // Ignore errors, cell will load when needed
-        });
+        // Preload cell config in background, don't await
+        getCell(nx, ny)
+          .then((cell) => {
+            // Once cell loads, prefetch its images
+            if (cell.imagePaths && cell.imagePaths.length > 0) {
+              prefetchCellImages(cell.imagePaths);
+            }
+          })
+          .catch(() => {
+            // Ignore errors, cell will load when needed
+          });
       }
     });
   }, []);

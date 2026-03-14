@@ -73,4 +73,5 @@ export const Cell_3_3: CellConfig = {
     left: "Hobbies",
     down:  "Games"
   },
+  imagePaths: ["/photos/outdoorclimbing"],
 };

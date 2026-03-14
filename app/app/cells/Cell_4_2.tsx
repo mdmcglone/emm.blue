@@ -189,4 +189,5 @@ export const Cell_4_2: CellConfig = {
     up: "Travel",
     left: "Me"
   },
+  imagePaths: ["/photos/dad", "/photos/mom", "/photos/vandhana", "/photos/abi"],
 };
