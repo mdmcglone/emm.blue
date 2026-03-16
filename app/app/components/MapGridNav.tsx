@@ -25,40 +25,42 @@ const DIRECTION_DELTAS: Record<"up" | "down" | "left" | "right", { dx: number; d
 // Cache for cell titles to avoid reloading
 const titleCache = new Map<string, string>();
 
-// Load all cell titles in parallel when map opens (optimized version)
+// Load all cell titles in small chunks to avoid a single long task.
 async function deriveCellTitles(): Promise<string[][]> {
   const titles = Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => ""));
 
-  // Load all cells in parallel for better performance
-  const cellPromises: Promise<{ x: number; y: number; cell: Awaited<ReturnType<typeof getCell>> } | null>[] = [];
-  
+  // Process cells row-by-row to keep each batch small.
   for (let y = 0; y < GRID_SIZE; y += 1) {
+    const rowPromises: Promise<{ x: number; y: number; cell: Awaited<ReturnType<typeof getCell>> } | null>[] = [];
+
     for (let x = 0; x < GRID_SIZE; x += 1) {
-      cellPromises.push(
+      rowPromises.push(
         getCell(x, y)
           .then((cell) => ({ x, y, cell }))
           .catch(() => null)
       );
     }
-  }
 
-  const results = await Promise.all(cellPromises);
+    const rowResults = await Promise.all(rowPromises);
 
-  // Process results to derive titles
-  for (const result of results) {
-    if (!result) continue;
-    const { x, y, cell } = result;
-    const labels = cell?.chevronLabels;
-    if (!labels) continue;
-    
-    for (const [direction, { dx, dy }] of Object.entries(DIRECTION_DELTAS)) {
-      const label = labels[direction as keyof typeof DIRECTION_DELTAS];
-      if (!label) continue;
-      const nextX = x + dx;
-      const nextY = y + dy;
-      if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) continue;
-      if (!titles[nextY][nextX]) titles[nextY][nextX] = label;
+    for (const result of rowResults) {
+      if (!result) continue;
+      const { x, y: cellY, cell } = result;
+      const labels = cell?.chevronLabels;
+      if (!labels) continue;
+
+      for (const [direction, { dx, dy }] of Object.entries(DIRECTION_DELTAS)) {
+        const label = labels[direction as keyof typeof DIRECTION_DELTAS];
+        if (!label) continue;
+        const nextX = x + dx;
+        const nextY = cellY + dy;
+        if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) continue;
+        if (!titles[nextY][nextX]) titles[nextY][nextX] = label;
+      }
     }
+
+    // Yield back to the event loop between rows so we don't block the main thread.
+    await new Promise<void>((resolve) => setTimeout(resolve, 0));
   }
 
   titles[2][2] = titles[2][2] || "Home";

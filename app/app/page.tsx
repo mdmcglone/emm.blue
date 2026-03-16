@@ -141,45 +141,74 @@ function HomeContent() {
       updateLayout(img.naturalWidth, img.naturalHeight);
     };
 
+    // Helper to schedule a function in an idle period or next task,
+    // so heavy work doesn't block a single long frame.
+    const scheduleIdle = (fn: () => void) => {
+      if (typeof (window as any).requestIdleCallback === "function") {
+        (window as any).requestIdleCallback(() => {
+          if (!cancelled) fn();
+        });
+      } else {
+        // Fallback: next macrotask
+        setTimeout(() => {
+          if (!cancelled) fn();
+        }, 0);
+      }
+    };
+
     const runBackgroundProgressiveLoad = async () => {
-      // Ensure tiny is requested and resolved before kicking off md/lg preloads.
+      // Step 1: tiny image as fast as possible so content can show.
       try {
         await preload(BACKGROUND_TINY_WEBP);
         if (cancelled) return;
-        setBackgroundTinyReady(true); // Mark tiny as ready so content can show
-        setContextBackgroundTinyReady(true); // Also update context for GlassBubble
+        setBackgroundTinyReady(true);
+        setContextBackgroundTinyReady(true);
       } catch {
         // If tiny fails, continue with md/lg pipeline but mark as ready anyway
         setBackgroundTinyReady(true);
         setContextBackgroundTinyReady(true);
       }
 
-      try {
-        const mdImg = await preload(BACKGROUND_MD_WEBP);
+      // Step 2: medium and large images are scheduled in idle time
+      scheduleIdle(() => {
         if (cancelled) return;
-        setLayoutFromImage(mdImg);
-        setImageLoaded(true);
-        setBackgroundMdReady(true);
 
-        try {
-          const lgImg = await preload(BACKGROUND_LG_WEBP);
-          if (cancelled) return;
-          setLayoutFromImage(lgImg);
-          setBackgroundLgReady(true);
-        } catch {
-          const jpgImg = await preload(BACKGROUND_JPG);
-          if (cancelled) return;
-          setLayoutFromImage(jpgImg);
-          setBackgroundLgReady(true);
-        }
-      } catch {
-        const jpgImg = await preload(BACKGROUND_JPG);
-        if (cancelled) return;
-        setLayoutFromImage(jpgImg);
-        setImageLoaded(true);
-        setBackgroundMdReady(true);
-        setBackgroundLgReady(true);
-      }
+        const loadMdAndLg = async () => {
+          try {
+            const mdImg = await preload(BACKGROUND_MD_WEBP);
+            if (cancelled) return;
+            setLayoutFromImage(mdImg);
+            setImageLoaded(true);
+            setBackgroundMdReady(true);
+
+            // Large variant (or JPG fallback) is lower priority: schedule again.
+            scheduleIdle(async () => {
+              if (cancelled) return;
+              try {
+                const lgImg = await preload(BACKGROUND_LG_WEBP);
+                if (cancelled) return;
+                setLayoutFromImage(lgImg);
+                setBackgroundLgReady(true);
+              } catch {
+                const jpgImg = await preload(BACKGROUND_JPG);
+                if (cancelled) return;
+                setLayoutFromImage(jpgImg);
+                setBackgroundLgReady(true);
+              }
+            });
+          } catch {
+            // If md fails, fall back to JPG, still scheduled away from the tiny load.
+            const jpgImg = await preload(BACKGROUND_JPG);
+            if (cancelled) return;
+            setLayoutFromImage(jpgImg);
+            setImageLoaded(true);
+            setBackgroundMdReady(true);
+            setBackgroundLgReady(true);
+          }
+        };
+
+        loadMdAndLg();
+      });
     };
 
     runBackgroundProgressiveLoad();

@@ -10,8 +10,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Em McGlone - AI Software Engineer & Former CTO | emm.blue",
-  description: "Em McGlone - AI software engineer and former CTO of jhana.ai (legal tech startup). Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+  title: "Em McGlone - Software Engineer & Former CTO | emm.blue",
+  description: "Em McGlone - Software engineer and former CTO of jhana.ai (legal tech startup). Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
   keywords: [
     "Em McGlone",
     "AI engineer",
@@ -72,8 +72,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://emm.blue",
     siteName: "emm.blue",
-    title: "Em McGlone - AI Software Engineer & Former CTO",
-    description: "AI software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+    title: "Em McGlone - Software Engineer & Former CTO",
+    description: "Software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
     images: [
       {
         url: "/darkmatter-md.webp",
@@ -85,8 +85,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Em McGlone - AI Software Engineer & Former CTO",
-    description: "AI software engineer and former CTO of jhana.ai. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+    title: "Em McGlone - Software Engineer & Former CTO",
+    description: "Software engineer and former CTO of jhana.ai. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
     images: ["/darkmatter-md.webp"],
   },
   alternates: {
@@ -148,7 +148,7 @@ export default function RootLayout({
               name: "Em McGlone",
               url: "https://emm.blue",
               email: "emdmcglone@gmail.com",
-              jobTitle: "AI Software Engineer",
+              jobTitle: "Software Engineer",
               alumniOf: {
                 "@type": "Organization",
                 name: "jhana.ai",
@@ -186,7 +186,7 @@ export default function RootLayout({
                 "https://emm.blue/photos/binocularts-md.webp",
               ],
               description:
-                "AI software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
+                "Software engineer and former CTO of jhana.ai. Background in AI/ML, physics, computer science, and full-stack development. Experience building AI-powered legal technology. Seeking AI/ML engineering opportunities in Europe.",
             }),
           }}
         />
