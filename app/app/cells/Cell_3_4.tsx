@@ -45,7 +45,7 @@ export const Cell_3_4: CellConfig = {
               <div><strong>Most Played Multiplayer Game</strong> - Overwatch</div>
               <div><strong>Preferred Battle Royale</strong> - Apex Legends</div>
               <div><strong>Best Party Game</strong> - Super Smash Bros</div>
-              <div><strong>Current Game</strong>: Pokopia</div>
+              <div><strong>Current Game</strong> - Pokopia</div>
             </div>
           </GlassBubble>
         </div>

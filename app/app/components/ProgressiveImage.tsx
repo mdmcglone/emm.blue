@@ -12,14 +12,13 @@ interface ProgressiveImageProps
 }
 
 // Build srcset with all available image sizes
+// Width descriptors should match actual image file dimensions
 function buildSrcSet(basePath: string, fallbackSrc: string): string {
-  // Estimated widths based on typical image sizes
-  // Adjust these if your actual image dimensions differ
   const srcset = [
-    `${basePath}-tiny.webp 200w`,
-    `${basePath}-md.webp 720w`,
-    `${basePath}-lg.webp 1400w`,
-    `${fallbackSrc} 1400w`, // Fallback as last option
+    `${basePath}-tiny.webp 200w`,   // Tiny placeholder: ~200px wide
+    `${basePath}-md.webp 720w`,     // Medium: ~720px wide
+    `${basePath}-lg.webp 1400w`,    // Large: ~1400px wide
+    `${fallbackSrc} 1400w`,         // Fallback JPEG: ~1400px wide
   ];
   return srcset.join(", ");
 }
@@ -31,10 +30,15 @@ export function ProgressiveImage({
   decoding = "async",
   className,
   style,
-  sizes = "(max-width: 768px) 200px, (max-width: 1200px) 200px, 200px",
+  sizes,
   fetchPriority,
   ...imgProps
 }: ProgressiveImageProps) {
+  // Default responsive sizes attribute optimized for common usage patterns
+  // Mobile: images typically use 90vw or fixed widths up to ~160px
+  // Desktop: images typically max-w-[10rem] to max-w-[12rem] = 160px to 192px
+  // If sizes not provided, use responsive default that matches actual rendered sizes
+  const responsiveSizes = sizes || "(max-width: 640px) 90vw, (max-width: 768px) 160px, (max-width: 1024px) 200px, 200px";
   const containerRef = useRef<HTMLSpanElement | null>(null);
   const tinyImgRef = useRef<HTMLImageElement | null>(null);
   const highImgRef = useRef<HTMLImageElement | null>(null);
@@ -222,7 +226,7 @@ export function ProgressiveImage({
         <img
           ref={highImgRef}
           srcSet={srcSet}
-          sizes={sizes}
+          sizes={responsiveSizes}
           src={fallbackSrc}
           loading={loading}
           decoding={decoding}
