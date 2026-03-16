@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { Icon } from "@iconify/react";
+import { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from "react";
 import { GRID_SIZE, getCell } from "./cells";
 import { CellConfig } from "./cells/types";
-import { ChevronNav } from "./components/ChevronNav";
-import { MapGridNav } from "./components/MapGridNav";
-import { SocialsModal } from "./components/SocialsModal";
 import { glassStyle } from "./components/GlassBubble";
 import { NavigationProvider, useNavigation } from "./components/NavigationContext";
 import { GameStatsProvider, useGameStats } from "./components/GameStatsContext";
+
+// Lazy load components that are conditionally rendered or not immediately needed
+const ChevronNav = lazy(() => import("./components/ChevronNav").then((m) => ({ default: m.ChevronNav })));
+const MapGridNav = lazy(() => import("./components/MapGridNav").then((m) => ({ default: m.MapGridNav })));
+const SocialsModal = lazy(() => import("./components/SocialsModal").then((m) => ({ default: m.SocialsModal })));
 
 interface Layout {
   containerSize: number;
@@ -38,6 +39,44 @@ const BACKGROUND_JPG = "/darkmatter.jpg";
 
 import { prefetchCellImages } from "./utils/imageCache";
 
+// Lazy load Icon component for home button (only rendered conditionally)
+const HomeButtonIcon = lazy(() => 
+  import("@iconify/react").then((mod) => ({ 
+    default: ({ icon, className }: { icon: string; className?: string }) => {
+      const { Icon } = mod;
+      return <Icon icon={icon} className={className} />;
+    }
+  }))
+);
+
+function HomeButton({ goHome, glassStyle }: { goHome: () => void; glassStyle: React.CSSProperties }) {
+  return (
+    <button
+      onClick={goHome}
+      className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity min-w-[2.5rem] min-h-[2.5rem] lg:min-w-[3rem] lg:min-h-[3rem]"
+      style={{
+        ...glassStyle,
+        animation: `homeButtonFadeIn 800ms forwards 800ms`,
+        WebkitAnimation: `homeButtonFadeIn 800ms forwards 800ms`,
+        opacity: 0,
+      }}
+      aria-label="Go home"
+    >
+      <Suspense fallback={<span className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />}>
+        <HomeButtonIcon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
+      </Suspense>
+      <style>
+        {`
+          @keyframes homeButtonFadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+          }
+        `}
+      </style>
+    </button>
+  );
+}
+
 function getPanMetrics(layout: Layout): PanMetrics {
   const { viewportWidth, viewportHeight, maxPanX, maxPanY } = layout;
   const totalIntervals = GRID_SIZE - 1;
@@ -60,13 +99,11 @@ function HomeContent() {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const backgroundDimensionsRef = useRef<{ width: number; height: number } | null>(null);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const [loadingComplete, setLoadingComplete] = useState(false);
   const [backgroundTinyReady, setBackgroundTinyReady] = useState(false);
   const [backgroundMdReady, setBackgroundMdReady] = useState(false);
   const [backgroundLgReady, setBackgroundLgReady] = useState(false);
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
   const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement, setBackgroundTinyReady: setContextBackgroundTinyReady } = useNavigation();
   const { statsContent } = useGameStats();
@@ -155,38 +192,12 @@ function HomeContent() {
 
     window.addEventListener("resize", handleResize);
     
-    // Check if mobile on mount and resize
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // md breakpoint
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    
     return () => {
       cancelled = true;
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
-  // Handle loading screen: wait for both 3 seconds and image load
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (imageLoaded) {
-        setLoadingComplete(true);
-      } else {
-        // If image hasn't loaded after 3 sec, wait for it
-        const checkImage = setInterval(() => {
-          if (imageLoaded) {
-            setLoadingComplete(true);
-            clearInterval(checkImage);
-          }
-        }, 100);
-        return () => clearInterval(checkImage);
-      }
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [imageLoaded]);
 
   const updateLayout = (imgW: number, imgH: number) => {
     const vw = window.innerWidth;
@@ -263,6 +274,8 @@ function HomeContent() {
 
   const canGoUp = displayPosition.y > 0;
   const canGoDown = displayPosition.y < GRID_SIZE - 1;
+  // Check mobile directly instead of maintaining state
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const canGoLeft = displayPosition.x > 0 && !(isMobile && displayPosition.x === 4 && displayPosition.y === 4);
   const canGoRight = displayPosition.x < GRID_SIZE - 1;
 
@@ -429,64 +442,50 @@ function HomeContent() {
       {backgroundTinyReady && (
         <>
           <div className="fixed top-3 left-3 z-50 flex items-center gap-2">
-            <MapGridNav
-              isOpen={isMapOpen}
-              currentPosition={displayPosition}
-              onToggle={() => {
-                setIsSocialsOpen(false);
-                setIsMapOpen((prev) => !prev);
-              }}
-              onClose={() => setIsMapOpen(false)}
-              onSelectCell={jumpToCell}
-            />
+            <Suspense fallback={null}>
+              <MapGridNav
+                isOpen={isMapOpen}
+                currentPosition={displayPosition}
+                onToggle={() => {
+                  setIsSocialsOpen(false);
+                  setIsMapOpen((prev) => !prev);
+                }}
+                onClose={() => setIsMapOpen(false)}
+                onSelectCell={jumpToCell}
+              />
+            </Suspense>
 
             {/* Home button - only render when not on home cell */}
             {!isHome && (
-              <button
-                onClick={goHome}
-                className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity min-w-[2.5rem] min-h-[2.5rem] lg:min-w-[3rem] lg:min-h-[3rem]"
-                style={{
-                  ...glassStyle,
-                  animation: `homeButtonFadeIn 800ms forwards 800ms`,
-                  WebkitAnimation: `homeButtonFadeIn 800ms forwards 800ms`,
-                  opacity: 0,
-                }}
-                aria-label="Go home"
-              >
-                <Icon icon="mdi:home" className="w-6 h-6 md:w-7 md:h-7 lg:w-8 lg:h-8" />
-                <style>
-                  {`
-                    @keyframes homeButtonFadeIn {
-                      from { opacity: 0; }
-                      to   { opacity: 1; }
-                    }
-                  `}
-                </style>
-              </button>
+              <HomeButton goHome={goHome} glassStyle={glassStyle} />
             )}
           </div>
 
           <div className="fixed top-3 right-3 z-50">
-            <SocialsModal
-              isOpen={isSocialsOpen}
-              onToggle={() => {
-                setIsMapOpen(false);
-                setIsSocialsOpen((prev) => !prev);
-              }}
-              onClose={() => setIsSocialsOpen(false)}
-            />
+            <Suspense fallback={null}>
+              <SocialsModal
+                isOpen={isSocialsOpen}
+                onToggle={() => {
+                  setIsMapOpen(false);
+                  setIsSocialsOpen((prev) => !prev);
+                }}
+                onClose={() => setIsSocialsOpen(false)}
+              />
+            </Suspense>
           </div>
 
           {/* Chevron navigation */}
-          <ChevronNav
-            canGoUp={canGoUp}
-            canGoDown={canGoDown}
-            canGoLeft={canGoLeft}
-            canGoRight={canGoRight}
-            labels={currentCell?.chevronLabels}
-            onMove={move}
-            statsContent={statsContent}
-          />
+          <Suspense fallback={null}>
+            <ChevronNav
+              canGoUp={canGoUp}
+              canGoDown={canGoDown}
+              canGoLeft={canGoLeft}
+              canGoRight={canGoRight}
+              labels={currentCell?.chevronLabels}
+              onMove={move}
+              statsContent={statsContent}
+            />
+          </Suspense>
         </>
       )}
     </div>

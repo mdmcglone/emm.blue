@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { GRID_SIZE, getCell } from "../cells";
 import { glassStyle } from "./GlassBubble";
@@ -22,26 +22,42 @@ const DIRECTION_DELTAS: Record<"up" | "down" | "left" | "right", { dx: number; d
   right: { dx: 1, dy: 0 },
 };
 
+// Cache for cell titles to avoid reloading
+const titleCache = new Map<string, string>();
+
+// Load all cell titles in parallel when map opens (optimized version)
 async function deriveCellTitles(): Promise<string[][]> {
   const titles = Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => ""));
 
+  // Load all cells in parallel for better performance
+  const cellPromises: Promise<{ x: number; y: number; cell: Awaited<ReturnType<typeof getCell>> } | null>[] = [];
+  
   for (let y = 0; y < GRID_SIZE; y += 1) {
     for (let x = 0; x < GRID_SIZE; x += 1) {
-      try {
-        const cell = await getCell(x, y);
-        const labels = cell?.chevronLabels;
-        if (!labels) continue;
-        for (const direction of Object.keys(DIRECTION_DELTAS) as Array<keyof typeof DIRECTION_DELTAS>) {
-          const label = labels[direction];
-          if (!label) continue;
-          const nextX = x + DIRECTION_DELTAS[direction].dx;
-          const nextY = y + DIRECTION_DELTAS[direction].dy;
-          if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) continue;
-          if (!titles[nextY][nextX]) titles[nextY][nextX] = label;
-        }
-      } catch {
-        // Skip if cell fails to load
-      }
+      cellPromises.push(
+        getCell(x, y)
+          .then((cell) => ({ x, y, cell }))
+          .catch(() => null)
+      );
+    }
+  }
+
+  const results = await Promise.all(cellPromises);
+
+  // Process results to derive titles
+  for (const result of results) {
+    if (!result) continue;
+    const { x, y, cell } = result;
+    const labels = cell?.chevronLabels;
+    if (!labels) continue;
+    
+    for (const [direction, { dx, dy }] of Object.entries(DIRECTION_DELTAS)) {
+      const label = labels[direction as keyof typeof DIRECTION_DELTAS];
+      if (!label) continue;
+      const nextX = x + dx;
+      const nextY = y + dy;
+      if (nextX < 0 || nextX >= GRID_SIZE || nextY < 0 || nextY >= GRID_SIZE) continue;
+      if (!titles[nextY][nextX]) titles[nextY][nextX] = label;
     }
   }
 
@@ -55,6 +71,7 @@ export function MapGridNav({ isOpen, currentPosition, onToggle, onClose, onSelec
     Array.from({ length: GRID_SIZE }, () => Array.from({ length: GRID_SIZE }, () => ""))
   );
 
+  // Load all cell titles when map opens
   useEffect(() => {
     if (isOpen) {
       deriveCellTitles().then(setTitles);

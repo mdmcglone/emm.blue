@@ -122,18 +122,6 @@ export default function RootLayout({
           as="image"
           fetchPriority="high"
         />
-        <link
-          rel="preload"
-          href="/darkmatter-md.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/darkmatter-lg.webp"
-          as="image"
-          fetchPriority="high"
-        />
         
         {/* Preload LCP content images (binocularts and chair) - all sizes for progressive enhancement */}
         <link
@@ -142,46 +130,10 @@ export default function RootLayout({
           as="image"
           fetchPriority="high"
         />
-        <link
-          rel="preload"
-          href="/photos/binocularts-md.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/binocularts-lg.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/binocularts.jpeg"
-          as="image"
-          fetchPriority="high"
-        />
 
         <link
           rel="preload"
           href="/photos/chair-tiny.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/chair-md.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/chair-lg.webp"
-          as="image"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          href="/photos/chair.jpeg"
           as="image"
           fetchPriority="high"
         />
