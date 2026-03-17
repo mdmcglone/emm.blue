@@ -13,7 +13,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">About this Site</h1>
               The background photo is from{" "}
@@ -34,7 +34,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               This site is rendered via static export and CSR on Vercel. It's coded from scratch (no template) in React / Next.js using Typescript.
             </GlassBubble>
@@ -45,7 +45,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={180}
+              fadeDelayMs={600}
             >
               emm.blue stands for Em McGlone, and blue happens to be my favorite color.
             </GlassBubble>
@@ -56,7 +56,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={260}
+              fadeDelayMs={800}
             >
               This site costs $0 to maintain, with the exception of DNS, which costs some $30 per year. While I
               would&apos;ve normally limited costs, I couldn&apos;t resist having such a short personal domain.
@@ -68,7 +68,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={340}
+              fadeDelayMs={1000}
             >
               Originally, I wanted to manually host this site on GCP using Cloud Storage and Cloud CDN, but this turned
               out to be more expensive.
@@ -80,7 +80,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={420}
+              fadeDelayMs={1200}
             >
               There&apos;s an easter egg hidden in one of the panels.
             </GlassBubble>
@@ -95,7 +95,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               This site is rendered via static export and CSR on Vercel. It's coded from scratch (no template) in React / Next.js using Typescript.
             </GlassBubble>
@@ -107,7 +107,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">About</h1>
               The background photo is from{" "}
@@ -129,7 +129,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={340}
+              fadeDelayMs={800}
             >
               Originally, I wanted to manually host this site on GCP using Cloud Storage and Cloud CDN, but this turned
               out to be more expensive.
@@ -142,7 +142,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={260}
+              fadeDelayMs={600}
             >
               There's an easter egg hidden in one of the cells.
             </GlassBubble>
@@ -154,7 +154,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={420}
+              fadeDelayMs={1200}
             >
               This site costs $0 to maintain, with the exception of DNS, which costs some $30 per year. While I
               would&apos;ve normally limited costs, I couldn&apos;t resist having such a short personal domain.
@@ -167,7 +167,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={180}
+              fadeDelayMs={600}
             >
               emm.blue stands for Em McGlone, and blue happens to be my favorite color.
             </GlassBubble>

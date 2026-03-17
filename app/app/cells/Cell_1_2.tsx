@@ -11,7 +11,7 @@ export const Cell_1_2: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">Career</h1>
               My entire career since graduation has been dedicated to founding my legal tech startup in India, jhana. I have left the company as of early 2026, after nearly four years.
@@ -23,7 +23,7 @@ export const Cell_1_2: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={150}
+              fadeDelayMs={400}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">Pre-Career</h1>
               Before jhana, I worked from my sophomore year of high school through college graduation, in the service industry, then in various online gigs, then as a freelance data science consultant.
@@ -35,7 +35,7 @@ export const Cell_1_2: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={300}
+              fadeDelayMs={600}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">What's Next</h1>
               My new career goal is to find a software engineering job in Europe. My dream is to lead a small, scrappy team, where we make products that improve people&apos;s lives.

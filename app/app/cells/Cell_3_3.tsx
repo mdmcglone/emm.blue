@@ -12,7 +12,7 @@ export const Cell_3_3: CellConfig = {
               className="p-3 sm:p-4 w-[90vw] md:w-full md:max-w-[38rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-1.5 text-center w-full">Exercise</h1>
               I started indoor rock climbing in 2021 and have continued the sport on and off since. I&apos;ve
@@ -26,7 +26,7 @@ export const Cell_3_3: CellConfig = {
             className="p-2 w-full max-w-[17rem] mx-auto aspect-[2/1] md:aspect-square"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={120}
+            fadeDelayMs={400}
           >
             
             <ProgressiveImage
@@ -45,7 +45,7 @@ export const Cell_3_3: CellConfig = {
               className="p-3 sm:p-4 w-[90vw] md:w-full md:max-w-[25rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={220}
+              fadeDelayMs={600}
             >
               Rock climbing, however, is a high-impact and high-effort sport, and doesn&apos;t serve well for consistent
               exercise, so lately I&apos;ve been focusing on my cardio and getting into running.
@@ -57,7 +57,7 @@ export const Cell_3_3: CellConfig = {
               className="p-3 sm:p-4 w-[90vw] md:w-full md:max-w-[25rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={320}
+              fadeDelayMs={800}
             >
               When possible, my favorite exercise is hiking. I especially like climbing smallish mountains like the
               White Mountains in New Hampshire. I once got lost in the New Hampshire woods with my dad, and we hiked an

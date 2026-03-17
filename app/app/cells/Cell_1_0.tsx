@@ -11,7 +11,7 @@ export const Cell_1_0: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={0}
+            fadeDelayMs={200}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">
               Other education
@@ -24,7 +24,7 @@ export const Cell_1_0: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={100}
+            fadeDelayMs={400}
           >
             I’m a history buff, especially for US and European history. At university, I took classes about
             pre-Columbian America and the American Civil War.
@@ -34,7 +34,7 @@ export const Cell_1_0: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={180}
+            fadeDelayMs={600}
           >
             While I’ve never formally studied either, I love maps and geography. I’m quite good at Geoguessr, and I
             like trying to guess what data blank maps represent.
@@ -44,7 +44,7 @@ export const Cell_1_0: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={260}
+            fadeDelayMs={800}
           >
             Linguistics is another area of study I like. While I don’t speak very many languages, I know a bit about a
             lot of languages; grammar, language families, history, some vocab.
@@ -54,7 +54,7 @@ export const Cell_1_0: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={340}
+            fadeDelayMs={1000}
           >
             I’ve always tried to be a bit of a polymath, so I also studied some economics, philosophy, writing,
             astronomy, and more.
@@ -70,7 +70,7 @@ export const Cell_1_0: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">
                 Other education
@@ -84,7 +84,7 @@ export const Cell_1_0: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               While I've never formally studied either, I love maps and geography. I'm quite good at Geoguessr, and I
               like trying to guess what data blank maps represent.
@@ -95,7 +95,7 @@ export const Cell_1_0: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={600}
             >
               I've always tried to be a bit of a polymath, so I also studied some economics, philosophy, writing,
               astronomy, and more.
@@ -109,7 +109,7 @@ export const Cell_1_0: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={180}
+              fadeDelayMs={800}
             >
               I'm a history buff, especially for US and European history. At university, I took classes about
               pre-Columbian America and the American Civil War.
@@ -120,7 +120,7 @@ export const Cell_1_0: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={260}
+              fadeDelayMs={1000}
             >
               Linguistics is another area of study I like. While I don't speak very many languages, I know a bit about
               a lot of languages; grammar, language families, history, some vocab.

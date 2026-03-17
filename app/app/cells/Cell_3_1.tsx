@@ -11,7 +11,7 @@ export const Cell_3_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">Italiano</h1>
               Ho studiato la lingua italiana per quattro anni all&apos;universita. All&apos;inizio dovevo solo studiare la
@@ -33,7 +33,7 @@ export const Cell_3_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={150}
+              fadeDelayMs={400}
             >
               Purtroppo, dal 2022, non ho avuto la fortuna di praticare il mio italiano, specialmente in una situazione
               di immersione linguistica. Spero di poter visitare, o forse lavorare, in Italia presto. Parlavo quasi
@@ -46,7 +46,7 @@ export const Cell_3_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={300}
+              fadeDelayMs={600}
             >
               Non sono un bravo scrittore, ma la mia cosa preferita che ho mai scritto e stato un breve racconto in
               italiano. Ho scritto della vita delle effimere, insetti che vivono solo un giorno. Pero, ho perso il

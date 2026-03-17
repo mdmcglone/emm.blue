@@ -174,9 +174,18 @@ export function GlassBubble({
             @keyframes ${animationName} {
               from {
                 opacity: 0;
+                filter: brightness(1.2);
+                border-color: rgba(255, 255, 255, 0.6);
+              }
+              30% {
+                opacity: var(--glass-bubble-target-opacity, 1);
+                filter: brightness(1.65);
+                border-color: rgba(255, 255, 255, 1);
               }
               to {
                 opacity: var(--glass-bubble-target-opacity, 1);
+                filter: brightness(1);
+                border-color: rgba(255, 255, 255, 0.15);
               }
             }
           `}

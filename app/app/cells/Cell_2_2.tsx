@@ -12,7 +12,7 @@ export const Cell_2_2: CellConfig = {
               className="p-3 w-[90vw] md:w-full text-xs md:p-4 md:text-sm md:max-w-[21rem] lg:text-lg"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-sm md:text-base lg:text-xl flex justify-center items-center">Hi!</h1>
               <div className="text-[11px] md:text-sm lg:text-base">My name is Em McGlone, welcome to my site. If you'd like to get to know me better, personally or professionally, feel free to explore.</div>
@@ -51,7 +51,7 @@ export const Cell_2_2: CellConfig = {
               className="p-2 flex-shrink-0 w-[7.25rem] sm:w-[8.5rem] aspect-square"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={900}
+              fadeDelayMs={800}
             >
               <ProgressiveImage
                 basePath="/photos/binocularts"
@@ -69,7 +69,7 @@ export const Cell_2_2: CellConfig = {
             className="p-2 w-full max-w-[10rem] lg:max-w-[12rem] aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={200}
+            fadeDelayMs={600}
           >
             <ProgressiveImage
               basePath="/photos/chair"
@@ -86,7 +86,7 @@ export const Cell_2_2: CellConfig = {
             className="p-2 w-full max-w-[10rem] lg:max-w-[12rem] aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={300}
+            fadeDelayMs={800}
           >
             <ProgressiveImage
               basePath="/photos/binocularts"

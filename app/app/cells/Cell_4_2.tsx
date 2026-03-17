@@ -13,7 +13,7 @@ export const Cell_4_2: CellConfig = {
               className="p-2 flex-shrink-0 w-[9rem] sm:w-[10rem] aspect-[2/1] sm:aspect-[2/1]"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <ProgressiveImage
                 basePath="/photos/dad"
@@ -27,7 +27,7 @@ export const Cell_4_2: CellConfig = {
               className="p-2 flex-shrink-0 w-[9rem] sm:w-[10rem] aspect-[2/1] sm:aspect-[2/1]"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={50}
+              fadeDelayMs={400}
             >
               <ProgressiveImage
                 basePath="/photos/mom"
@@ -46,7 +46,7 @@ export const Cell_4_2: CellConfig = {
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={0}
+            fadeDelayMs={200}
           >
             <ProgressiveImage
               basePath="/photos/dad"
@@ -62,7 +62,7 @@ export const Cell_4_2: CellConfig = {
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={50}
+            fadeDelayMs={400}
           >
             <ProgressiveImage
               basePath="/photos/mom"
@@ -79,7 +79,7 @@ export const Cell_4_2: CellConfig = {
               className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={600}
             >
               My dad lives in New Hampshire with his girlfriend. They have a French Bulldog called Kash. He is a lawyer by trade (my dad not the dog).
             </GlassBubble>
@@ -89,7 +89,7 @@ export const Cell_4_2: CellConfig = {
               className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={150}
+              fadeDelayMs={800}
             >
               My mom lives in Massachusetts with her husband. Her house is always my home when I am in the US. She has always worked in communications, besides when she was raising me and my sister.
             </GlassBubble>
@@ -100,7 +100,7 @@ export const Cell_4_2: CellConfig = {
               className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={300}
+              fadeDelayMs={1000}
             >
               I met my fiancée, Vandhana, at Chennai Pride in 2023. We have been inseparable since. She studied economics and works in development.
             </GlassBubble>
@@ -110,7 +110,7 @@ export const Cell_4_2: CellConfig = {
               className="p-3 w-[90vw] lg:w-full lg:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base mx-auto text-center"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={350}
+              fadeDelayMs={1200}
             >
               My sister, Abi, lives in New York City with her cat and her boyfriend. Her cat's name is Gigi, she is from Florida. Abi is an incredible social worker.
             </GlassBubble>
@@ -122,7 +122,7 @@ export const Cell_4_2: CellConfig = {
               className="p-2 flex-shrink-0 w-[9rem] sm:w-[10rem] aspect-[2/1] sm:aspect-[2/1]"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={1400}
             >
               <ProgressiveImage
                 basePath="/photos/vandhana"
@@ -136,7 +136,7 @@ export const Cell_4_2: CellConfig = {
               className="p-2 flex-shrink-0 w-[9rem] sm:w-[10rem] aspect-[2/1] sm:aspect-[2/1]"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={250}
+              fadeDelayMs={1600}
             >
               <ProgressiveImage
                 basePath="/photos/abi"
@@ -155,7 +155,7 @@ export const Cell_4_2: CellConfig = {
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={200}
+            fadeDelayMs={1400}
           >
             <ProgressiveImage
               basePath="/photos/vandhana"
@@ -171,7 +171,7 @@ export const Cell_4_2: CellConfig = {
             className="p-2 w-full max-w-[11rem] xl:max-w-[12rem] aspect-square"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={250}
+            fadeDelayMs={1600}
           >
             <ProgressiveImage
               basePath="/photos/abi"

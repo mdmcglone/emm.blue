@@ -11,7 +11,7 @@ export const Cell_4_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">Travel</h1>
               I&apos;ve travelled a lot, and sometimes even for vacation.
@@ -23,7 +23,7 @@ export const Cell_4_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[23rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               As part of school programs, I&apos;ve been to Washington DC, South Korea, Italy, and Ecuador (including
               the Galapagos Islands).
@@ -35,7 +35,7 @@ export const Cell_4_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[23rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={180}
+              fadeDelayMs={600}
             >
               For work, I&apos;ve been all around India, and to Sri Lanka and Singapore, and to exotic Utah.
             </GlassBubble>
@@ -46,7 +46,7 @@ export const Cell_4_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={260}
+              fadeDelayMs={800}
             >
               For pleasure, I&apos;ve been to Canada, Ireland, and Colombia.
             </GlassBubble>
@@ -57,7 +57,7 @@ export const Cell_4_1: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[22rem] mx-auto md:mx-0 text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={340}
+              fadeDelayMs={1000}
             >
               For family and friends, I&apos;ve been to all the US northeast states, and Florida, and Chicago.
             </GlassBubble>

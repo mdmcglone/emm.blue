@@ -11,7 +11,7 @@ export const Cell_3_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={0}
+            fadeDelayMs={200}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">
               Video Games
@@ -23,7 +23,7 @@ export const Cell_3_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={100}
+            fadeDelayMs={400}
           >
             I love indie games most of all. I think they contain not only the strongest expressions of art in this media
             format, through their sounds, visuals, and especially stories, but also consistently out-compete AAA games
@@ -34,7 +34,7 @@ export const Cell_3_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base text-center"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={200}
+            fadeDelayMs={600}
           >
             <h2 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">Stats</h2>
             <div className="space-y-1 text-xs sm:text-sm md:text-sm lg:text-base">
@@ -60,7 +60,7 @@ export const Cell_3_4: CellConfig = {
                 className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
                 fadeIn
                 fadeDurationMs={800}
-                fadeDelayMs={0}
+                fadeDelayMs={200}
               >
                 <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">
                   Video Games
@@ -75,7 +75,7 @@ export const Cell_3_4: CellConfig = {
                 className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base"
                 fadeIn
                 fadeDurationMs={800}
-                fadeDelayMs={100}
+                fadeDelayMs={400}
               >
                 I love indie games most of all. I think they contain not only the strongest expressions of art in this
                 media format, through their sounds, visuals, and especially stories, but also consistently out-compete
@@ -90,7 +90,7 @@ export const Cell_3_4: CellConfig = {
               className="p-4 w-full text-xs sm:text-sm md:text-sm lg:text-base text-center"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={600}
             >
               <h2 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">Stats</h2>
               <div className="space-y-1 text-xs sm:text-sm md:text-sm lg:text-base">

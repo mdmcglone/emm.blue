@@ -13,7 +13,7 @@ export const Cell_2_0: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-left w-full">Physics</h1>
               My bachelor's degree is in physics. I was considering many courses of study in STEM fields, but I chose physics because it captured my interest the most, while also seeming a practical choice.
@@ -27,7 +27,7 @@ export const Cell_2_0: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               My most advanced coursework included quantum mechanics, special relativity, and electromagnetism. I worked in a lab at Harvard as well, where we demonstrated general relativity by replicating the{" "}
               <a
@@ -49,7 +49,7 @@ export const Cell_2_0: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={600}
             >
               I participated in an{" "}
               <a
@@ -70,7 +70,7 @@ export const Cell_2_0: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={300}
+              fadeDelayMs={800}
             >
               My experience in the labs both at Harvard and at UNIST taught me that, while I like physics and do well in the lab, I didn't see myself having a career in research. The work was too repetitive and felt too far from real problems in the real world. I finished my degree, but recommitted my education towards data and computer science instead.
             </GlassBubble>

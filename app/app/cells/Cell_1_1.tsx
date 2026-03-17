@@ -13,7 +13,7 @@ export const Cell_1_1: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 w-full">Computer Science</h1>
               I first touched code in middle school as part of the "Hour of Code" movement, and took a few classes in high school, but my proper education started at Harvard.
@@ -27,7 +27,7 @@ export const Cell_1_1: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               At college, I studied both computer and data science, and learned to write C++, Python, R, SQL, and more. Around this time, GPT3 was released, which piqued my interest more than anything else. I felt that code was not only exciting and artful, but also had the ability to practically affect the world for the better, especially with the advent of LLMs.
             </GlassBubble>
@@ -46,7 +46,7 @@ export const Cell_1_1: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={600}
             >
             <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 w-full">Software Engineering</h1>
               My real education, though, came when I started jhana. The first year of my startup was a trial-by-fire – by day, I built production systems for the first time, while by night, I was self-educating and self-improving.
@@ -60,7 +60,7 @@ export const Cell_1_1: CellConfig = {
               smallFont
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={300}
+              fadeDelayMs={800}
             >
               After{" "}
               <a

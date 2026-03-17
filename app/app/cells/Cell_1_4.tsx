@@ -11,7 +11,7 @@ export const Cell_1_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={0}
+            fadeDelayMs={200}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">
               Personal Projects
@@ -24,7 +24,7 @@ export const Cell_1_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={100}
+            fadeDelayMs={400}
           >
             I built a Python utility that automatically skips through youtube videos, only showing you the most popular
             parts. I'm going to deploy it as a Chrome extension.
@@ -34,7 +34,7 @@ export const Cell_1_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={200}
+            fadeDelayMs={600}
           >
             I'm working on a game like the 4X games I've spent so much time playing, but I want to boil the genre down to
             its bare parts. Strategy games are wonderful, but often so byzantine that they become inaccessible. I'm
@@ -45,7 +45,7 @@ export const Cell_1_4: CellConfig = {
             className="p-4 w-[90vw] text-xs sm:text-sm md:text-sm lg:text-base"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={300}
+            fadeDelayMs={800}
           >
             I've got a few smaller ones, but in the rest of my time, I'm sharpening up my résumé, LinkedIn, and code
             portfolio in order to land a dream job.
@@ -60,7 +60,7 @@ export const Cell_1_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={0}
+              fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">
                 Personal Projects
@@ -76,7 +76,7 @@ export const Cell_1_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={100}
+              fadeDelayMs={400}
             >
               I built a Python utility that automatically skips through youtube videos, only showing you the most popular
               parts. I'm going to deploy it as a Chrome extension.
@@ -89,7 +89,7 @@ export const Cell_1_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={200}
+              fadeDelayMs={600}
             >
               I'm working on a game like the 4X games I've spent so much time playing, but I want to boil the genre down
               to its bare parts. Strategy games are wonderful, but often so byzantine that they become inaccessible. I'm
@@ -103,7 +103,7 @@ export const Cell_1_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={300}
+              fadeDelayMs={800}
             >
               I've got a few smaller ones, but in the rest of my time, I'm sharpening up my résumé, LinkedIn, and code
               portfolio in order to land a dream job.
