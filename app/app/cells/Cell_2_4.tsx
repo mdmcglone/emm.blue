@@ -15,7 +15,7 @@ export const Cell_2_4: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={0}
             >
-              <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">About</h1>
+              <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-center w-full">About this Site</h1>
               The background photo is from{" "}
               <a
                 href="https://www.jpl.nasa.gov/images/pia26702-webb-data-reveals-dark-matter/"

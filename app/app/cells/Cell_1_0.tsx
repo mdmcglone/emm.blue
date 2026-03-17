@@ -130,5 +130,8 @@ export const Cell_1_0: CellConfig = {
       </div>
     </>
   ),
-  chevronLabels: {},
+  chevronLabels: {
+    down: "Coding",
+    right: "Physics"
+  },
 };

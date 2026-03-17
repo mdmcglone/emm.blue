@@ -1,6 +1,6 @@
 import { glassStyle } from "./GlassBubble";
 import { ChevronLabels } from "../cells/types";
-import { useEffect, useCallback, ReactNode } from "react";
+import { useEffect, useCallback, ReactNode, useState, useRef } from "react";
 import { useNavigation } from "./NavigationContext";
 
 interface ChevronNavProps {
@@ -13,6 +13,54 @@ interface ChevronNavProps {
   enableFadeOut?: boolean;
   statsContent?: ReactNode;
 }
+
+type AnimationPhase = "idle" | "fading-out" | "resizing" | "fading-in";
+
+const LABEL_FADE_DURATION = 260; // ms
+const RESIZE_DURATION = 220; // ms
+
+const useAnimatedLabels = (labels: ChevronLabels | undefined) => {
+  const [displayLabels, setDisplayLabels] = useState<ChevronLabels | undefined>(labels);
+  const [phase, setPhase] = useState<AnimationPhase>("idle");
+  const timeoutsRef = useRef<number[]>([]);
+  const prevLabelsRef = useRef<ChevronLabels | undefined>(labels);
+
+  useEffect(() => {
+    const prev = prevLabelsRef.current;
+    const next = labels;
+    // Deep-compare via stringify – labels object is tiny
+    const same = JSON.stringify(prev) === JSON.stringify(next);
+    if (same) return;
+
+    prevLabelsRef.current = next;
+
+    timeoutsRef.current.forEach(clearTimeout);
+    timeoutsRef.current = [];
+
+    // New labels are ready: show them immediately and fade in.
+    setDisplayLabels(next);
+    setPhase("fading-in");
+
+    const doneTimeout = window.setTimeout(() => {
+      setPhase("idle");
+    }, LABEL_FADE_DURATION);
+
+    timeoutsRef.current.push(doneTimeout);
+
+    return () => {
+      timeoutsRef.current.forEach(clearTimeout);
+      timeoutsRef.current = [];
+    };
+  }, [labels]);
+
+  const triggerImmediateFadeOut = () => {
+    // Just start fading out immediately; the labels-change effect
+    // will own the timing of the full cycle.
+    setPhase("fading-out");
+  };
+
+  return { displayLabels, phase, triggerImmediateFadeOut };
+};
 
 const ChevronIcon = ({ direction, className = "" }: { direction: "up" | "down" | "left" | "right"; className?: string }) => {
   const points = {
@@ -37,13 +85,18 @@ const ChevronIcon = ({ direction, className = "" }: { direction: "up" | "down" |
 
 export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels = {}, onMove, enableFadeOut = true, statsContent }: ChevronNavProps) {
   const { triggerFadeOut } = useNavigation();
+  const { displayLabels, phase, triggerImmediateFadeOut } = useAnimatedLabels(labels);
+
+  const labelOpacityClass = phase === "fading-out" || phase === "resizing" ? "opacity-0" : "opacity-100";
+  const tabOpacityClass = phase === "fading-out" || phase === "resizing" ? "opacity-0" : "opacity-100";
 
   const handleMove = useCallback((dx: number, dy: number) => {
+    triggerImmediateFadeOut();
     if (enableFadeOut) {
       triggerFadeOut();
     }
     onMove(dx, dy);
-  }, [enableFadeOut, triggerFadeOut, onMove]);
+  }, [enableFadeOut, triggerFadeOut, onMove, triggerImmediateFadeOut]);
 
   // Arrow key navigation
   useEffect(() => {
@@ -73,17 +126,17 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
         <>
           <button
             onClick={() => handleMove(0, -1)}
-            className="fixed top-0 left-1/2 -translate-x-1/2 pt-2 pb-3 px-3 lg:pt-2 lg:pb-3 lg:px-3 rounded-b-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center"
+            className={`fixed top-0 left-1/2 -translate-x-1/2 pt-2 pb-3 px-3 lg:pt-2 lg:pb-3 lg:px-3 rounded-b-full hover:opacity-100 transition-all duration-300 ease-in-out flex flex-col items-center ${tabOpacityClass}`}
             style={glassStyle}
-            aria-label={labels.up || "Go up"}
+            aria-label={displayLabels?.up || "Go up"}
           >
             <ChevronIcon direction="up" />
-            {labels.up && (
+            {displayLabels?.up && (
               <span
-                className="text-xs md:text-sm font-medium"
+                className={`text-xs md:text-sm font-medium transition-opacity duration-200 ${labelOpacityClass}`}
                 style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
               >
-                {labels.up}
+                {displayLabels.up}
               </span>
             )}
           </button>
@@ -98,16 +151,16 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
       {canGoDown && (
         <button
           onClick={() => handleMove(0, 1)}
-          className="fixed bottom-0 left-1/2 -translate-x-1/2 pt-3 pb-2 px-3 lg:pt-3 lg:pb-2 lg:px-3 rounded-t-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center"
+          className={`fixed bottom-0 left-1/2 -translate-x-1/2 pt-3 pb-2 px-3 lg:pt-3 lg:pb-2 lg:px-3 rounded-t-full hover:opacity-100 transition-all duration-300 ease-in-out flex flex-col items-center ${tabOpacityClass}`}
           style={glassStyle}
-          aria-label={labels.down || "Go down"}
+          aria-label={displayLabels?.down || "Go down"}
         >
-          {labels.down && (
+          {displayLabels?.down && (
             <span
-              className="text-xs md:text-sm font-medium"
+              className={`text-xs md:text-sm font-medium transition-opacity duration-200 ${labelOpacityClass}`}
               style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
             >
-              {labels.down}
+              {displayLabels.down}
             </span>
           )}
           <ChevronIcon direction="down" />
@@ -117,16 +170,16 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
       {canGoLeft && (
         <button
           onClick={() => handleMove(-1, 0)}
-          className="fixed left-0 bottom-3 md:left-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 py-3 pr-3 pl-2 lg:py-3 lg:pr-3 lg:pl-2 rounded-r-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
+          className={`fixed left-0 bottom-3 md:left-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 py-3 pr-3 pl-2 lg:py-3 lg:pr-3 lg:pl-2 rounded-r-full hover:opacity-100 transition-all duration-300 ease-in-out flex flex-col items-center gap-1 ${tabOpacityClass}`}
           style={glassStyle}
-          aria-label={labels.left || "Go left"}
+          aria-label={displayLabels?.left || "Go left"}
         >
-          {labels.left && (
+          {displayLabels?.left && (
             <span
-              className="text-xs md:text-sm font-medium"
+              className={`text-xs md:text-sm font-medium transition-opacity duration-200 ${labelOpacityClass}`}
               style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
             >
-              {labels.left}
+              {displayLabels.left}
             </span>
           )}
           <ChevronIcon direction="left" />
@@ -136,16 +189,16 @@ export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels =
       {canGoRight && (
         <button
           onClick={() => handleMove(1, 0)}
-          className="fixed right-0 bottom-3 md:right-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 py-3 pl-3 pr-2 lg:py-3 lg:pl-3 lg:pr-2 rounded-l-full opacity-100 hover:opacity-100 transition-opacity flex flex-col items-center gap-1"
+          className={`fixed right-0 bottom-3 md:right-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 py-3 pl-3 pr-2 lg:py-3 lg:pl-3 lg:pr-2 rounded-l-full hover:opacity-100 transition-all duration-300 ease-in-out flex flex-col items-center gap-1 ${tabOpacityClass}`}
           style={glassStyle}
-          aria-label={labels.right || "Go right"}
+          aria-label={displayLabels?.right || "Go right"}
         >
-          {labels.right && (
+          {displayLabels?.right && (
             <span
-              className="text-xs md:text-sm font-medium"
+              className={`text-xs md:text-sm font-medium transition-opacity duration-200 ${labelOpacityClass}`}
               style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}
             >
-              {labels.right}
+              {displayLabels.right}
             </span>
           )}
           <ChevronIcon direction="right" />

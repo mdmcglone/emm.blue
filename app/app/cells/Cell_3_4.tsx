@@ -109,5 +109,8 @@ export const Cell_3_4: CellConfig = {
       </div>
     </>
   ),
-  chevronLabels: {},
+  chevronLabels: {
+    up: "Exercise",
+    left: "About"
+  },
 };

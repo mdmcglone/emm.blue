@@ -46,6 +46,12 @@ async function deriveCellTitles(): Promise<string[][]> {
     for (const result of rowResults) {
       if (!result) continue;
       const { x, y: cellY, cell } = result;
+
+      // If the cell defines an explicit mapTitle, prefer that.
+      if (cell.mapTitle) {
+        titles[cellY][x] = cell.mapTitle;
+      }
+
       const labels = cell?.chevronLabels;
       if (!labels) continue;
 
