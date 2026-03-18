@@ -36,7 +36,7 @@ export const Cell_3_2: CellConfig = {
             className="p-2 w-full max-w-[14rem] sm:max-w-[16rem] md:max-w-[18rem] lg:max-w-[20rem] aspect-[2/1] md:aspect-[2/1] lg:aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={600}
+            fadeDelayMs={1000}
           >
             <ProgressiveImage
               basePath="/photos/fam"
@@ -63,7 +63,7 @@ export const Cell_3_2: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[20rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={1000}
+              fadeDelayMs={600}
             >
               I use they/she pronouns, but I have dressed better in the past.
             </GlassBubble>

@@ -34,7 +34,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={400}
+              fadeDelayMs={800}
             >
               This site is rendered via static export and CSR on Vercel. It's coded from scratch (no template) in React / Next.js using Typescript.
             </GlassBubble>
@@ -56,7 +56,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={800}
+              fadeDelayMs={400}
             >
               This site costs $0 to maintain, with the exception of DNS, which costs some $30 per year. While I
               would&apos;ve normally limited costs, I couldn&apos;t resist having such a short personal domain.
@@ -68,7 +68,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={1000}
+              fadeDelayMs={1200}
             >
               Originally, I wanted to manually host this site on GCP using Cloud Storage and Cloud CDN, but this turned
               out to be more expensive.
@@ -80,7 +80,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-[90vw] md:w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={1200}
+              fadeDelayMs={1000}
             >
               There&apos;s an easter egg hidden in one of the panels.
             </GlassBubble>
@@ -95,7 +95,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={400}
+              fadeDelayMs={800}
             >
               This site is rendered via static export and CSR on Vercel. It's coded from scratch (no template) in React / Next.js using Typescript.
             </GlassBubble>
@@ -129,7 +129,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={800}
+              fadeDelayMs={1200}
             >
               Originally, I wanted to manually host this site on GCP using Cloud Storage and Cloud CDN, but this turned
               out to be more expensive.
@@ -142,7 +142,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[24rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={600}
+              fadeDelayMs={1000}
             >
               There's an easter egg hidden in one of the cells.
             </GlassBubble>
@@ -154,7 +154,7 @@ export const Cell_2_4: CellConfig = {
               className="p-4 w-full md:max-w-[26rem] text-xs sm:text-sm md:text-sm lg:text-base"
               fadeIn
               fadeDurationMs={800}
-              fadeDelayMs={1200}
+              fadeDelayMs={400}
             >
               This site costs $0 to maintain, with the exception of DNS, which costs some $30 per year. While I
               would&apos;ve normally limited costs, I couldn&apos;t resist having such a short personal domain.
