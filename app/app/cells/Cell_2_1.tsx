@@ -43,6 +43,7 @@ export const Cell_2_1: CellConfig = {
           </div>
 
           <GlassBubble
+            wrapperClassName="md:self-center"
             className="p-2 w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-[18rem] lg:max-w-[22rem] aspect-[2/1] md:aspect-[3/4] mx-auto"
             fadeIn
             fadeDurationMs={800}
