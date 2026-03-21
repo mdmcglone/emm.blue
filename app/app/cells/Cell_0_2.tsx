@@ -35,7 +35,7 @@ export const Cell_0_2: CellConfig = {
           >
             My first major task at jhana was to scrape what was at the time some 12 million legal documents across
             judicial, legislative, and tribunal databases. I set it up to run autonomously, and they have been
-            running since.
+            running since. This was my first production project, so I was up all night studying python and AWS for the first year.
           </GlassBubble>
         </div>
 
@@ -48,11 +48,8 @@ export const Cell_0_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={600}
           >
-            We received an initial $40k in grants from Emergent Ventures and ZFellows. During this time, we worked
-            for no pay, and went into personal debt to get jhana off the ground. That funding went to bare minimum
-            corporate and living expenses, as well as to our first employee, Amanullah Qaiser, a recent law school
-            grad.
-          </GlassBubble>
+            In my time at jhana, I went from a junior cofounder, handling whatever needed to be done, to CTO, managing almost half the company’s manpower and the majority of its financial resources. After two years as CTO, and four years with jhana, I decided to start a new chapter in my life, and left the company in Hemanth’s capable hands. 
+        </GlassBubble>
         </div>
 
         {/* 4: top-right image (must appear last) */}
