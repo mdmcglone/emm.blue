@@ -32,6 +32,7 @@ interface PanMetrics {
 
 const SWIPE_THRESHOLD = 50; // minimum distance in px to trigger swipe
 const HOME_INDEX = 2;
+const HOME_BUTTON_FADE_OUT_MS = 220;
 const BACKGROUND_TINY_WEBP = "/darkmatter-tiny.webp";
 const BACKGROUND_MD_WEBP = "/darkmatter-md.webp";
 const BACKGROUND_LG_WEBP = "/darkmatter-lg.webp";
@@ -49,16 +50,19 @@ const HomeButtonIcon = lazy(() =>
   }))
 );
 
-function HomeButton({ goHome, glassStyle }: { goHome: () => void; glassStyle: React.CSSProperties }) {
+function HomeButton({ goHome, glassStyle, visible }: { goHome: () => void; glassStyle: React.CSSProperties; visible: boolean }) {
+  const [isFadingIn, setIsFadingIn] = useState(true);
+
   return (
     <button
       onClick={goHome}
-      className="p-2 lg:p-3 rounded-full opacity-70 hover:opacity-100 transition-opacity min-w-[2.5rem] min-h-[2.5rem] lg:min-w-[3rem] lg:min-h-[3rem]"
+      onAnimationEnd={() => setIsFadingIn(false)}
+      className={`p-2 lg:p-3 rounded-full hover:opacity-100 transition-opacity duration-220 min-w-[2.5rem] min-h-[2.5rem] lg:min-w-[3rem] lg:min-h-[3rem] ${visible ? "opacity-80 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
       style={{
         ...glassStyle,
-        animation: `homeButtonFadeIn 800ms forwards 800ms`,
-        WebkitAnimation: `homeButtonFadeIn 800ms forwards 800ms`,
-        opacity: 0,
+        animation: isFadingIn ? `homeButtonFadeIn 800ms forwards 800ms` : undefined,
+        WebkitAnimation: isFadingIn ? `homeButtonFadeIn 800ms forwards 800ms` : undefined,
+        opacity: isFadingIn ? 0 : undefined,
       }}
       aria-label="Go home"
     >
@@ -69,7 +73,7 @@ function HomeButton({ goHome, glassStyle }: { goHome: () => void; glassStyle: Re
         {`
           @keyframes homeButtonFadeIn {
             from { opacity: 0; }
-            to   { opacity: 1; }
+            to   { opacity: 0.8; }
           }
         `}
       </style>
@@ -105,6 +109,7 @@ function HomeContent() {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
   const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
+  const [showHomeButton, setShowHomeButton] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement, setBackgroundTinyReady: setContextBackgroundTinyReady } = useNavigation();
   const { statsContent } = useGameStats();
 
@@ -335,6 +340,17 @@ function HomeContent() {
 
   const isHome = displayPosition.x === HOME_INDEX && displayPosition.y === HOME_INDEX;
 
+  useEffect(() => {
+    if (!isHome) {
+      setShowHomeButton(true);
+      return;
+    }
+    const timeout = window.setTimeout(() => {
+      setShowHomeButton(false);
+    }, HOME_BUTTON_FADE_OUT_MS);
+    return () => window.clearTimeout(timeout);
+  }, [isHome]);
+
   // Touch handlers for swipe navigation
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     const touch = e.touches[0];
@@ -484,10 +500,7 @@ function HomeContent() {
               />
             </Suspense>
 
-            {/* Home button - only render when not on home cell */}
-            {!isHome && (
-              <HomeButton goHome={goHome} glassStyle={glassStyle} />
-            )}
+            {showHomeButton && <HomeButton goHome={goHome} glassStyle={glassStyle} visible={!isHome} />}
           </div>
 
           <div className="fixed top-3 right-3 z-50">
