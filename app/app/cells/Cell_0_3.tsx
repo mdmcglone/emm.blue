@@ -13,7 +13,7 @@ export const Cell_0_3: CellConfig = {
                 smallFont
                 fadeIn
                 fadeDurationMs={800}
-                fadeDelayMs={200}
+                fadeDelayMs={350}
               >
                       <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">As Coufounder</h1>
                   In our first month, we went door-to-door at law firms, chambers, and in-house legal teams in Delhi and Chennai. Wherever we’d be heard out, we presented our first product concept, which was a searchable legal database and AI chatbot, and refined our product and target market based on these conversations.
@@ -24,7 +24,7 @@ export const Cell_0_3: CellConfig = {
                 smallFont
                 fadeIn
                 fadeDurationMs={800}
-                fadeDelayMs={400}
+                fadeDelayMs={550}
               >
                 We received an initial $40k in grants from Emergent Ventures and ZFellows. During this time, we worked for no pay, and all went into personal debt to get jhana off the ground. That funding went to bare minimum corporate and living expenses, as well as to our first employee, Amanullah Qaiser, a recent law school grad. 
                 </GlassBubble>
@@ -34,7 +34,7 @@ export const Cell_0_3: CellConfig = {
                 smallFont
                 fadeIn
                 fadeDurationMs={800}
-                fadeDelayMs={600}
+                fadeDelayMs={750}
               >
                 By late 2023, we were raising our first funding round. We quickly received a lot of VC attention, even in a funding drought, and accepted an investment from Together Fund of 1.5 million dollars. For the next half year, we rounded up family, friends, and other contacts to add another 100k to this round. 
                 </GlassBubble>
@@ -46,7 +46,7 @@ export const Cell_0_3: CellConfig = {
             className="p-2 w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-[24rem] lg:max-w-[26rem] xl:max-w-[30rem] aspect-[2/1] md:aspect-auto mx-auto"
             fadeIn
             fadeDurationMs={800}
-            fadeDelayMs={900}
+            fadeDelayMs={200}
           >
             <img
               src="/photos/tf1.jpg"
@@ -60,6 +60,8 @@ export const Cell_0_3: CellConfig = {
     </>
   ),
   chevronLabels: {
+    up: "jhana",
+    right: "Pre-Career",
   },
   imagePaths: ["/photos/tf1"],
 };
