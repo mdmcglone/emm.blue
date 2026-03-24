@@ -109,6 +109,7 @@ function HomeContent() {
   const [isMapOpen, setIsMapOpen] = useState(false);
   const [isSocialsOpen, setIsSocialsOpen] = useState(false);
   const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
+  const [loadedCellKey, setLoadedCellKey] = useState(`${HOME_INDEX},${HOME_INDEX}`);
   const [showHomeButton, setShowHomeButton] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement, setBackgroundTinyReady: setContextBackgroundTinyReady } = useNavigation();
   const { statsContent } = useGameStats();
@@ -289,6 +290,7 @@ function HomeContent() {
     const loadCell = async () => {
       const cell = await getCell(displayPosition.x, displayPosition.y);
       setCurrentCell(cell);
+      setLoadedCellKey(`${displayPosition.x},${displayPosition.y}`);
       // Preload neighbors after current cell loads
       preloadNeighbors(displayPosition.x, displayPosition.y);
     };
@@ -300,6 +302,7 @@ function HomeContent() {
     const loadInitialCell = async () => {
       const cell = await getCell(HOME_INDEX, HOME_INDEX);
       setCurrentCell(cell);
+      setLoadedCellKey(`${HOME_INDEX},${HOME_INDEX}`);
       // Preload neighbors after initial cell loads
       preloadNeighbors(HOME_INDEX, HOME_INDEX);
     };
@@ -524,6 +527,7 @@ function HomeContent() {
               canGoLeft={canGoLeft}
               canGoRight={canGoRight}
               labels={currentCell?.chevronLabels}
+              labelsKey={loadedCellKey}
               onMove={move}
               statsContent={statsContent}
             />

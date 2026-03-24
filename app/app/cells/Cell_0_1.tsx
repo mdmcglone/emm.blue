@@ -8,6 +8,7 @@ export const Cell_0_1: CellConfig = {
         {/* Row 1: hiring */}
         <div className="w-full flex items-center justify-center md:col-span-2">
           <GlassBubble className="p-4 w-[92vw] md:w-full md:max-w-[38rem] text-xs sm:text-sm md:text-sm lg:text-base" smallFont fadeIn fadeDurationMs={800} fadeDelayMs={200}>
+            <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">As CTO</h1>
             My small tech team created and maintained three products. First was jhana.ai, our main legal search and chat products, which by my exit had 9,000 weekly active users. Second was jhana Courtroom, our public sector offerings, which I got the High Courts of Karnataka and Madras onboarded to. Finally, there was jhana Steno, a multilingual voice-to-text service, which didn’t have much success on its own, but is now integrated across jhana products.
           </GlassBubble>
         </div>
@@ -38,5 +39,5 @@ export const Cell_0_1: CellConfig = {
     right: "Coding",
     down: "jhana",
   },
-  mapTitle: "jhana",
+  mapTitle: "As CTO",
 };

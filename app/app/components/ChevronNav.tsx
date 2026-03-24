@@ -9,6 +9,7 @@ interface ChevronNavProps {
   canGoLeft: boolean;
   canGoRight: boolean;
   labels?: ChevronLabels;
+  labelsKey?: string;
   onMove: (dx: number, dy: number) => void;
   enableFadeOut?: boolean;
   statsContent?: ReactNode;
@@ -19,20 +20,23 @@ type AnimationPhase = "idle" | "fading-out" | "resizing" | "fading-in";
 const LABEL_FADE_DURATION = 260; // ms
 const RESIZE_DURATION = 220; // ms
 
-const useAnimatedLabels = (labels: ChevronLabels | undefined) => {
+const useAnimatedLabels = (labels: ChevronLabels | undefined, labelsKey: string | undefined) => {
   const [displayLabels, setDisplayLabels] = useState<ChevronLabels | undefined>(labels);
   const [phase, setPhase] = useState<AnimationPhase>("idle");
   const timeoutsRef = useRef<number[]>([]);
   const prevLabelsRef = useRef<ChevronLabels | undefined>(labels);
+  const prevLabelsKeyRef = useRef<string | undefined>(labelsKey);
 
   useEffect(() => {
     const prev = prevLabelsRef.current;
     const next = labels;
+    const keyChanged = prevLabelsKeyRef.current !== labelsKey;
     // Deep-compare via stringify – labels object is tiny
     const same = JSON.stringify(prev) === JSON.stringify(next);
-    if (same) return;
+    if (same && !keyChanged) return;
 
     prevLabelsRef.current = next;
+    prevLabelsKeyRef.current = labelsKey;
 
     timeoutsRef.current.forEach(clearTimeout);
     timeoutsRef.current = [];
@@ -51,11 +55,10 @@ const useAnimatedLabels = (labels: ChevronLabels | undefined) => {
       timeoutsRef.current.forEach(clearTimeout);
       timeoutsRef.current = [];
     };
-  }, [labels]);
+  }, [labels, labelsKey]);
 
   const triggerImmediateFadeOut = () => {
-    // Just start fading out immediately; the labels-change effect
-    // will own the timing of the full cycle.
+    // Start fading out immediately; fade-in is resumed when next cell labels load.
     setPhase("fading-out");
   };
 
@@ -83,9 +86,9 @@ const ChevronIcon = ({ direction, className = "" }: { direction: "up" | "down" |
   );
 };
 
-export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels = {}, onMove, enableFadeOut = true, statsContent }: ChevronNavProps) {
+export function ChevronNav({ canGoUp, canGoDown, canGoLeft, canGoRight, labels = {}, labelsKey, onMove, enableFadeOut = true, statsContent }: ChevronNavProps) {
   const { triggerFadeOut } = useNavigation();
-  const { displayLabels, phase, triggerImmediateFadeOut } = useAnimatedLabels(labels);
+  const { displayLabels, phase, triggerImmediateFadeOut } = useAnimatedLabels(labels, labelsKey);
 
   const labelOpacityClass = phase === "fading-out" || phase === "resizing" ? "opacity-0" : "opacity-100";
   const tabOpacityClass = phase === "fading-out" || phase === "resizing" ? "opacity-0" : "opacity-100";
