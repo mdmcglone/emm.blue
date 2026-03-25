@@ -111,8 +111,26 @@ function HomeContent() {
   const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
   const [loadedCellKey, setLoadedCellKey] = useState(`${HOME_INDEX},${HOME_INDEX}`);
   const [showHomeButton, setShowHomeButton] = useState(false);
+  const [showRotateOverlay, setShowRotateOverlay] = useState(false);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement, setBackgroundTinyReady: setContextBackgroundTinyReady } = useNavigation();
   const { statsContent } = useGameStats();
+
+  useEffect(() => {
+    const updateRotateOverlay = () => {
+      if (typeof window === "undefined") return;
+      const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+      const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+      setShowRotateOverlay(isMobile && isLandscape);
+    };
+
+    updateRotateOverlay();
+    window.addEventListener("resize", updateRotateOverlay);
+    window.addEventListener("orientationchange", updateRotateOverlay);
+    return () => {
+      window.removeEventListener("resize", updateRotateOverlay);
+      window.removeEventListener("orientationchange", updateRotateOverlay);
+    };
+  }, []);
 
   // When navigation is triggered, reset fade-out after animation completes
   useEffect(() => {
@@ -533,6 +551,62 @@ function HomeContent() {
             />
           </Suspense>
         </>
+      )}
+
+      {showRotateOverlay && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 px-6" style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}>
+          <div className="w-full max-w-2xl rounded-3xl border border-white/30 bg-white/10 p-8 md:p-10 text-center text-white backdrop-blur-xl">
+            <h2 className="mt-1 font-semibold text-2xl md:text-4xl tracking-tight text-white">Please rotate your device</h2>
+            <div className="mt-8 flex items-center justify-center gap-9 md:gap-12" aria-hidden="true">
+              <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rotate-bad-indicator">
+                <span className="text-2xl md:text-3xl font-semibold text-red-300">✕</span>
+              </div>
+              <div className="relative h-20 w-12 md:h-24 md:w-14 rotate-phone-device">
+                <div className="absolute inset-0 rounded-[0.95rem] border-2 border-white/85 bg-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.2)]" />
+                <div className="absolute left-1/2 top-2 h-1 w-4 -translate-x-1/2 rounded-full bg-white/70" />
+                <div className="absolute bottom-2 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/65" />
+              </div>
+              <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rotate-good-indicator">
+                <span className="text-2xl md:text-3xl font-semibold text-emerald-300">✓</span>
+              </div>
+            </div>
+            <style>
+              {`
+                @keyframes rotatePhoneToPortrait {
+                  0% { transform: rotate(90deg) scale(1); opacity: 0.95; }
+                  28% { transform: rotate(90deg) scale(1); opacity: 1; }
+                  56% { transform: rotate(0deg) scale(1); opacity: 1; }
+                  82% { transform: rotate(0deg) scale(1); opacity: 1; }
+                  100% { transform: rotate(90deg) scale(1); opacity: 0.95; }
+                }
+                @keyframes showBadOrientation {
+                  0% { opacity: 1; }
+                  28% { opacity: 1; }
+                  40% { opacity: 0; }
+                  82% { opacity: 0; }
+                  100% { opacity: 1; }
+                }
+                @keyframes showGoodOrientation {
+                  0% { opacity: 0; }
+                  28% { opacity: 0; }
+                  56% { opacity: 1; }
+                  82% { opacity: 1; }
+                  100% { opacity: 0; }
+                }
+                .rotate-phone-device {
+                  transform-origin: 50% 55%;
+                  animation: rotatePhoneToPortrait 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                }
+                .rotate-bad-indicator {
+                  animation: showBadOrientation 2.6s ease-in-out infinite;
+                }
+                .rotate-good-indicator {
+                  animation: showGoodOrientation 2.6s ease-in-out infinite;
+                }
+              `}
+            </style>
+          </div>
+        </div>
       )}
     </div>
   );
