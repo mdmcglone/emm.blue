@@ -82,7 +82,7 @@ export const Cell_2_4: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={1000}
             >
-              There&apos;s an easter egg hidden in one of the panels.
+              There&apos;s an easter egg hidden in one of the pages.
             </GlassBubble>
           </div>
         </div>

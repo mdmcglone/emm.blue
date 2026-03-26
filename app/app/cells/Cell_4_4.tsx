@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { CellConfig } from "./types";
 import { useNavigation } from "../components/NavigationContext";
 import { useGameStats } from "../components/GameStatsContext";
+import { GlassBubble } from "../components/GlassBubble";
 
 type Ship = {
   x: number;
@@ -212,6 +213,7 @@ function AsteroidsGame() {
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number>(0);
   const [hasTouched, setHasTouched] = useState(false);
+  const [hasAnyInput, setHasAnyInput] = useState(false);
   const [fadeOutCycle, setFadeOutCycle] = useState(0);
   const leftPointerIdRef = useRef<number | null>(null);
   const rightPointerIdRef = useRef<number | null>(null);
@@ -220,6 +222,10 @@ function AsteroidsGame() {
   const [hud, setHud] = useState(hudRef.current);
   const { fadeOut, fadeOutCounterMovement } = useNavigation();
   const { setStatsContent } = useGameStats();
+
+  const markAnyInput = useCallback(() => {
+    setHasAnyInput(true);
+  }, []);
 
   const syncHud = useCallback((state: GameState) => {
     const next = {
@@ -282,6 +288,7 @@ function AsteroidsGame() {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      markAnyInput();
       if (["Space", "KeyA", "KeyD", "KeyW", "KeyR"].includes(event.code)) {
         event.preventDefault();
       }
@@ -300,7 +307,7 @@ function AsteroidsGame() {
       window.removeEventListener("keydown", onKeyDown);
       window.removeEventListener("keyup", onKeyUp);
     };
-  }, []);
+  }, [markAnyInput, resetGame]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -643,6 +650,7 @@ function AsteroidsGame() {
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
+    markAnyInput();
     leftPointerIdRef.current = event.pointerId;
     setKey("KeyA", true);
   };
@@ -659,6 +667,7 @@ function AsteroidsGame() {
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
+    markAnyInput();
     rightPointerIdRef.current = event.pointerId;
     setKey("KeyD", true);
   };
@@ -675,6 +684,7 @@ function AsteroidsGame() {
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
+    markAnyInput();
     thrustPointerIdRef.current = event.pointerId;
     setKey("KeyW", true);
   };
@@ -691,6 +701,7 @@ function AsteroidsGame() {
     event.preventDefault();
     event.stopPropagation();
     setHasTouched(true);
+    markAnyInput();
     if (hudRef.current.gameOver) {
       resetGame();
       return;
@@ -712,13 +723,26 @@ function AsteroidsGame() {
       className="relative w-full h-full"
       style={fadeOutStyle}
       onTouchStartCapture={(event) => {
+        markAnyInput();
         setHasTouched(true);
         event.stopPropagation();
       }}
+      onPointerDownCapture={() => markAnyInput()}
       onTouchMoveCapture={(event) => event.stopPropagation()}
       onTouchEndCapture={(event) => event.stopPropagation()}
     >
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      {!hasAnyInput && (
+        <div className="absolute left-1/2 top-[25vh] z-30 -translate-x-1/2 px-4 pointer-events-none">
+          <GlassBubble className="p-4 text-center text-xs sm:text-sm md:text-sm lg:text-base" smallFont fadeIn fadeDurationMs={0} fadeDelayMs={0} enableFadeOut={false}>
+            <div className="flex flex-col items-center gap-1 [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
+              <span className="text-sm md:text-base font-semibold">Controls</span>
+              <span className="opacity-90">A/D to rotate, W to thrust, Space to fire</span>
+              <span className="opacity-90">On mobile, use the on-screen buttons</span>
+            </div>
+          </GlassBubble>
+        </div>
+      )}
       {/* Desktop stats - hidden on mobile, shown at bottom */}
       <div className="hidden md:block absolute bottom-3 left-1/2 z-10 -translate-x-1/2 w-full px-3 md:px-0 text-center text-white text-sm md:text-base font-medium [font-family:Inter,system-ui,-apple-system,sans-serif] drop-shadow-[0_1px_4px_rgba(0,0,0,0.9)]">
         <div className="inline-flex flex-wrap justify-center items-center gap-x-5 gap-y-1 md:gap-x-8">
