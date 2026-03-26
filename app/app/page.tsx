@@ -360,6 +360,7 @@ function HomeContent() {
   }, [displayPosition.x, displayPosition.y, triggerFadeOut]);
 
   const isHome = displayPosition.x === HOME_INDEX && displayPosition.y === HOME_INDEX;
+  const activeDisplayKey = `${displayPosition.x},${displayPosition.y}`;
 
   useEffect(() => {
     if (!isHome) {
@@ -496,7 +497,7 @@ function HomeContent() {
 
       {/* Current cell content - fixed to viewport center */}
       {/* Only show content after background tiny is ready to prevent black background flash */}
-      {currentCell && backgroundTinyReady && (
+      {currentCell && backgroundTinyReady && loadedCellKey === activeDisplayKey && (
         <div className="fixed inset-0 flex items-center justify-center pointer-events-none">
           <div className="pointer-events-auto">
             {currentCell.content}

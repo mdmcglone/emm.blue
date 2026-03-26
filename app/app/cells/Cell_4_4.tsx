@@ -212,6 +212,8 @@ function AsteroidsGame() {
   const hudRef = useRef({ score: 0, lives: 3, level: 1, gameOver: false });
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number>(0);
+  const initializedAfterSizeRef = useRef(false);
+  const startedByInputRef = useRef(false);
   const [hasTouched, setHasTouched] = useState(false);
   const [hasAnyInput, setHasAnyInput] = useState(false);
   const [fadeOutCycle, setFadeOutCycle] = useState(0);
@@ -224,6 +226,10 @@ function AsteroidsGame() {
   const { setStatsContent } = useGameStats();
 
   const markAnyInput = useCallback(() => {
+    if (!startedByInputRef.current) {
+      gameRef.current.ship.invulnerable = 1.8;
+      startedByInputRef.current = true;
+    }
     setHasAnyInput(true);
   }, []);
 
@@ -280,11 +286,17 @@ function AsteroidsGame() {
       boundsRef.current = { w, h };
       canvas.width = w;
       canvas.height = h;
+      if (!initializedAfterSizeRef.current) {
+        const fresh = createInitialState(boundsRef.current);
+        gameRef.current = fresh;
+        syncHud(fresh);
+        initializedAfterSizeRef.current = true;
+      }
     };
     applySize();
     window.addEventListener("resize", applySize);
     return () => window.removeEventListener("resize", applySize);
-  }, []);
+  }, [syncHud]);
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -316,6 +328,7 @@ function AsteroidsGame() {
     if (!ctx) return;
 
     const step = (dt: number) => {
+      if (!hasAnyInput) return;
       const state = gameRef.current;
       if (state.gameOver) return;
       const { w, h } = boundsRef.current;
@@ -632,7 +645,7 @@ function AsteroidsGame() {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       lastFrameRef.current = 0;
     };
-  }, [syncHud]);
+  }, [hasAnyInput, syncHud]);
 
   const setKey = (code: string, pressed: boolean) => {
     keysRef.current[code] = pressed;
