@@ -14,7 +14,16 @@ export const Cell_1_2: CellConfig = {
               fadeDelayMs={200}
             >
               <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2">Career</h1>
-              My entire career since graduation has been dedicated to founding my legal tech startup in India, jhana. I have left the company as of early 2026, after nearly four years.
+              My entire career since graduation has been dedicated to founding my legal tech startup in India,{" "}
+              <a
+                href="https://jhana.ai"
+                target="_blank"
+                rel="noreferrer"
+                className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+              >
+                jhana.ai
+              </a>
+              . I have left the company as of early 2026, after nearly four years.
             </GlassBubble>
           </div>
 

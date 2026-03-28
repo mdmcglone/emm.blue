@@ -17,7 +17,25 @@ export const Cell_0_2: CellConfig = {
             fadeDelayMs={200}
           >
             <h1 className="font-semibold text-base md:text-lg lg:text-xl mb-2 text-left w-full">jhana</h1>
-            My cofounders, Hemanth Bharatha Chakvravarthy, and Ben Hoffner-Brodsky, and I came up with the idea for
+            My cofounders,{" "}
+            <a
+              href="https://www.linkedin.com/in/b-hemanth/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              Hemanth Bharatha Chakvravarthy
+            </a>
+            , and{" "}
+            <a
+              href="https://www.linkedin.com/in/benhoffner/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              Ben Hoffner-Brodsky
+            </a>
+            , and I came up with the idea for
             jhana in mid-2022 – to create an AI-focused intervention in India’s sluggish legal system, that would
             make the law easier to search, understand, and work with. I moved to India in February 2023 to that
             end, and have lived here since.
@@ -33,7 +51,16 @@ export const Cell_0_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={400}
           >
-            My first major task at jhana was to scrape what was at the time some 12 million legal documents across
+            My first major task at jhana was to scrape what was at the time some{" "}
+            <a
+              href="https://jhana.ai/data/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              12 million legal documents
+            </a>{" "}
+            across
             judicial, legislative, and tribunal databases. I set it up to run autonomously, and they have been
             running since. This was my first production project, so I was up all night studying python and AWS for the first year.
           </GlassBubble>

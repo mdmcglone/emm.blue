@@ -62,16 +62,7 @@ export const Cell_1_1: CellConfig = {
               fadeDurationMs={800}
               fadeDelayMs={800}
             >
-              After{" "}
-              <a
-                href="https://economictimes.indiatimes.com/tech/funding/legal-tech-startup-jhana-ai-raises-1-6-million-from-together-fund-others/articleshow/113665139.cms?from=mdr"
-                target="_blank"
-                rel="noreferrer"
-                className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
-              >
-                jhana was funded
-              </a>
-              , I became CTO. I interviewed dozens of candidates and hired five engineers over two years. My job shifted more and more into giving technical leadership and reviewing code, than writing it myself. I learned client and employee management skills, agile development, and how to scale systems and teams.
+              I became CTO. I interviewed dozens of candidates and hired eight engineers over two years. My job shifted more and more into giving technical leadership and reviewing code, than writing it myself. I learned client and employee management skills, agile development, and how to scale systems and teams.
             </GlassBubble>
           </div>
         </div>

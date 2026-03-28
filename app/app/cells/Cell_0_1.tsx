@@ -9,7 +9,34 @@ export const Cell_0_1: CellConfig = {
         <div className="w-full flex items-center justify-center md:col-span-2">
           <GlassBubble className="p-4 w-[92vw] md:w-full md:max-w-[38rem] text-xs sm:text-sm md:text-sm lg:text-base" smallFont fadeIn fadeDurationMs={800} fadeDelayMs={200}>
             <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">As CTO</h1>
-            My small tech team created and maintained three products. First was jhana.ai, our main legal search and chat products, which by my exit had 9,000 weekly active users. Second was jhana Courtroom, our public sector offerings, which I got the High Courts of Karnataka and Madras onboarded to. Finally, there was jhana Steno, a multilingual voice-to-text service, which didn’t have much success on its own, but is now integrated across jhana products.
+            My small tech team created and maintained three products. First was{" "}
+            <a
+              href="https://jhana.ai"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              jhana.ai
+            </a>
+            , our main legal search and chat products, which by my exit had 9,000 weekly active users. Second was{" "}
+            <a
+              href="https://jhana.ai/courtroom"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              jhana Courtroom
+            </a>
+            , our public sector offerings, which I got the High Courts of Karnataka and Madras onboarded to. Finally, there was{" "}
+            <a
+              href="https://jhana.ai/steno/"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              jhana Steno
+            </a>
+            , a multilingual voice-to-text service, which didn’t have much success on its own, but is now integrated across jhana products.
           </GlassBubble>
         </div>
 
@@ -22,7 +49,16 @@ export const Cell_0_1: CellConfig = {
 
         <div className="w-full flex items-center justify-center">
           <GlassBubble className="p-4 w-[92vw] md:w-full md:max-w-[31rem] text-xs sm:text-sm md:text-sm lg:text-base" smallFont fadeIn fadeDurationMs={800} fadeDelayMs={500}>
-            At jhana, we maintained a very strict hiring funnel, and high expectations for employees. I read hundreds of applications, chose dozens of people for multiple rounds of interviews, and hired eight. The hardest part, though, was firing underperforming employees. At peak, I managed a team of five engineers.
+            At jhana, we maintained a very strict hiring funnel, and high expectations for employees. I read hundreds of applications, chose dozens of people for multiple rounds of interviews, and hired eight. The hardest part, though, was firing underperforming employees. At peak, I managed a{" "}
+            <a
+              href="https://jhana.ai/about"
+              target="_blank"
+              rel="noreferrer"
+              className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
+            >
+              team of five engineers
+            </a>
+            .
           </GlassBubble>
         </div>
 
