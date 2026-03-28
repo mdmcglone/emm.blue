@@ -36,14 +36,14 @@ export const Cell_0_3: CellConfig = {
                 fadeDurationMs={800}
                 fadeDelayMs={750}
               >
-                By late 2023, we were raising our first funding round. We quickly received a lot of VC attention, even in a funding drought, and accepted an investment from Together Fund of 1.5 million dollars.{" "}
+                By late 2023, we were raising our first funding round. We quickly received a lot of VC attention, even in a funding drought, and accepted an{" "}
                 <a
                   href="https://economictimes.indiatimes.com/tech/funding/legal-tech-startup-jhana-ai-raises-1-6-million-from-together-fund-others/articleshow/113665139.cms?from=mdr"
                   target="_blank"
                   rel="noreferrer"
                   className="underline decoration-blue-300 underline-offset-2 text-blue-300 hover:cursor-pointer"
                 >
-                  jhana was funded
+                  investment from Together Fund of 1.5 million dollars
                 </a>
                 . For the next half year, we rounded up family, friends, and other contacts to add another 100k to this round. 
                 </GlassBubble>
