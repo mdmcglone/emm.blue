@@ -75,7 +75,7 @@ export const Cell_0_2: CellConfig = {
             fadeDurationMs={800}
             fadeDelayMs={600}
           >
-            In my time at jhana, I went from a junior cofounder, handling whatever needed to be done, to CTO, managing almost half the company’s manpower and the majority of its financial resources. After two years as CTO, and four years with jhana, I decided to start a new chapter in my life, and left the company in Hemanth’s capable hands. 
+            In my time at jhana, I went from a first-time cofounder, handling whatever needed to be done, to CTO, managing almost half the company’s manpower and the majority of its financial resources. After two years as CTO, and four years with jhana, I decided to start a new chapter in my life, and left the company in Hemanth’s capable hands. 
         </GlassBubble>
         </div>
 
