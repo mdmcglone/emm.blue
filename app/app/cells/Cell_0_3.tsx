@@ -1,5 +1,6 @@
 import { CellConfig } from "./types";
 import { GlassBubble } from "../components/GlassBubble";
+import { ProgressiveImage } from "../components/ProgressiveImage";
 
 export const Cell_0_3: CellConfig = {
   content: (
@@ -15,7 +16,7 @@ export const Cell_0_3: CellConfig = {
                 fadeDurationMs={800}
                 fadeDelayMs={350}
               >
-                      <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">As Coufounder</h1>
+                      <h1 className="font-semibold text-sm md:text-base lg:text-lg mb-2 text-center w-full">As Cofounder</h1>
                   In our first month, we went door-to-door at law firms, chambers, and in-house legal teams in Delhi and Chennai. Wherever we’d be heard out, we presented our first product concept, which was a searchable legal database and AI chatbot, and refined our product and target market based on these conversations.
                   </GlassBubble>
 
@@ -52,15 +53,16 @@ export const Cell_0_3: CellConfig = {
 
           <GlassBubble
             wrapperClassName="order-1 md:order-1 md:self-center"
-            className="p-2 w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-[24rem] lg:max-w-[26rem] xl:max-w-[30rem] aspect-[2/1] md:aspect-auto mx-auto"
+            className="p-2 w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-[24rem] lg:max-w-[26rem] xl:max-w-[30rem] aspect-[2/1] md:aspect-square mx-auto"
             fadeIn
             fadeDurationMs={800}
             fadeDelayMs={200}
           >
-            <img
-              src="/photos/tf1.jpg"
+            <ProgressiveImage
+              basePath="/photos/tf1"
+              fallbackSrc="/photos/tf1.jpg"
               alt="Graduation photo"
-              className="w-full h-full md:h-auto object-cover md:object-contain rounded-[20px]"
+              className="w-full h-full object-cover object-center rounded-[20px]"
               loading="eager"
             />
           </GlassBubble>
