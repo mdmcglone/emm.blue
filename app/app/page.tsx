@@ -111,24 +111,36 @@ function HomeContent() {
   const [currentCell, setCurrentCell] = useState<CellConfig | null>(null);
   const [loadedCellKey, setLoadedCellKey] = useState(`${HOME_INDEX},${HOME_INDEX}`);
   const [showHomeButton, setShowHomeButton] = useState(false);
-  const [showRotateOverlay, setShowRotateOverlay] = useState(false);
+  type OverlayMode = "rotate" | "fullscreen" | null;
+  const [overlayMode, setOverlayMode] = useState<OverlayMode>(null);
   const { triggerFadeOut, fadeOut, resetFadeOut, setFadeOutCounterMovement, setBackgroundTinyReady: setContextBackgroundTinyReady } = useNavigation();
   const { statsContent } = useGameStats();
 
   useEffect(() => {
-    const updateRotateOverlay = () => {
+    const updateOverlay = () => {
       if (typeof window === "undefined") return;
-      const isMobile = window.matchMedia("(max-width: 1024px)").matches;
       const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-      setShowRotateOverlay(isMobile && isLandscape);
+      const isCoarsePointer = window.matchMedia("(pointer: coarse)").matches; // heuristic for mobile/tablet
+      const vw = window.innerWidth;
+      // Mobile/tablet in landscape → ask to rotate
+      if (isCoarsePointer && isLandscape) {
+        setOverlayMode("rotate");
+        return;
+      }
+      // Non-mobile (fine pointer) but windowed too small and landscape → ask to use fullscreen
+      if (!isCoarsePointer && isLandscape && vw < 1024) {
+        setOverlayMode("fullscreen");
+        return;
+      }
+      setOverlayMode(null);
     };
 
-    updateRotateOverlay();
-    window.addEventListener("resize", updateRotateOverlay);
-    window.addEventListener("orientationchange", updateRotateOverlay);
+    updateOverlay();
+    window.addEventListener("resize", updateOverlay);
+    window.addEventListener("orientationchange", updateOverlay);
     return () => {
-      window.removeEventListener("resize", updateRotateOverlay);
-      window.removeEventListener("orientationchange", updateRotateOverlay);
+      window.removeEventListener("resize", updateOverlay);
+      window.removeEventListener("orientationchange", updateOverlay);
     };
   }, []);
 
@@ -554,58 +566,158 @@ function HomeContent() {
         </>
       )}
 
-      {showRotateOverlay && (
+      {overlayMode && (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 px-6" style={{ fontFamily: "Inter, system-ui, -apple-system, sans-serif" }}>
           <div className="w-full max-w-2xl rounded-3xl border border-white/30 bg-white/10 p-8 md:p-10 text-center text-white backdrop-blur-xl">
-            <h2 className="mt-1 font-semibold text-2xl md:text-4xl tracking-tight text-white">Please rotate your device</h2>
-            <div className="mt-8 flex items-center justify-center gap-9 md:gap-12" aria-hidden="true">
-              <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rotate-bad-indicator">
-                <span className="text-2xl md:text-3xl font-semibold text-red-300">✕</span>
-              </div>
-              <div className="relative h-20 w-12 md:h-24 md:w-14 rotate-phone-device">
-                <div className="absolute inset-0 rounded-[0.95rem] border-2 border-white/85 bg-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.2)]" />
-                <div className="absolute left-1/2 top-2 h-1 w-4 -translate-x-1/2 rounded-full bg-white/70" />
-                <div className="absolute bottom-2 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/65" />
-              </div>
-              <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rotate-good-indicator">
-                <span className="text-2xl md:text-3xl font-semibold text-emerald-300">✓</span>
-              </div>
-            </div>
-            <style>
-              {`
-                @keyframes rotatePhoneToPortrait {
-                  0% { transform: rotate(90deg) scale(1); opacity: 0.95; }
-                  28% { transform: rotate(90deg) scale(1); opacity: 1; }
-                  56% { transform: rotate(0deg) scale(1); opacity: 1; }
-                  82% { transform: rotate(0deg) scale(1); opacity: 1; }
-                  100% { transform: rotate(90deg) scale(1); opacity: 0.95; }
-                }
-                @keyframes showBadOrientation {
-                  0% { opacity: 1; }
-                  28% { opacity: 1; }
-                  40% { opacity: 0; }
-                  82% { opacity: 0; }
-                  100% { opacity: 1; }
-                }
-                @keyframes showGoodOrientation {
-                  0% { opacity: 0; }
-                  28% { opacity: 0; }
-                  56% { opacity: 1; }
-                  82% { opacity: 1; }
-                  100% { opacity: 0; }
-                }
-                .rotate-phone-device {
-                  transform-origin: 50% 55%;
-                  animation: rotatePhoneToPortrait 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-                }
-                .rotate-bad-indicator {
-                  animation: showBadOrientation 2.6s ease-in-out infinite;
-                }
-                .rotate-good-indicator {
-                  animation: showGoodOrientation 2.6s ease-in-out infinite;
-                }
-              `}
-            </style>
+            {overlayMode === "rotate" ? (
+              <>
+                <h2 className="mt-1 font-semibold text-2xl md:text-4xl tracking-tight text-white">Please rotate your device</h2>
+                <p className="mt-2 text-sm md:text-base text-white/80">(It looks better that way)</p>
+                <div className="mt-8 flex items-center justify-center gap-9 md:gap-12" aria-hidden="true">
+                  <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rotate-bad-indicator">
+                    <span className="text-2xl md:text-3xl font-semibold text-red-300">✕</span>
+                  </div>
+                  <div className="relative h-20 w-12 md:h-24 md:w-14 rotate-phone-device">
+                    <div className="absolute inset-0 rounded-[0.95rem] border-2 border-white/85 bg-white/10 shadow-[0_0_0_1px_rgba(255,255,255,0.2)]" />
+                    <div className="absolute left-1/2 top-2 h-1 w-4 -translate-x-1/2 rounded-full bg-white/70" />
+                    <div className="absolute bottom-2 left-1/2 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-white/65" />
+                  </div>
+                  <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center rotate-good-indicator">
+                    <span className="text-2xl md:text-3xl font-semibold text-emerald-300">✓</span>
+                  </div>
+                </div>
+                <style>
+                  {`
+                    @keyframes rotatePhoneToPortrait {
+                      0% { transform: rotate(90deg) scale(1); opacity: 0.95; }
+                      28% { transform: rotate(90deg) scale(1); opacity: 1; }
+                      56% { transform: rotate(0deg) scale(1); opacity: 1; }
+                      82% { transform: rotate(0deg) scale(1); opacity: 1; }
+                      100% { transform: rotate(90deg) scale(1); opacity: 0.95; }
+                    }
+                    @keyframes showBadOrientation {
+                      0% { opacity: 1; }
+                      28% { opacity: 1; }
+                      40% { opacity: 0; }
+                      82% { opacity: 0; }
+                      100% { opacity: 1; }
+                    }
+                    @keyframes showGoodOrientation {
+                      0% { opacity: 0; }
+                      28% { opacity: 0; }
+                      56% { opacity: 1; }
+                      82% { opacity: 1; }
+                      100% { opacity: 0; }
+                    }
+                    .rotate-phone-device {
+                      transform-origin: 50% 55%;
+                      animation: rotatePhoneToPortrait 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                    }
+                    .rotate-bad-indicator {
+                      animation: showBadOrientation 2.6s ease-in-out infinite;
+                    }
+                    .rotate-good-indicator {
+                      animation: showGoodOrientation 2.6s ease-in-out infinite;
+                    }
+                  `}
+                </style>
+              </>
+            ) : (
+              <>
+                <h2 className="mt-1 font-semibold text-2xl md:text-4xl tracking-tight text-white">Please use full screen</h2>
+                <p className="mt-2 text-sm md:text-base text-white/80">(It looks better that way)</p>
+                <div className="mt-8 flex items-center justify-center gap-9 md:gap-12" aria-hidden="true">
+                  <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center fs-bad-indicator">
+                    <span className="text-2xl md:text-3xl font-semibold text-red-300">✕</span>
+                  </div>
+                  <div className="relative fs-window-box">
+                    <div className="absolute left-1/2 top-1/2 fs-window -translate-x-1/2 -translate-y-1/2">
+                      <div className="absolute inset-0 rounded-lg border-2 border-white/85 bg-white/5 shadow-[0_0_0_1px_rgba(255,255,255,0.2)]" />
+                      <div className="absolute top-0 left-0 right-0 h-3 rounded-t-lg bg-white/10" />
+                      <div className="absolute top-3 left-0 right-0 bottom-0" />
+                    </div>
+                  </div>
+                  <div className="w-10 md:w-12 h-10 md:h-12 flex items-center justify-center fs-good-indicator">
+                    <span className="text-2xl md:text-3xl font-semibold text-emerald-300">✓</span>
+                  </div>
+                </div>
+                <style>
+                  {`
+                    /* Fixed-size box so animation never grows modal */
+                    .fs-window-box {
+                      width: 240px;
+                      height: 150px;
+                    }
+                    @media (min-width: 768px) {
+                      .fs-window-box {
+                        width: 320px;
+                        height: 190px;
+                      }
+                    }
+                    @keyframes fsWindowScale {
+                      0%, 28% { transform: scaleX(0.5833) scaleY(0.6); }
+                      56%, 82% { transform: scaleX(1) scaleY(1); }
+                      100% { transform: scaleX(0.5833) scaleY(0.6); }
+                    }
+                    @media (min-width: 768px) {
+                      @keyframes fsWindowScale {
+                        0%, 28% { transform: scaleX(0.5625) scaleY(0.5789); }
+                        56%, 82% { transform: scaleX(1) scaleY(1); }
+                        100% { transform: scaleX(0.5625) scaleY(0.5789); }
+                      }
+                    }
+                    @keyframes fsShowBad {
+                      0% { opacity: 0; }
+                      18% { opacity: 1; }
+                      34% { opacity: 1; }
+                      48% { opacity: 0; }
+                      100% { opacity: 0; }
+                    }
+                    @keyframes fsShowGood {
+                      0% { opacity: 0; }
+                      60% { opacity: 0; }
+                      66% { opacity: 1; }
+                      82% { opacity: 1; }
+                      100% { opacity: 0; }
+                    }
+                    .fs-window {
+                      width: 240px;
+                      height: 150px;
+                      transform-origin: center center;
+                      animation: fsWindowScale 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+                    }
+                    .fs-bad-indicator {
+                      animation: fsShowBad 2.6s ease-in-out infinite;
+                    }
+                    .fs-good-indicator {
+                      animation: fsShowGood 2.6s ease-in-out infinite;
+                    }
+                    .fs-arrow {
+                      position: absolute;
+                      font-size: 20px;
+                      color: rgba(255,255,255,0.9);
+                    }
+                    .fs-arrow-tl {
+                      top: -12px;
+                      left: -12px;
+                    }
+                    .fs-arrow-br {
+                      right: -12px;
+                      bottom: -12px;
+                    }
+                    @media (min-width: 768px) {
+                      .fs-window {
+                        width: 320px;
+                        height: 190px;
+                      }
+                      .fs-arrow { font-size: 24px; }
+                      .fs-arrow-tl { top: -14px; left: -14px; }
+                      .fs-arrow-br { right: -14px; bottom: -14px; }
+                    }
+                  `}
+                </style>
+              </>
+            )}
           </div>
         </div>
       )}
